@@ -162,33 +162,33 @@ void generateBoxFile(float x, float y, float z, float n, string f) {
     for (j = 0; j < y;j+=yn) {
         for (i = 0; i < x;i+=xn) {
             //Face 5 Triangulo A
-            Point p1(i+xn, j, 0);
-            Point p2(i+xn, j+yn, 0);
-            Point p3(i, j+yn, 0);
+            Point p1(i+xn, j, z);
+            Point p2(i+xn, j+yn, z);
+            Point p3(i, j+yn, z);
 
             Triangle f5a(p1, p2, p3);
             triangles.push_back(f5a);
 
             //Face 5 Triangulo B
-            Point p4(i, j+yn, 0);
-            Point p5(i, j, 0);
-            Point p6(i+n, j, 0);
+            Point p4(i, j+yn, z);
+            Point p5(i, j, z);
+            Point p6(i+xn, j, z);
 
             Triangle f5b(p4, p5, p6);
             triangles.push_back(f5b);
 
             //Face 3 Triangulo A
-            Point p7(i, j, z);
-            Point p8(i, j+yn, z);
-            Point p9(i+xn, j, z);
+            Point p7(i, j, 0);
+            Point p8(i, j+yn, 0);
+            Point p9(i+xn, j, 0);
 
             Triangle f3a(p7, p8, p9);
             triangles.push_back(f3a);
 
             //Face 3 Triangulo B
-            Point p10(i, j+yn, z);
-            Point p11(i+xn, j+yn, z);
-            Point p12(i+xn, j, z);
+            Point p10(i, j+yn, 0);
+            Point p11(i+xn, j+yn, 0);
+            Point p12(i+xn, j, 0);
 
             Triangle f3b(p10, p11, p12);
             triangles.push_back(f3b);
