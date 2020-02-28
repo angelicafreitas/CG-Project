@@ -1,0 +1,5 @@
+﻿  Generator.cpp
+C:\Users\Angelica\Desktop\universidade\3ano\CG\Proj\Generator\Generator\Generator.cpp(51,14): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Angelica\Desktop\universidade\3ano\CG\Proj\Generator\Generator\Generator.cpp(85,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\Proj\Generator\Generator\Generator.cpp(85,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generator.vcxproj -> C:\Users\Angelica\Desktop\universidade\3ano\CG\Proj\Generator\Debug\Generator.exe
