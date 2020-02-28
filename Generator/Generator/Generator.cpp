@@ -54,8 +54,8 @@ void trianglesToFile(vector<Triangle> t, string f) {
     }
 }
 
-void generatePlaneFile(float x1,float z1, string f) {
-    float auxX = x1 / 2, auxZ = x1 / 2;
+void generatePlaneFile(float x,float z, string f) {
+    float auxX = x / 2, auxZ = z / 2;
 
     //Pontos para Triangulo 1
     Point p1(-auxX, 0, auxZ);
@@ -76,6 +76,127 @@ void generatePlaneFile(float x1,float z1, string f) {
     trianglesToFile(v, f);
 
 }
+
+void generateBoxFile(float x, float y, float z, float n, string f) {
+    float xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
+    double i, j, k;
+    vector<Triangle> triangles;
+    
+    //face 1 e 6 (laterais)
+    for (j = 0; j < y; j += yn) {
+        for (k = 0; k < z; k += zn) {
+            //Face 1 Triangulo A
+            Point p1(0, j+yn, k+zn);
+            Point p2(0, j+yn, k);
+            Point p3(0, j, k);
+
+            Triangle f1a(p1, p2, p3);
+            triangles.push_back(f1a);
+
+            //Face 1 Triangulo B
+            Point p4(0, j, k);
+            Point p5(0, j, k+zn);
+            Point p6(0, j+yn, k+zn);
+
+            Triangle f1b(p4, p5, p6);
+            triangles.push_back(f1b);
+
+            //Face 6 Triangulo A
+            Point p7(x, j, k);
+            Point p8(x, j + yn, k);
+            Point p9(x, j + yn, k + zn);
+
+            Triangle f6a(p7, p8, p9);
+            triangles.push_back(f6a);
+
+            //Face 6 Triangulo B
+            Point p10(x, j + yn, k + zn);
+            Point p11(x, j, k + zn);
+            Point p12(x, j , k);
+
+            Triangle f6b(p10, p11, p12);
+            triangles.push_back(f6b);
+
+        }
+    }
+
+    //face 2 e 4 (cima e baixo)
+    for (k = 0; k < z; k += zn) {
+        for (i = 0; i < x; i += xn) {
+            //Face 2 Triangulo A
+            Point p1(i, y, k);
+            Point p2(i+ xn, y, k+zn);
+            Point p3(i+xn, y, k);
+
+            Triangle f2a(p1, p2, p3);
+            triangles.push_back(f2a);
+
+            //Face 2 Triangulo B
+            Point p4(i, y, k);
+            Point p5(i, y, k+zn);
+            Point p6(i+xn, y, k+zn);
+            
+            Triangle f2b(p4, p5, p6);
+            triangles.push_back(f2b);
+
+            //Face 4 Triangulo A
+            Point p7(i+xn, 0, k+zn);
+            Point p8(i, 0, k+zn);
+            Point p9(i, 0, k);
+
+            Triangle f4a(p7, p8, p9);
+            triangles.push_back(f4a);
+
+            //Face 4 Triangulo B
+            Point p10(i, 0, k);
+            Point p11(i+xn, 0, k);
+            Point p12(i+xn, 0, k+zn);
+
+            Triangle f4b(p10, p11, p12);
+            triangles.push_back(f4b);
+
+        }
+    }
+
+    //face 5 e 3
+    for (j = 0; j < y;j+=yn) {
+        for (i = 0; i < x;i+=xn) {
+            //Face 5 Triangulo A
+            Point p1(i+xn, j, 0);
+            Point p2(i+xn, j+yn, 0);
+            Point p3(i, j+yn, 0);
+
+            Triangle f5a(p1, p2, p3);
+            triangles.push_back(f5a);
+
+            //Face 5 Triangulo B
+            Point p4(i, j+yn, 0);
+            Point p5(i, j, 0);
+            Point p6(i+n, j, 0);
+
+            Triangle f5b(p4, p5, p6);
+            triangles.push_back(f5b);
+
+            //Face 3 Triangulo A
+            Point p7(i, j, z);
+            Point p8(i, j+yn, z);
+            Point p9(i+xn, j, z);
+
+            Triangle f3a(p7, p8, p9);
+            triangles.push_back(f3a);
+
+            //Face 3 Triangulo B
+            Point p10(i, j+yn, z);
+            Point p11(i+xn, j+yn, z);
+            Point p12(i+xn, j, z);
+
+            Triangle f3b(p10, p11, p12);
+            triangles.push_back(f3b);
+        }
+    }
+    trianglesToFile(triangles, f);
+}
+
 //plane file.3d
 //box x y z (n) file.3d
 //sphere 1 10 10 sphere.3d
@@ -84,8 +205,13 @@ int main(int argc, char* argv[]){
     if (strcmp(argv[1], "plane") == 0 && argc==5){
         generatePlaneFile(atof(argv[2]),atof(argv[3]),argv[4]);
     }
-    else if (strcmp(argv[1], "box") == 0) {
-        ;
+    else if (strcmp(argv[1], "box") == 0 && argc==6) {
+        //float x, float y, float z, float n, string f
+        generateBoxFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), 0, argv[5]);
+    }
+    else if (strcmp(argv[1], "box") == 0 && argc == 7) {
+        //float x, float y, float z, float n, string f
+        generateBoxFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]),argv[6]);
     }
     else if (strcmp(argv[1], "sphere") == 0) {
         ;
