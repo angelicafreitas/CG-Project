@@ -1,0 +1,3 @@
+C:/Users/Angelica/Desktop/universidade/3ano/CG/18-02-2020/build/CMakeFiles/class2.dir
+C:/Users/Angelica/Desktop/universidade/3ano/CG/18-02-2020/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Angelica/Desktop/universidade/3ano/CG/18-02-2020/build/CMakeFiles/ZERO_CHECK.dir

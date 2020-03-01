@@ -207,7 +207,7 @@ void generateSphereFile(double radius, float slices, float stacks, string f) {
     double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
     for (i = 1; i <= stacks;i++) {
         double phi = (PI / 2) - (i * stackSkew);
-        for (j = 1; j <= slices;j++) {
+        for (j = 1; j <= slices ;j++) {
             double teta = j * sliceSkew;
 
             double previousX = radius * cos(phi) * sin(teta);
@@ -215,18 +215,20 @@ void generateSphereFile(double radius, float slices, float stacks, string f) {
 
 
                 Point p1(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
-                Point p2(radius * cos(phi) * sin(teta), radius * sin(phi), radius * cos(teta) * cos(phi));
+                Point p2(previousX, radius * sin(phi),previousZ);
+                //Point p2(radius * cos(phi) * sin(teta), radius * sin(phi), radius * cos(teta) * cos(phi));
                 Point p3(previousX * cos(sliceSkew) + previousZ * sin(sliceSkew), radius * sin(phi), -previousX * sin(sliceSkew) + previousZ * cos(sliceSkew));
 
                 Triangle t(p1, p2, p3);
                 triangles.push_back(t);
                 double auxX = radius * cos(phi + stackSkew) * sin(teta + sliceSkew), auxZ = radius * cos(teta + sliceSkew) * cos(phi + stackSkew);
                 
-                Point p4(previousX * cos(sliceSkew) + previousZ * sin(sliceSkew), radius * sin(phi), -previousX * sin(sliceSkew) + previousZ * cos(sliceSkew));
+                //Point p4(previousX * cos(sliceSkew) + previousZ * sin(sliceSkew), radius * sin(phi), -previousX * sin(sliceSkew) + previousZ * cos(sliceSkew));
                 Point p5(auxX * cos(sliceSkew) + auxZ * sin(sliceSkew), radius * sin(phi + stackSkew), -auxX * sin(sliceSkew) + auxZ * cos(sliceSkew));
-                Point p6(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
+                //Point p6(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
 
-                Triangle t1(p4, p5, p6);
+                //p4=p3 e p6=p1
+                Triangle t1(p3, p5, p1);
                 triangles.push_back(t1);
          
         }
@@ -250,7 +252,7 @@ int main(int argc, char* argv[]){
         //float x, float y, float z, float n, string f
         generateBoxFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]),argv[6]);
     }
-    else if (strcmp(argv[1], "sphere") == 0) {
+    else if (strcmp(argv[1], "sphere") == 0 && argc==6) {
         generateSphereFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), argv[5]);
     }
     else if (strcmp(argv[1], "cone") == 0) {

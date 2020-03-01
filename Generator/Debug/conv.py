@@ -12,7 +12,7 @@ if len(argv) >= 2:
 
         for line in fd.readlines():
 
-            fw.write(f'\nglColor3f({randint(0,1)},{randint(0,1)},{randint(0,1)});\n\n') # Cor aleatória.
+            # fw.write(f'\nglColor3f({randint(0,1)},{randint(0,1)},{randint(0,1)});\n\n') # Cor aleatória.
 
             points = line.split(',') # Obter os pontos do triângulo.
             points[-1] = points[-1].strip() # Remover new line.
