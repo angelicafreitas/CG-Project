@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Generator.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
@@ -226,3 +227,271 @@ int main(int argc, char* argv[]){
     }
 
 }
+=======
+// Generator.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include<tuple>
+#include<stdio.h>
+#include<vector>
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+#define PI           3.14159265358979323846
+
+errno_t err;
+
+class Point{       
+public:             
+    double x = 0;        
+    double y = 0;
+    double z = 0;
+    Point() {
+
+    }
+    Point(double x1, double y1, double z1) {
+        x = x1;
+        y = y1;
+        z = z1;
+    }
+
+    string pointToString() {
+        char* buff = (char *)malloc(sizeof(char) * 100);
+        snprintf(buff,100,"%.8f %.8f %.8f",x,y,z);
+        return buff;
+    }
+};
+
+class Triangle{
+public:
+    tuple <Point, Point, Point> coord;
+
+    Triangle() {
+        Point p(0,0,0); 
+        coord = make_tuple(p, p, p);
+    }
+
+    Triangle(Point a, Point b, Point c) {
+        coord = make_tuple(a, b, c);
+    }
+};
+void trianglesToFile(vector<Triangle> t, string f) {
+    ofstream file(f);
+    int i = 0;
+    while (i < t.size()) {
+        file << get<0>(t[i].coord).pointToString()<< "," << get<1>(t[i].coord).pointToString() << "," << get<2>(t[i].coord).pointToString() << endl;
+        i++;
+    }
+}
+
+void generatePlaneFile(float x,float z, string f) {
+    float auxX = x / 2, auxZ = z / 2;
+
+    //Pontos para Triangulo 1
+    Point p1(-auxX, 0, auxZ);
+    Point p2(-auxX, 0, -auxZ);
+    Point p3(auxX, 0, auxZ);
+
+    //Pontos para Trinagulo 2
+    Point p4(-auxX, 0, auxZ);
+    Point p5(auxX, 0, -auxZ);
+    Point p6(auxX, 0, auxZ);
+
+    //Triangulo 1 e 2
+    Triangle t1(p1, p2, p3);
+    Triangle t2(p4, p5, p6);
+
+    vector <Triangle> v = { t1,t2 };
+
+    trianglesToFile(v, f);
+
+}
+
+void generateBoxFile(float x, float y, float z, float n, string f) {
+    float xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
+    double i, j, k;
+    vector<Triangle> triangles;
+    
+    //face 1 e 6 (laterais)
+    for (j = 0; j < y; j += yn) {
+        for (k = 0; k < z; k += zn) {
+            //Face 1 Triangulo A
+            Point p1(0, j+yn, k+zn);
+            Point p2(0, j+yn, k);
+            Point p3(0, j, k);
+
+            Triangle f1a(p1, p2, p3);
+            triangles.push_back(f1a);
+
+            //Face 1 Triangulo B
+            Point p4(0, j, k);
+            Point p5(0, j, k+zn);
+            Point p6(0, j+yn, k+zn);
+
+            Triangle f1b(p4, p5, p6);
+            triangles.push_back(f1b);
+
+            //Face 6 Triangulo A
+            Point p7(x, j, k);
+            Point p8(x, j + yn, k);
+            Point p9(x, j + yn, k + zn);
+
+            Triangle f6a(p7, p8, p9);
+            triangles.push_back(f6a);
+
+            //Face 6 Triangulo B
+            Point p10(x, j + yn, k + zn);
+            Point p11(x, j, k + zn);
+            Point p12(x, j , k);
+
+            Triangle f6b(p10, p11, p12);
+            triangles.push_back(f6b);
+
+        }
+    }
+
+    //face 2 e 4 (cima e baixo)
+    for (k = 0; k < z; k += zn) {
+        for (i = 0; i < x; i += xn) {
+            //Face 2 Triangulo A
+            Point p1(i, y, k);
+            Point p2(i+ xn, y, k+zn);
+            Point p3(i+xn, y, k);
+
+            Triangle f2a(p1, p2, p3);
+            triangles.push_back(f2a);
+
+            //Face 2 Triangulo B
+            Point p4(i, y, k);
+            Point p5(i, y, k+zn);
+            Point p6(i+xn, y, k+zn);
+            
+            Triangle f2b(p4, p5, p6);
+            triangles.push_back(f2b);
+
+            //Face 4 Triangulo A
+            Point p7(i+xn, 0, k+zn);
+            Point p8(i, 0, k+zn);
+            Point p9(i, 0, k);
+
+            Triangle f4a(p7, p8, p9);
+            triangles.push_back(f4a);
+
+            //Face 4 Triangulo B
+            Point p10(i, 0, k);
+            Point p11(i+xn, 0, k);
+            Point p12(i+xn, 0, k+zn);
+
+            Triangle f4b(p10, p11, p12);
+            triangles.push_back(f4b);
+
+        }
+    }
+
+    //face 5 e 3
+    for (j = 0; j < y;j+=yn) {
+        for (i = 0; i < x;i+=xn) {
+            //Face 5 Triangulo A
+            Point p1(i+xn, j, z);
+            Point p2(i+xn, j+yn, z);
+            Point p3(i, j+yn, z);
+
+            Triangle f5a(p1, p2, p3);
+            triangles.push_back(f5a);
+
+            //Face 5 Triangulo B
+            Point p4(i, j+yn, z);
+            Point p5(i, j, z);
+            Point p6(i+xn, j, z);
+
+            Triangle f5b(p4, p5, p6);
+            triangles.push_back(f5b);
+
+            //Face 3 Triangulo A
+            Point p7(i, j, 0);
+            Point p8(i, j+yn, 0);
+            Point p9(i+xn, j, 0);
+
+            Triangle f3a(p7, p8, p9);
+            triangles.push_back(f3a);
+
+            //Face 3 Triangulo B
+            Point p10(i, j+yn, 0);
+            Point p11(i+xn, j+yn, 0);
+            Point p12(i+xn, j, 0);
+
+            Triangle f3b(p10, p11, p12);
+            triangles.push_back(f3b);
+        }
+    }
+    trianglesToFile(triangles, f);
+}
+
+void generateSphereFile(double radius, float slices, float stacks, string f) {
+
+    double i, j;
+    vector<Triangle> triangles;
+
+    double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
+    for (i = 1; i <= stacks;i++) {
+        double phi = (PI / 2) - (i * stackSkew);
+        for (j = 1; j <= slices ;j++) {
+            double teta = j * sliceSkew;
+
+            double previousX = radius * cos(phi) * sin(teta);
+            double previousZ = radius * cos(teta) * cos(phi);
+
+
+                Point p1(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
+                Point p2(previousX, radius * sin(phi),previousZ);
+                //Point p2(radius * cos(phi) * sin(teta), radius * sin(phi), radius * cos(teta) * cos(phi));
+                Point p3(previousX * cos(sliceSkew) + previousZ * sin(sliceSkew), radius * sin(phi), -previousX * sin(sliceSkew) + previousZ * cos(sliceSkew));
+
+                Triangle t(p1, p2, p3);
+                triangles.push_back(t);
+                double auxX = radius * cos(phi + stackSkew) * sin(teta + sliceSkew), auxZ = radius * cos(teta + sliceSkew) * cos(phi + stackSkew);
+                
+                //Point p4(previousX * cos(sliceSkew) + previousZ * sin(sliceSkew), radius * sin(phi), -previousX * sin(sliceSkew) + previousZ * cos(sliceSkew));
+                Point p5(auxX * cos(sliceSkew) + auxZ * sin(sliceSkew), radius * sin(phi + stackSkew), -auxX * sin(sliceSkew) + auxZ * cos(sliceSkew));
+                //Point p6(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
+
+                //p4=p3 e p6=p1
+                Triangle t1(p3, p5, p1);
+                triangles.push_back(t1);
+         
+        }
+    }
+    trianglesToFile(triangles, f);
+}
+
+//plane file.3d
+//box x y z (n) file.3d
+//sphere 1 10 10 sphere.3d
+//cone r h sl st file.3d
+int main(int argc, char* argv[]){
+    if (strcmp(argv[1], "plane") == 0 && argc==5){
+        generatePlaneFile(atof(argv[2]),atof(argv[3]),argv[4]);
+    }
+    else if (strcmp(argv[1], "box") == 0 && argc==6) {
+        //float x, float y, float z, float n, string f
+        generateBoxFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), 0, argv[5]);
+    }
+    else if (strcmp(argv[1], "box") == 0 && argc == 7) {
+        //float x, float y, float z, float n, string f
+        generateBoxFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]),argv[6]);
+    }
+    else if (strcmp(argv[1], "sphere") == 0 && argc==6) {
+        generateSphereFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), argv[5]);
+    }
+    else if (strcmp(argv[1], "cone") == 0) {
+        ;
+    }
+
+    system("python conv.py lol.txt");
+
+}
+
+
+>>>>>>> 6bf9cc7cb6bee147a5e4328371972b53bec0d98e
