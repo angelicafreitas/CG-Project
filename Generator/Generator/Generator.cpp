@@ -6,7 +6,9 @@
 #include<stdio.h>
 #include<vector>
 #include <iostream>
+#include <sstream>
 #include <fstream>
+#include<string>
 using namespace std;
 
 errno_t err;
@@ -201,9 +203,12 @@ void generateBoxFile(float x, float y, float z, float n, string f) {
 //box x y z (n) file.3d
 //sphere 1 10 10 sphere.3d
 //cone r h sl st file.3d
+
+
 int main(int argc, char* argv[]){
     if (strcmp(argv[1], "plane") == 0 && argc==5){
         generatePlaneFile(atof(argv[2]),atof(argv[3]),argv[4]);
+        //fileToGL("lol.txt");
     }
     else if (strcmp(argv[1], "box") == 0 && argc==6) {
         //float x, float y, float z, float n, string f
