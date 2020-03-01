@@ -17,7 +17,7 @@ void removeChar(std::string& str, char character)
 {
 	size_t pos;
 	while ((pos = str.find(character)) != std::string::npos)
-		str.erase(pos, 1);
+		str[pos] = ' ';
 }
 
 void fileToGL(std::string file) {
@@ -29,8 +29,6 @@ void fileToGL(std::string file) {
 	for (std::string line; getline(fd, line);) {
 
 		removeChar(line, ',');
-
-		//if(line[0] != )
 
 		std::istringstream data(line);
 
