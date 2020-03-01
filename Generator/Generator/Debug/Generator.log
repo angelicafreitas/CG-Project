@@ -1,12 +1,14 @@
 ﻿  Generator.cpp
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(51,14): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(206,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(206,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(210,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(210,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(210,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(214,74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(214,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(214,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(214,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(53,14): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(265,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(265,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(269,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(269,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(269,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(273,74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(273,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(273,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(273,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(276,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(276,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Generator.vcxproj -> C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Debug\Generator.exe
