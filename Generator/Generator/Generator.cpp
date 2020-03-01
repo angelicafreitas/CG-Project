@@ -202,30 +202,8 @@ void generateBoxFile(float x, float y, float z, float n, string f) {
 void generateSphereFile(double radius, float slices, float stacks, string f) {
 
     double i, j;
-    //double aux = 1;
     vector<Triangle> triangles;
-    /*
-    for (i = angleStack; i <= PI; i += angleStack,aux++) {
-        for (j = 0; j <= (2*PI)-angleSlice; j += angleSlice) {
-            if (i == angleStack) {
-                double auxZ = (aux / stacks)*cos(i) * cos(j);
-                double auxX = (aux / stacks) * cos(i) * sin(j);
 
-                Point p1(0, radius, 0);
-                Point p2(radius * cos(angleStack) * sin(angleSlice), radius * sin(angleStack), radius * cos(angleSlice) * cos(angleStack));
-                Point p3(auxX * cos(angleSlice) + auxZ * sin(angleSlice), radius * sin(i), radius * cos(angleSlice) * cos(angleStack));
-                //Point p2((aux / stacks) * cos(i) * sin(j), (radius - aux/stacks) * sin(PI/2-i), (aux / stacks) * cos(i) * cos(j));
-                //Point p3(auxX * cos(angleSlice) + auxZ * sin(angleSlice), (radius - aux / stacks) * sin(PI/2-i), -auxX * sin(angleSlice) + auxZ * cos(angleSlice));
-//                Point p2(radius * cos(i) * sin(j),radius*sin(i),radius*cos(i)*cos(j));
-//                Point p3(auxX*cos(angleSlice) + auxZ*sin(angleSlice), radius * sin(i), -auxX*sin(angleSlice) + auxZ*cos(angleSlice));
-
-                Triangle t(p1, p2, p3);
-                triangles.push_back(t);
-
-            }
-
-        }
-    }*/
     double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
     for (i = 1; i <= stacks;i++) {
         double phi = (PI / 2) - (i * stackSkew);
