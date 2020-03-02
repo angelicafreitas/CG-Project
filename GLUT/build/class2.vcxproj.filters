@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\GLUT\main.cpp">
+    <ClCompile Include="C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\GLUT\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{369D5898-7D7E-31FA-9DEF-F29C21C656BB}</UniqueIdentifier>
+      <UniqueIdentifier>{AFBA036B-35D5-3066-A119-DEC7D1B9F147}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

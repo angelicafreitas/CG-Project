@@ -1,15 +1,15 @@
 ﻿  Generator.cpp
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(53,14): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(245,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(245,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(249,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(249,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(249,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(253,74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(253,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(253,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(253,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(256,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(256,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  LINK : C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Debug\Generator.exe not found or not built by the last incremental link; performing full link
-  Generator.vcxproj -> C:\Users\rodip\Desktop\3ano2sem\CG\CG-Project\Generator\Debug\Generator.exe
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(55,14): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(249,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(249,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(253,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(253,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(253,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(257,74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(257,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(257,44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(257,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(260,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(260,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  LINK : C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Debug\Generator.exe not found or not built by the last incremental link; performing full link
+  Generator.vcxproj -> C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Debug\Generator.exe

@@ -1,5 +1,7 @@
 #include<fstream>
 #include<sstream>
+#include <stdlib.h>
+#include <time.h>
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -7,7 +9,7 @@
 #include <GL/glut.h>
 #endif
 
-
+std::string pathGen = "../../Generator/Debug/";
 
 
 float translate[3] = {0,0,0};
@@ -20,8 +22,9 @@ void removeChar(std::string& str, char character)
 		str[pos] = ' ';
 }
 
-void fileToGL(std::string file) {
+void fileToGL(std::string file, bool oneColor = true) {
 
+	srand(time(NULL));
 	std::ifstream fd(file);
 	float x, y, z;
 	int i;
@@ -31,6 +34,11 @@ void fileToGL(std::string file) {
 		removeChar(line, ',');
 
 		std::istringstream data(line);
+		
+		data >> x >> y >> z;
+		if (oneColor == false) {
+			glColor3f(x, y, z);
+		}
 
 		for (i = 0; i < 3; i++) {
 			data >> x >> y >> z;
@@ -100,8 +108,8 @@ void renderScene(void) {
 	glRotatef(rotate[0],rotate[1],rotate[2],rotate[3]);
 
 	// put drawing instructions here
-	glBegin(GL_TRIANGLES);
-	glColor3f(1.0f, 0.0f, 0.0f);
+	//glBegin(GL_TRIANGLES);
+	//glColor3f(0.0f, 1.0f, 0.0f);
 
 	
 	/*glPushMatrix();
@@ -110,10 +118,10 @@ void renderScene(void) {
 	glPopMatrix();
 	*/
 	
-	glBegin(GL_TRIANGLES);;
+	glBegin(GL_TRIANGLES);
 
 	
-	fileToGL("lol.txt");
+	fileToGL(pathGen + "lol.txt", false);
 
 
 	glEnd();

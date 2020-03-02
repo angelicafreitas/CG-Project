@@ -1,12 +1,14 @@
 // Generator.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
+#include "rapidxml.hpp"
 #include <iostream>
 #include<tuple>
 #include<stdio.h>
 #include<vector>
 #include <iostream>
 #include <fstream>
+
+using namespace rapidxml;
 using namespace std;
 
 #define PI           3.14159265358979323846
@@ -51,6 +53,8 @@ void trianglesToFile(vector<Triangle> t, string f) {
     ofstream file(f);
     int i = 0;
     while (i < t.size()) {
+        file << (rand() % 3) << " " << (rand() % 3) << " " << (rand() % 3) << ",";
+
         file << get<0>(t[i].coord).pointToString()<< "," << get<1>(t[i].coord).pointToString() << "," << get<2>(t[i].coord).pointToString() << endl;
         i++;
     }
