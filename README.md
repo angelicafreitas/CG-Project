@@ -10,13 +10,10 @@ We go from creating shapes to transform them to creating a complete solar system
 
 ### **Phase 1 (Generator):**
 
-<ul style="list-style-type: none;">
-    <li><input type="checkbox" checked> 
-    Represent Points and Triangles</li>
-    <li><input checked type="checkbox"> Generate Planes </li>
-    <li><input checked type="checkbox"> Generate Boxes </li>
-    <li><input checked type="checkbox"> Generate Spheres </li>
-    <li><input checked type="checkbox"> Generate Cones </li>
-    <li><input checked type="checkbox"> XML Structered Scene </li>
-    <li><input type="checkbox"> Resume</li>
-</ul>
+-> Represent Points and Triangles :heavy_check_mark:</br>
+-> Generate Planes :heavy_check_mark:</br>
+-> Generate Boxes :heavy_check_mark:</br>
+-> Generate Spheres :heavy_check_mark:</br>
+-> Generate Cones :heavy_check_mark:</br>
+-> XML Structered Scene :heavy_check_mark:</br>
+-> Resume :x:
