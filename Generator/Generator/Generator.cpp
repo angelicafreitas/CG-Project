@@ -328,26 +328,29 @@ void createXML() {
 int main(int argc, char* argv[]){
     if (strcmp(argv[1], "plane") == 0 && argc==5){
         generatePlaneFile(atof(argv[2]),atof(argv[3]),argv[4]);
+        updateXML(argv[4]);
     }
     else if (strcmp(argv[1], "box") == 0 && argc==6) {
         //float x, float y, float z, float n, string f
         generateBoxFile(atof(argv[2]), atof(argv[3]), atoi(argv[4]), 0, argv[5]);
+        updateXML(argv[5]);
     }
     else if (strcmp(argv[1], "box") == 0 && argc == 7) {
         //float x, float y, float z, float n, string f
         generateBoxFile(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]),argv[6]);
+        updateXML(argv[6]);
     }
     else if (strcmp(argv[1], "sphere") == 0 && argc==6) {
         generateSphereFile(atof(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
+        updateXML(argv[5]);
     }
     else if (strcmp(argv[1], "cone") == 0 && argc==7) {
         generateConeFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
-        
+        updateXML(argv[6]);
 
     }
-    //createXML();
-    updateXML("plane.3d");
-    system("python conv.py lol.txt");
+ 
+    //system("python conv.py lol.txt");
 
 }
 
