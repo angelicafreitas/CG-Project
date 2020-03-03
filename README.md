@@ -17,3 +17,20 @@ We go from creating shapes to transform them to creating a complete solar system
 -> Generate Cones :heavy_check_mark:</br>
 -> XML Structered Scene :heavy_check_mark:</br>
 -> Resume :x:
+
+### **Working Tree (Simplified):**
+```bash
+.
+├── GLUT
+│   ├── CMakeLists.txt
+│   ├── glut
+│   ├── main.cpp
+│   └── toolkits
+├── Generator
+│   ├── Generator
+│   ├── Generator.sln
+│   └── UpgradeLog.htm
+├── README.md
+└── Scripts
+    └── conv.py
+```
