@@ -7,9 +7,15 @@
 #include<vector>
 #include <iostream>
 #include <fstream>
+#include "tinyxml2/tinyxml2.h"
+#include "tinyxml2/tinyxml2.cpp"
+
+#define XMLDOC "Files.xml"
+
 
 using namespace rapidxml;
 using namespace std;
+using namespace tinyxml2;
 
 #define PI           3.14159265358979323846
 
@@ -83,7 +89,7 @@ void generatePlaneFile(double x,double z, string f) {
 
 }
 
-void generateBoxFile(double x, double y, double z, int n, string f) {
+void generateBoxFile(double x, double y, double z, long int n, string f) {
     double xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
     double i, j, k;
     vector<Triangle> triangles;
@@ -292,6 +298,29 @@ void generateConeFile(double radius, double height, double slices, double stacks
     trianglesToFile(triangles, f);
 }
 
+void updateXML(const char* file){
+    XMLDocument doc;
+    if (doc.LoadFile("Files.xml") == XML_SUCCESS) {
+        XMLElement* root = doc.RootElement();
+        XMLElement* model = doc.NewElement("Model");
+        model->SetAttribute("file", file);
+        root->LinkEndChild(model);
+        doc.SaveFile(XMLDOC);
+    }
+    else {
+        createXML();
+        updateXML(file);
+    }
+}
+
+void createXML() {
+    XMLDocument doc;
+    XMLElement* Scene = doc.NewElement("Scene");
+    doc.LinkEndChild( Scene );
+    doc.SaveFile(XMLDOC);
+
+}
+
 //plane file.3d
 //box x y z (n) file.3d
 //sphere 1 10 10 sphere.3d
@@ -313,8 +342,11 @@ int main(int argc, char* argv[]){
     }
     else if (strcmp(argv[1], "cone") == 0 && argc==7) {
         generateConeFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
-    }
+        
 
+    }
+    //createXML();
+    updateXML("plane.3d");
     system("python conv.py lol.txt");
 
 }
