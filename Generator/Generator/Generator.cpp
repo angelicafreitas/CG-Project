@@ -51,7 +51,7 @@ public:
 };
 void trianglesToFile(vector<Triangle> t, string f) {
     ofstream file(f);
-    int i = 0;
+    unsigned int i = 0;
     while (i < t.size()) {
         file << (rand() % 3) << " " << (rand() % 3) << " " << (rand() % 3) << ",";
 
@@ -60,8 +60,8 @@ void trianglesToFile(vector<Triangle> t, string f) {
     }
 }
 
-void generatePlaneFile(float x,float z, string f) {
-    float auxX = x / 2, auxZ = z / 2;
+void generatePlaneFile(double x,double z, string f) {
+    double auxX = x / 2, auxZ = z / 2;
 
     //Pontos para Triangulo 1
     Point p1(-auxX, 0, auxZ);
@@ -83,8 +83,8 @@ void generatePlaneFile(float x,float z, string f) {
 
 }
 
-void generateBoxFile(float x, float y, float z, float n, string f) {
-    float xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
+void generateBoxFile(double x, double y, double z, int n, string f) {
+    double xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
     double i, j, k;
     vector<Triangle> triangles;
     
@@ -203,7 +203,7 @@ void generateBoxFile(float x, float y, float z, float n, string f) {
     trianglesToFile(triangles, f);
 }
 
-void generateSphereFile(double radius, float slices, float stacks, string f) {
+void generateSphereFile(double radius, int slices, int stacks, string f) {
 
     double i, j;
     vector<Triangle> triangles;
@@ -240,6 +240,58 @@ void generateSphereFile(double radius, float slices, float stacks, string f) {
     trianglesToFile(triangles, f);
 }
 
+void generateConeFile(double radius, double height, double slices, double stacks, string f) {
+
+    vector<Triangle> triangles;
+
+    double alpha = (2 * PI) / slices;
+    double beta = height / stacks;
+    double altura = -height / 2; //centra o cone no referencial
+    double i, j;
+    double ang, raio1, raio2, frst, scnd;
+
+    //fazer a circunferência da base
+    for (i = 0; i < slices; i++) {
+
+        ang = alpha * i;
+
+        Point p1(0, altura, 0);
+        Point p2(radius * sin(ang + alpha), altura, radius * cos(ang + alpha));
+        Point p3(radius * sin(ang), altura, radius * cos(ang));
+
+        Triangle t1(p1, p2, p3);
+        triangles.push_back(t1);
+    }
+    //##############################
+
+    for (i = 0; i < stacks; i++) {
+        scnd = altura + (i * beta);
+        frst = altura + ((i + 1) * beta);
+
+        raio2 = radius - ((radius / stacks) * i);
+        raio1 = radius - ((radius / stacks) * (i + 1));
+
+        for (j = 0; j < slices; j++) {
+            height = alpha * j;
+
+            Point p4(raio2 * sin(height), scnd, raio2 * cos(height));
+            Point p5(raio1 * sin(height + alpha), frst, raio1 * cos(height + alpha));
+            Point p6(raio1 * sin(height), frst, raio1 * cos(height));
+
+            Triangle t2(p4, p5, p6);
+            triangles.push_back(t2);
+
+            Point p7(raio2 * sin(height), scnd, raio2 * cos(height));
+            Point p8(raio2 * sin(height + alpha), scnd, raio2 * cos(height + alpha));
+            Point p9(raio1 * sin(height + alpha), frst, raio1 * cos(height + alpha));
+
+            Triangle t3(p7, p8, p9);
+            triangles.push_back(t3);
+        }
+    }
+    trianglesToFile(triangles, f);
+}
+
 //plane file.3d
 //box x y z (n) file.3d
 //sphere 1 10 10 sphere.3d
@@ -250,17 +302,17 @@ int main(int argc, char* argv[]){
     }
     else if (strcmp(argv[1], "box") == 0 && argc==6) {
         //float x, float y, float z, float n, string f
-        generateBoxFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), 0, argv[5]);
+        generateBoxFile(atof(argv[2]), atof(argv[3]), atoi(argv[4]), 0, argv[5]);
     }
     else if (strcmp(argv[1], "box") == 0 && argc == 7) {
         //float x, float y, float z, float n, string f
-        generateBoxFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]),argv[6]);
+        generateBoxFile(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]),argv[6]);
     }
     else if (strcmp(argv[1], "sphere") == 0 && argc==6) {
-        generateSphereFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), argv[5]);
+        generateSphereFile(atof(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
     }
-    else if (strcmp(argv[1], "cone") == 0) {
-        ;
+    else if (strcmp(argv[1], "cone") == 0 && argc==7) {
+        generateConeFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     }
 
     system("python conv.py lol.txt");
