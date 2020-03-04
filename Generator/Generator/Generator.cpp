@@ -1,6 +1,6 @@
 // Generator.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-#include "rapidxml.hpp"
+
 #include <iostream>
 #include<tuple>
 #include<stdio.h>
@@ -12,8 +12,6 @@
 
 #define XMLDOC "Files.xml"
 
-
-using namespace rapidxml;
 using namespace std;
 using namespace tinyxml2;
 
