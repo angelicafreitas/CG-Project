@@ -3,23 +3,71 @@
 #include <stdlib.h>
 #include <time.h>
 #include "../../Generator/Generator/tinyxml2/tinyxml2.cpp"
+#include <unordered_map>
+#include <vector>
+#include <iostream>
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
-#include <vector>
+
 using namespace tinyxml2;
 
 
 std::string pathGen = "../../Generator/Debug/";
 char *pathXML = "../../Generator/Debug/Files.xml";
+bool color = true;
 
 #define XMLDOC "Files.xml"
 
 
+float translate[3] = { 0,0,0 };
+float rotate[4] = { 0,0,0,0 };
+
+
+void removeChar(std::string& str, char character)
+{
+	size_t pos;
+	while ((pos = str.find(character)) != std::string::npos)
+		str[pos] = ' ';
+}
+
+std::vector<std::vector<float>> fileToVector(std::string file) {
+
+	std::vector<std::vector<float>> ret;
+
+	std::ifstream fd(file);
+
+	if (fd.fail()) {
+		printf("File on XML does not exist.");
+		exit(-1);
+	}
+
+	float x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12;
+
+	for (std::string line; getline(fd, line);) {
+
+		removeChar(line, ',');
+
+		std::istringstream data(line);
+		
+		data >> x1 >> x2 >> x3 >> x4 >> x5 >> x6 >> x7 >> x8 >> x9 >> x10 >> x11 >> x12;
+
+		std::vector<float> t = { x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12 };
+		
+		ret.push_back(t);
+
+	}
+
+	return ret;
+
+}
+
 class Models{
 public:
+	std::unordered_map<std::string, std::vector<std::vector<float>>> data;
 	std::vector<std::string> files;
 	int pos;
 	int len;
@@ -31,27 +79,56 @@ public:
 	
 public:
 	void addFile(std::string file) {
+		data[file] = fileToVector(pathGen + file);
 		files.push_back(file);
 		len++;
+	}
+
+	void drawGL(std::string key, bool oneColor = true){
+		if (data.find(key) != data.end()) {
+			for (std::vector<std::vector<float>>::iterator it = data[key].begin(); it != data[key].end(); it++) {
+				glColor3f(it->at(0), it->at(1), it->at(2));
+				//std::cout << it->at(0) << it->at(1) << it->at(2) << std::endl;
+
+				for (int i = 3; i < 12; i+=3) {
+					glVertex3f(it->at(i), it->at(i + 1),it->at( i + 2 ));
+				}
+				
+			}
+			
+		}
+		else {
+			std::cout << "File with the name " << key << "does not exist.";
+		}
+
+	}
+
+	void printData() {
+
+		std::unordered_map<std::string, std::vector<std::vector<float>>>::iterator itr;
+
+		for (itr = data.begin(); itr != data.end(); itr++)
+		{
+			// itr works as a pointer to pair<string, double> 
+			// type itr->first stores the key part  and 
+			// itr->second stroes the value part 
+			std::cout << itr->first << "  " << std::endl;
+		}
 	}
 };
 
 Models* models = new Models();
 
-float translate[3] = {0,0,0};
-float rotate[4] = {0,0,0,0};
-
-void removeChar(std::string& str, char character)
-{
-	size_t pos;
-	while ((pos = str.find(character)) != std::string::npos)
-		str[pos] = ' ';
-}
 
 void fileToGL(std::string file, bool oneColor = true) {
 
-	srand(time(NULL));
 	std::ifstream fd(file);
+
+	if (fd.fail()) {
+		printf("File does not exist.");
+		exit(-1);
+	}
+
 	float x, y, z;
 	int i;
 
@@ -74,14 +151,15 @@ void fileToGL(std::string file, bool oneColor = true) {
 	}
 }
 
+
+
 void readXMLFile() {
 	XMLDocument doc;
 	if (doc.LoadFile(pathXML) == XML_SUCCESS) {
 		XMLElement* root = doc.RootElement();
 		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
 			std::string name = child->Attribute("file");
-			models->addFile(pathGen + name);
-			printf(name.c_str());
+			models->addFile(name);
 		}
 	}
 
@@ -156,7 +234,7 @@ void renderScene(void) {
 	
 
 	glBegin(GL_TRIANGLES);
-	fileToGL(((models->files).at(models->pos)).c_str(),false);
+	models->drawGL(models->files[models->pos]);
 	glEnd();
 
 	// End of frame
@@ -202,6 +280,10 @@ void function(unsigned char key, int x, int y) {
 		models->pos = ((models->pos)+1) % models->len;
 		glutPostRedisplay();
 
+	}
+	else if (key == 'C' || key == 'c') {
+		color = !color;
+		glutPostRedisplay();
 	}
 }
 
