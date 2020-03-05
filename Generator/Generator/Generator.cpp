@@ -15,6 +15,7 @@ using namespace std;
 using namespace tinyxml2;
 
 #define PI           3.14159265358979323846
+#define XMLDOC  "Files.xml"
 
 errno_t err;
 
@@ -67,20 +68,22 @@ void generatePlaneFile(double x,double z, string f) {
     double auxX = x / 2, auxZ = z / 2;
 
     //Pontos para Triangulo 1
-    Point p1(-auxX, 0, auxZ);
+    Point p1(auxX, 0, -auxZ);
     Point p2(-auxX, 0, -auxZ);
-    Point p3(auxX, 0, auxZ);
+    Point p3(-auxX, 0, auxZ);
 
     //Pontos para Trinagulo 2
-    Point p4(-auxX, 0, auxZ);
-    Point p5(auxX, 0, -auxZ);
+    Point p4(auxX, 0, -auxZ);
+    Point p5(-auxX, 0, auxZ);
     Point p6(auxX, 0, auxZ);
 
     //Triangulo 1 e 2
     Triangle t1(p1, p2, p3);
     Triangle t2(p4, p5, p6);
+    Triangle t3(p3, p2, p1);
+    Triangle t4(p6, p5, p4);
 
-    vector <Triangle> v = { t1,t2 };
+    vector <Triangle> v = { t1,t2,t3,t4};
 
     trianglesToFile(v, f);
 
