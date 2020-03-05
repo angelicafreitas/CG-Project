@@ -68,13 +68,13 @@ void generatePlaneFile(double x,double z, string f) {
     double auxX = x / 2, auxZ = z / 2;
 
     //Pontos para Triangulo 1
-    Point p1(auxX, 0, -auxZ);
+    Point p1(-auxX, 0, auxZ);
     Point p2(-auxX, 0, -auxZ);
-    Point p3(-auxX, 0, auxZ);
+    Point p3(auxX, 0, -auxZ);
 
     //Pontos para Trinagulo 2
-    Point p4(auxX, 0, -auxZ);
-    Point p5(-auxX, 0, auxZ);
+    Point p4(-auxX, 0, auxZ);
+    Point p5(auxX, 0, -auxZ);
     Point p6(auxX, 0, auxZ);
 
     //Triangulo 1 e 2
