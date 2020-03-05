@@ -10,7 +10,6 @@
 #include "tinyxml2/tinyxml2.h"
 #include "tinyxml2/tinyxml2.cpp"
 
-#define XMLDOC "Files.xml"
 
 using namespace std;
 using namespace tinyxml2;
@@ -296,6 +295,14 @@ void generateConeFile(double radius, double height, double slices, double stacks
     trianglesToFile(triangles, f);
 }
 
+void createXML() {
+    XMLDocument doc;
+    XMLElement* Scene = doc.NewElement("Scene");
+    doc.LinkEndChild(Scene);
+    doc.SaveFile(XMLDOC);
+
+}
+
 void updateXML(const char* file){
     XMLDocument doc;
     if (doc.LoadFile("Files.xml") == XML_SUCCESS) {
@@ -309,14 +316,6 @@ void updateXML(const char* file){
         createXML();
         updateXML(file);
     }
-}
-
-void createXML() {
-    XMLDocument doc;
-    XMLElement* Scene = doc.NewElement("Scene");
-    doc.LinkEndChild( Scene );
-    doc.SaveFile(XMLDOC);
-
 }
 
 //plane file.3d

@@ -2,15 +2,41 @@
 #include<sstream>
 #include <stdlib.h>
 #include <time.h>
-
+#include "../../Generator/Generator/tinyxml2/tinyxml2.cpp"
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
+#include <vector>
+using namespace tinyxml2;
+
 
 std::string pathGen = "../../Generator/Debug/";
+char *pathXML = "../../Generator/Debug/Files.xml";
 
+#define XMLDOC "Files.xml"
+
+
+class Models{
+public:
+	std::vector<std::string> files;
+	int pos;
+	int len;
+
+	Models() {
+		pos = 0;
+		len = 0;
+	}
+	
+public:
+	void addFile(std::string file) {
+		files.push_back(file);
+		len++;
+	}
+};
+
+Models* models = new Models();
 
 float translate[3] = {0,0,0};
 float rotate[4] = {0,0,0,0};
@@ -45,7 +71,18 @@ void fileToGL(std::string file, bool oneColor = true) {
 			glVertex3f(x, y, z);
 
 		}
+	}
+}
 
+void readXMLFile() {
+	XMLDocument doc;
+	if (doc.LoadFile(pathXML) == XML_SUCCESS) {
+		XMLElement* root = doc.RootElement();
+		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
+			std::string name = child->Attribute("file");
+			models->addFile(pathGen + name);
+			printf(name.c_str());
+		}
 	}
 
 }
@@ -111,19 +148,15 @@ void renderScene(void) {
 	//glBegin(GL_TRIANGLES);
 	//glColor3f(0.0f, 1.0f, 0.0f);
 
-	
-	/*glPushMatrix();
-	glTranslated(0.0, -1.2, -6);
-	glutWireSphere(1, 20, 3);
+	/*
+	glPushMatrix();
+	glutWireSphere(1, 2, 2);
 	glPopMatrix();
 	*/
 	
+
 	glBegin(GL_TRIANGLES);
-
-	
-	fileToGL(pathGen + "lol.txt", false);
-
-
+	fileToGL(((models->files).at(models->pos)).c_str(),false);
 	glEnd();
 
 	// End of frame
@@ -165,10 +198,15 @@ void function(unsigned char key, int x, int y) {
 		rotate[1] = 1.0;
 		glutPostRedisplay();
 	}
+	else if (key == 'N' || key == 'n') {
+		models->pos = ((models->pos)+1) % models->len;
+		glutPostRedisplay();
+
+	}
 }
 
 int main(int argc, char **argv) {
-
+	readXMLFile();
 // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
