@@ -19,6 +19,9 @@ using namespace tinyxml2;
 std::string pathGen = "../../Generator/Debug/";
 char *pathXML = "../../Generator/Debug/Files.xml";
 bool color = true;
+unsigned int steps = 0;
+unsigned stepRange = 1;
+
 
 #define XMLDOC "Files.xml"
 
@@ -41,7 +44,7 @@ std::vector<std::vector<float>> fileToVector(std::string file) {
 	std::ifstream fd(file);
 
 	if (fd.fail()) {
-		printf("File on XML does not exist.");
+		printf("Model File does not exist.");
 		exit(-1);
 	}
 
@@ -84,18 +87,41 @@ public:
 		len++;
 	}
 
+	void stepDrawGL(std::string key,unsigned int steps, bool oneColor = true) {
+		if (data.find(key) != data.end()) {
+			int i = 0;
+			for (std::vector<std::vector<float>>::iterator it = data[key].begin(); it != data[key].end() && i < steps; it++, i++) {
+				if (oneColor == false) {
+					glColor3f(it->at(0), it->at(1), it->at(2));
+				}
+
+				for (int i = 3; i < 12; i += 3) {
+					glVertex3f(it->at(i), it->at(i + 1), it->at(i + 2));
+				}
+
+			}
+
+			steps = steps > data[key].size() ? data[key].size() : steps;
+
+		}
+		else {
+			std::cout << "File with the name " << key << "does not exist.";
+		}
+	}
+
 	void drawGL(std::string key, bool oneColor = true){
 		if (data.find(key) != data.end()) {
 			for (std::vector<std::vector<float>>::iterator it = data[key].begin(); it != data[key].end(); it++) {
-				glColor3f(it->at(0), it->at(1), it->at(2));
-				//std::cout << it->at(0) << it->at(1) << it->at(2) << std::endl;
+				if (oneColor == false) {
+					glColor3f(it->at(0), it->at(1), it->at(2));
+				}
 
 				for (int i = 3; i < 12; i+=3) {
 					glVertex3f(it->at(i), it->at(i + 1),it->at( i + 2 ));
 				}
 				
 			}
-			
+
 		}
 		else {
 			std::cout << "File with the name " << key << "does not exist.";
@@ -233,8 +259,8 @@ void renderScene(void) {
 	*/
 	
 
-	glBegin(GL_TRIANGLES);
-	models->drawGL(models->files[models->pos]);
+	glBegin(GL_LINES);
+	models->stepDrawGL(models->files[models->pos],steps, color);
 	glEnd();
 
 	// End of frame
@@ -285,9 +311,26 @@ void function(unsigned char key, int x, int y) {
 		color = !color;
 		glutPostRedisplay();
 	}
+	else if (key == 'k' || key == 'K') {
+		steps+=stepRange;
+		glutPostRedisplay();
+	}
+	else if (key == 'j' || key == 'J') {
+		steps-=stepRange;
+		glutPostRedisplay();
+	}
+	else if (key == 'i' || key == 'I') {
+		stepRange = stepRange >= 10 ? 10 : stepRange++;
+		glutPostRedisplay();
+	}
+	else if (key == 'u' || key == 'U') {
+		stepRange = stepRange <= 1 ? 1 : stepRange--;
+		glutPostRedisplay();
+	}
 }
 
 int main(int argc, char **argv) {
+// Read XML structered models.
 	readXMLFile();
 // init GLUT and the window
 	glutInit(&argc, argv);
