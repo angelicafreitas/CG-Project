@@ -1,23 +1,7 @@
 // Generator.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
-#include<tuple>
-#include<stdio.h>
-#include<vector>
-#include <iostream>
-#include <fstream>
-#include "tinyxml2/tinyxml2.h"
-#include "tinyxml2/tinyxml2.cpp"
-
-
-using namespace std;
-using namespace tinyxml2;
-
-#define PI           3.14159265358979323846
-#define XMLDOC  "Files.xml"
-
-errno_t err;
+#include "Generator.h";
 
 class Point{       
 public:             
@@ -379,8 +363,6 @@ int main(int argc, char* argv[]){
     else {
         printf("%s\n", "Can't Generate that. Please see the README for more details.");
     }
- 
-    //system("python conv.py lol.txt");
 
 }
 

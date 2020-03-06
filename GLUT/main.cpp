@@ -20,7 +20,7 @@ std::string pathGen = "../../Generator/Debug/";
 char *pathXML = "../../Generator/Debug/Files.xml";
 bool color = true;
 unsigned int steps = 0;
-unsigned stepRange = 1;
+unsigned int stepRange = 1;
 
 
 #define XMLDOC "Files.xml"
@@ -320,11 +320,11 @@ void function(unsigned char key, int x, int y) {
 		glutPostRedisplay();
 	}
 	else if (key == 'i' || key == 'I') {
-		stepRange = stepRange >= 10 ? 10 : stepRange++;
+		stepRange = stepRange >= 20 ? 20 : stepRange + 1;
 		glutPostRedisplay();
 	}
 	else if (key == 'u' || key == 'U') {
-		stepRange = stepRange <= 1 ? 1 : stepRange--;
+		stepRange = stepRange <= 1 ? 1 : stepRange-1;
 		glutPostRedisplay();
 	}
 }
