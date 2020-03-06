@@ -18,7 +18,7 @@ using namespace tinyxml2;
 
 std::string pathGen = "../../Generator/Debug/";
 char *pathXML = "../../Generator/Debug/Files.xml";
-bool color = true;
+bool color = false;
 unsigned int steps = -1;
 unsigned int stepRange = 1;
 
