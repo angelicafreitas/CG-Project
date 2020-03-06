@@ -2,7 +2,7 @@
 #include<sstream>
 #include <stdlib.h>
 #include <time.h>
-#include "../../Generator/Generator/tinyxml2/tinyxml2.cpp"
+#include "../Generator/Generator/tinyxml2/tinyxml2.cpp"
 #include <unordered_map>
 #include <vector>
 #include <iostream>
@@ -10,7 +10,7 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
-#include <GL/glut.h>
+#include "glut/GL/glut.h"
 #endif
 
 using namespace tinyxml2;
