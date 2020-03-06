@@ -312,9 +312,30 @@ void createXML() {
 
 }
 
+bool checkRepeatedFiles(const char* file) {
+    XMLDocument doc;
+    doc.LoadFile("Files.xml");
+    XMLElement* root = doc.RootElement();
+
+    const char* atr;
+
+    for (XMLElement* it = root->FirstChildElement(); it != NULL; it = it->NextSiblingElement()) {
+        if (strcmp(file, it->Attribute("file")) == 0) {
+            return true;
+        }
+
+    }
+
+    return false;
+}
+
 void updateXML(const char* file){
     XMLDocument doc;
     if (doc.LoadFile("Files.xml") == XML_SUCCESS) {
+        if (checkRepeatedFiles(file)) {
+            printf("A model with that filename already exists. Please choose another one.\n");
+            exit(0);
+        }
         XMLElement* root = doc.RootElement();
         XMLElement* model = doc.NewElement("Model");
         model->SetAttribute("file", file);
@@ -354,6 +375,9 @@ int main(int argc, char* argv[]){
         generateConeFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
         updateXML(argv[6]);
 
+    }
+    else {
+        printf("%s\n", "Can't Generate that. Please see the README for more details.");
     }
  
     //system("python conv.py lol.txt");

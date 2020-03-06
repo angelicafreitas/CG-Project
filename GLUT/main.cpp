@@ -101,7 +101,7 @@ public:
 
 			}
 
-			steps = steps > data[key].size() ? data[key].size() : steps;
+			steps = steps >= data[key].size() ? data[key].size() : steps;
 
 		}
 		else {
