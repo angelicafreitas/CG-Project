@@ -188,6 +188,10 @@ void readXMLFile() {
 			models->addFile(name);
 		}
 	}
+	else {
+		printf("Nenhum modelo gerado de momento! Gere em %s\n", pathXML);
+		exit(0);
+	}
 
 }
 
@@ -260,7 +264,7 @@ void renderScene(void) {
 	
 
 	glBegin(GL_TRIANGLES);
-	models->stepDrawGL(models->files[models->pos],steps, color);
+	models->drawGL(models->files[models->pos], color);
 	glEnd();
 
 	// End of frame
