@@ -77,11 +77,12 @@ void generatePlaneFile(double x,double z, string f) {
     Point p5(auxX, 0, -auxZ);
     Point p6(auxX, 0, auxZ);
 
-    //Triangulo 1,2,3 e 4 
     Triangle t1(p1, p2, p3);
-    Triangle t2(p4, p5, p6);
+    //ordem original(p4,p5,p6) mas p4 = p1 e p5=p3
+    Triangle t2(p1, p3, p6);
     Triangle t3(p3, p2, p1);
-    Triangle t4(p6, p5, p4);
+    //ordem original(p6,p5,p4) mas p4 = p1 e p5=p3
+    Triangle t4(p6, p3, p1);
 
     vector <Triangle> v = { t1,t2,t3,t4};
 
@@ -110,7 +111,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Point p5(0, j, k+zn);
 //          Point p6(0, j+yn, k+zn);
 
-            //p1=p6 e p3=p4
+            //ordem original(p4,p5,p6) mas p6=p1 e p4=p3
             Triangle f1b(p3, p5, p1);
             triangles.push_back(f1b);
 
@@ -127,7 +128,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Point p11(x, j, k + zn);
   //          Point p12(x, j , k);
 
-            //p7=p12 p9=p10
+            //ordem original(p10,p11,p12) mas p12=p7 p10=p9
             Triangle f6b(p9, p11, p7);
             triangles.push_back(f6b);
 
@@ -150,7 +151,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Point p5(i, y, k+zn);
   //          Point p6(i+xn, y, k+zn);
             
-            //p1=p4 e p2=p6
+            //ordem original(p4,p5,p6) mas p4=p1 e p6=p2
             Triangle f2b(p1, p5, p2);
             triangles.push_back(f2b);
 
@@ -167,7 +168,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Point p11(i+xn, 0, k);
    //         Point p12(i+xn, 0, k+zn);
 
-            //p9=p10 e p7=p12
+            //ordem original(p10,p11,p12) mas p10=p9 e p12=p7
             Triangle f4b(p9, p11, p7);
             triangles.push_back(f4b);
 
@@ -190,7 +191,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Point p5(i, j, z);
             //Point p6(i+xn, j, z);
 
-            //p3=p4 p1=p6
+            //ordem original(p4,p5,p6) mas p4=p3 p6=p1
             Triangle f5b(p3, p5, p1);
             triangles.push_back(f5b);
 
@@ -207,7 +208,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Point p11(i+xn, j+yn, 0);
          //   Point p12(i+xn, j, 0);
 
-            //p8=p10 p9=p12
+            //ordem original(p10,p11,p12) p10=p8 p12=p9
             Triangle f3b(p8, p11, p9);
             triangles.push_back(f3b);
         }
@@ -232,7 +233,6 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
 
                 Point p1(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
                 Point p2(previousX, radius * sin(phi),previousZ);
-                //Point p2(radius * cos(phi) * sin(teta), radius * sin(phi), radius * cos(teta) * cos(phi));
                 Point p3(previousX * cos(sliceSkew) + previousZ * sin(sliceSkew), radius * sin(phi), -previousX * sin(sliceSkew) + previousZ * cos(sliceSkew));
 
                 Triangle t(p1, p2, p3);
@@ -243,7 +243,7 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
                 Point p5(auxX * cos(sliceSkew) + auxZ * sin(sliceSkew), radius * sin(phi + stackSkew), -auxX * sin(sliceSkew) + auxZ * cos(sliceSkew));
                 //Point p6(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
 
-                //p4=p3 e p6=p1
+                //ordem original(p4,p5,p6) mas p4=p3 e p6=p1
                 Triangle t1(p3, p5, p1);
                 triangles.push_back(t1);
          
