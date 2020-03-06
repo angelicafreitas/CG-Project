@@ -77,7 +77,7 @@ void generatePlaneFile(double x,double z, string f) {
     Point p5(auxX, 0, -auxZ);
     Point p6(auxX, 0, auxZ);
 
-    //Triangulo 1 e 2
+    //Triangulo 1,2,3 e 4 
     Triangle t1(p1, p2, p3);
     Triangle t2(p4, p5, p6);
     Triangle t3(p3, p2, p1);
@@ -106,11 +106,12 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             triangles.push_back(f1a);
 
             //Face 1 Triangulo B
-            Point p4(0, j, k);
+//          Point p4(0, j, k);
             Point p5(0, j, k+zn);
-            Point p6(0, j+yn, k+zn);
+//          Point p6(0, j+yn, k+zn);
 
-            Triangle f1b(p4, p5, p6);
+            //p1=p6 e p3=p4
+            Triangle f1b(p3, p5, p1);
             triangles.push_back(f1b);
 
             //Face 6 Triangulo A
@@ -122,11 +123,12 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             triangles.push_back(f6a);
 
             //Face 6 Triangulo B
-            Point p10(x, j + yn, k + zn);
+//            Point p10(x, j + yn, k + zn);
             Point p11(x, j, k + zn);
-            Point p12(x, j , k);
+  //          Point p12(x, j , k);
 
-            Triangle f6b(p10, p11, p12);
+            //p7=p12 p9=p10
+            Triangle f6b(p9, p11, p7);
             triangles.push_back(f6b);
 
         }
@@ -144,11 +146,12 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             triangles.push_back(f2a);
 
             //Face 2 Triangulo B
-            Point p4(i, y, k);
+//            Point p4(i, y, k);
             Point p5(i, y, k+zn);
-            Point p6(i+xn, y, k+zn);
+  //          Point p6(i+xn, y, k+zn);
             
-            Triangle f2b(p4, p5, p6);
+            //p1=p4 e p2=p6
+            Triangle f2b(p1, p5, p2);
             triangles.push_back(f2b);
 
             //Face 4 Triangulo A
@@ -160,11 +163,12 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             triangles.push_back(f4a);
 
             //Face 4 Triangulo B
-            Point p10(i, 0, k);
+ //           Point p10(i, 0, k);
             Point p11(i+xn, 0, k);
-            Point p12(i+xn, 0, k+zn);
+   //         Point p12(i+xn, 0, k+zn);
 
-            Triangle f4b(p10, p11, p12);
+            //p9=p10 e p7=p12
+            Triangle f4b(p9, p11, p7);
             triangles.push_back(f4b);
 
         }
@@ -182,11 +186,12 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             triangles.push_back(f5a);
 
             //Face 5 Triangulo B
-            Point p4(i, j+yn, z);
+            //Point p4(i, j+yn, z);
             Point p5(i, j, z);
-            Point p6(i+xn, j, z);
+            //Point p6(i+xn, j, z);
 
-            Triangle f5b(p4, p5, p6);
+            //p3=p4 p1=p6
+            Triangle f5b(p3, p5, p1);
             triangles.push_back(f5b);
 
             //Face 3 Triangulo A
@@ -198,11 +203,12 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             triangles.push_back(f3a);
 
             //Face 3 Triangulo B
-            Point p10(i, j+yn, 0);
+       //     Point p10(i, j+yn, 0);
             Point p11(i+xn, j+yn, 0);
-            Point p12(i+xn, j, 0);
+         //   Point p12(i+xn, j, 0);
 
-            Triangle f3b(p10, p11, p12);
+            //p8=p10 p9=p12
+            Triangle f3b(p8, p11, p9);
             triangles.push_back(f3b);
         }
     }
