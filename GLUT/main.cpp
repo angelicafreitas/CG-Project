@@ -67,10 +67,41 @@ std::vector<std::vector<float>> fileToVector(std::string file) {
 	return ret;
 
 }
-
-class Models{
+class Model {
 public:
-	std::unordered_map<std::string, std::vector<std::vector<float>>> data;
+	std::vector < std::vector<float>> points;
+	std::vector < float > translation;
+	std::vector < float > rotation;
+	std::vector < float > scale;
+
+	Model() {
+		translation = { 0,0,0 };
+		rotation = { 0,0,0,0 };
+		scale = { 0,0,0 };
+	}
+	void setTranslation(float x, float y, float z) {
+		translation[0] = x;
+		translation[1] = y;
+		translation[2] = z;
+
+	}
+	void setRotation(float angle, float x, float y, float z) {
+		rotation[0] = angle;
+		rotation[1] = x;
+		rotation[2] = y;
+		rotation[3] = z;
+	}
+	void setScale(float x, float y, float z) {
+		scale[0] = x;
+		scale[1] = y;
+		scale[2] = z;
+
+	}
+
+};
+class Models {
+public:
+	std::unordered_map<std::string, Model*> data;
 	std::vector<std::string> files;
 	int pos;
 	int len;
@@ -79,18 +110,20 @@ public:
 		pos = 0;
 		len = 0;
 	}
-	
+
 public:
 	void addFile(std::string file) {
-		data[file] = fileToVector(pathGen + file);
+		Model* m = new Model();
+		m->points = fileToVector(pathGen + file);
+		data[file] = m;
 		files.push_back(file);
 		len++;
 	}
 
-	void stepDrawGL(std::string key,unsigned int steps, bool oneColor = true) {
+	void stepDrawGL(std::string key, unsigned int steps, bool oneColor = true) {
 		if (data.find(key) != data.end()) {
 			int i = 0;
-			for (std::vector<std::vector<float>>::iterator it = data[key].begin(); it != data[key].end() && i < steps; it++, i++) {
+			for (std::vector<std::vector<float>>::iterator it = data[key]->points.begin(); it != data[key]->points.end() && i < steps; it++, i++) {
 				if (oneColor == false) {
 					glColor3f(it->at(0), it->at(1), it->at(2));
 				}
@@ -101,7 +134,7 @@ public:
 
 			}
 
-			steps = steps >= data[key].size() ? data[key].size() : steps;
+			steps = steps >= data[key]->points.size() ? data[key]->points.size() : steps;
 
 		}
 		else {
@@ -109,17 +142,17 @@ public:
 		}
 	}
 
-	void drawGL(std::string key, bool oneColor = true){
+	void drawGL(std::string key, bool oneColor = true) {
 		if (data.find(key) != data.end()) {
-			for (std::vector<std::vector<float>>::iterator it = data[key].begin(); it != data[key].end(); it++) {
+			for (std::vector<std::vector<float>>::iterator it = data[key]->points.begin(); it != data[key]->points.end(); it++) {
 				if (oneColor == false) {
 					glColor3f(it->at(0), it->at(1), it->at(2));
 				}
 
-				for (int i = 3; i < 12; i+=3) {
-					glVertex3f(it->at(i), it->at(i + 1),it->at( i + 2 ));
+				for (int i = 3; i < 12; i += 3) {
+					glVertex3f(it->at(i), it->at(i + 1), it->at(i + 2));
 				}
-				
+
 			}
 
 		}
@@ -131,7 +164,7 @@ public:
 
 	void printData() {
 
-		std::unordered_map<std::string, std::vector<std::vector<float>>>::iterator itr;
+		std::unordered_map<std::string, Model*>::iterator itr;
 
 		for (itr = data.begin(); itr != data.end(); itr++)
 		{
@@ -264,7 +297,7 @@ void renderScene(void) {
 	
 
 	glBegin(GL_TRIANGLES);
-	models->drawGL(models->files[models->pos], color);
+	models->stepDrawGL(models->files[models->pos], steps ,color);
 	glEnd();
 
 	// End of frame

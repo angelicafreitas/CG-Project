@@ -41,7 +41,8 @@ void trianglesToFile(vector<Triangle> t, string f) {
     ofstream file(f);
     unsigned int i = 0;
     while (i < t.size()) {
-        file << (rand() % 3) << " " << (rand() % 3) << " " << (rand() % 3) << ",";
+        int x = (rand() % 3 + 1), y = (rand() % 3), z = (rand() % 3);
+        file << x << " " << y << " " << z << ",";
 
         file << get<0>(t[i].coord).pointToString()<< "," << get<1>(t[i].coord).pointToString() << "," << get<2>(t[i].coord).pointToString() << endl;
         i++;
