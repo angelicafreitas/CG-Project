@@ -8,7 +8,7 @@ public:
     double x = 0;        
     double y = 0;
     double z = 0;
-    Point() {
+    Point() {   
 
     }
     Point(double x1, double y1, double z1) {

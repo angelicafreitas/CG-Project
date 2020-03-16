@@ -112,6 +112,18 @@ public:
 	}
 
 public:
+	//get points from file and add to hashmap
+	void addFile(std::string file, std::vector<float> trans, std::vector<float> rot, std::vector<float> sca) {
+		Model* m = new Model();
+		m->setTranslation(trans[0], trans[1], trans[2]);
+		m->setRotation(rot[0],rot[1],rot[2],rot[3]);
+		m->setScale(sca[0], sca[1], sca[2]);
+		m->points = fileToVector(pathGen + file);
+		data[file] = m;
+		files.push_back(file);
+		len++;
+	}
+	/*
 	void addFile(std::string file) {
 		Model* m = new Model();
 		m->points = fileToVector(pathGen + file);
@@ -119,7 +131,7 @@ public:
 		files.push_back(file);
 		len++;
 	}
-
+	*/
 	void stepDrawGL(std::string key, unsigned int steps, bool oneColor = true) {
 		if (data.find(key) != data.end()) {
 			int i = 0;
@@ -211,7 +223,7 @@ void fileToGL(std::string file, bool oneColor = true) {
 }
 
 
-
+/* without hierarchical scenes
 void readXMLFile() {
 	XMLDocument doc;
 	if (doc.LoadFile(pathXML) == XML_SUCCESS) {
@@ -225,6 +237,30 @@ void readXMLFile() {
 		printf("Nenhum modelo gerado de momento! Gere em %s\n", pathXML);
 		exit(0);
 	}
+
+}
+*/
+class TransformationState{
+public:
+	std::vector < float > translation;
+	std::vector < float > rotation;
+	std::vector < float > scale;
+
+};
+
+void auxReadFile() {
+
+}
+void readXMLFile() {
+	XMLDocument doc;
+	if (doc.LoadFile(pathXML) == XML_SUCCESS) {
+
+	}
+	else {
+		printf("Nenhum modelo gerado de momento! Gere em %s\n", pathXML);
+		exit(0);
+	}
+
 
 }
 
