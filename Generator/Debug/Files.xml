@@ -1,0 +1,4 @@
+<Scene>
+    <Model file="box.3d"/>
+    <Model file="sphere.3d"/>
+</Scene>
