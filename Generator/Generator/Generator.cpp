@@ -291,7 +291,7 @@ void generateConeFile(double radius, double height, double slices, double stacks
 
 void createXML() {
     XMLDocument doc;
-    XMLElement* Scene = doc.NewElement("Scene");
+    XMLElement* Scene = doc.NewElement("scene");
     doc.LinkEndChild(Scene);
     doc.SaveFile(XMLDOC);
 
@@ -322,7 +322,7 @@ void updateXML(const char* file){
             exit(0);
         }
         XMLElement* root = doc.RootElement();
-        XMLElement* model = doc.NewElement("Model");
+        XMLElement* model = doc.NewElement("model");
         model->SetAttribute("file", file);
         root->LinkEndChild(model);
         doc.SaveFile(XMLDOC);
