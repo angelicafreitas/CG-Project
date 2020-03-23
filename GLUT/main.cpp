@@ -25,6 +25,8 @@ unsigned int stepRange = 1;
 
 #define XMLDOC "Files.xml"
 
+float alfa = 0.0f, beta = 0.5f, radius = 100.0f;
+float camX, camY, camZ;
 
 float translate[3] = { 0,0,0 };
 float rotate[4] = { 0,0,0,0 };
@@ -101,7 +103,7 @@ public:
 };
 class Models {
 public:
-	std::unordered_map<std::string, Model*> data;
+	std::unordered_map<std::string, std::vector<Model*>> data;
 	std::vector<std::string> files;
 	int pos;
 	int len;
@@ -119,7 +121,14 @@ public:
 		m->setRotation(rot[0],rot[1],rot[2],rot[3]);
 		m->setScale(sca[0], sca[1], sca[2]);
 		m->points = fileToVector(pathGen + file);
-		data[file] = m;
+		if (data.find(file) != data.end()) {
+			data[file].push_back(m);
+		}
+		else {
+			auto vect = new std::vector<Model*>();
+			vect->push_back(m);
+			data[file] = (*vect);
+		}
 		files.push_back(file);
 		len++;
 	}
@@ -132,38 +141,77 @@ public:
 		len++;
 	}
 	*/
-	void stepDrawGL(std::string key, unsigned int steps, bool oneColor = true) {
+	void stepDrawGL(std::string key, unsigned int steps, bool oneColor = true, bool debug = false) {
 		if (data.find(key) != data.end()) {
 			int i = 0;
-			for (std::vector<std::vector<float>>::iterator it = data[key]->points.begin(); it != data[key]->points.end() && i < steps; it++, i++) {
-				if (oneColor == false) {
-					glColor3f(it->at(0), it->at(1), it->at(2));
+			int j = 0;
+			
+			for (auto aux : data[key]) {
+				i = 0;
+				if (debug) {
+					std::cout << std::endl << key << std::endl;
+					std::cout << "Numero de pontos: " << aux->points.size() << std::endl;
+					std::cout << "Tranlation data: (" << aux->translation[0] << ", " << aux->translation[1] << ", " << aux->translation[2] << ")" << std::endl;
+					std::cout << "Rotation data: (" << aux->rotation[0] << ", " << aux->rotation[1] << ", " << aux->rotation[2] << ", " << aux->rotation[3] << ")" << std::endl;
+					std::cout << "Scale data: (" << aux->scale[0] << ", " << aux->scale[1] << ", " << aux->scale[2] << ")" << std::endl;
 				}
+				
+				glPushMatrix();
 
-				for (int i = 3; i < 12; i += 3) {
-					glVertex3f(it->at(i), it->at(i + 1), it->at(i + 2));
+				glTranslatef(aux->translation[0], aux->translation[1], aux->translation[2]);
+				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
+				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
+				glBegin(GL_TRIANGLES);
+				for (std::vector<std::vector<float>>::iterator it = aux->points.begin(); it != aux->points.end() && i < steps; it++, i++) {
+					j++;
+					if (oneColor == false) {
+						glColor3f(it->at(0), it->at(1), it->at(2));
+					}
+
+					for (int i = 3; i < 12; i += 3) {
+						glVertex3f(it->at(i), it->at(i + 1), it->at(i + 2));
+					}
+
 				}
+				if(debug) std::cout << "Pontos processados: " << j << "; Pontos processados esperados: " << aux->points.size() * data[key].size() << " (" << (float)j / (float)(aux->points.size() * data[key].size()) * 100 << "%)" << std::endl;
+				glPopMatrix();
+				glEnd();
+				steps = steps >= aux->points.size() ? aux->points.size() : steps;
 
 			}
 
-			steps = steps >= data[key]->points.size() ? data[key]->points.size() : steps;
 
 		}
 		else {
 			std::cout << "File with the name " << key << "does not exist.";
 		}
+		
 	}
 
 	void drawGL(std::string key, bool oneColor = true) {
 		if (data.find(key) != data.end()) {
-			for (std::vector<std::vector<float>>::iterator it = data[key]->points.begin(); it != data[key]->points.end(); it++) {
-				if (oneColor == false) {
-					glColor3f(it->at(0), it->at(1), it->at(2));
+
+			for (auto aux : data[key]) {
+
+				glPushMatrix();
+				glTranslatef(aux->translation[0], aux->translation[1], aux->translation[2]);
+				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
+				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
+				glBegin(GL_TRIANGLES);
+
+				for (std::vector<std::vector<float>>::iterator it = aux->points.begin(); it != aux->points.end(); it++) {
+					if (oneColor == false) {
+						glColor3f(it->at(0), it->at(1), it->at(2));
+					}
+
+					for (int i = 3; i < 12; i += 3) {
+						glVertex3f(it->at(i), it->at(i + 1), it->at(i + 2));
+					}
+
 				}
 
-				for (int i = 3; i < 12; i += 3) {
-					glVertex3f(it->at(i), it->at(i + 1), it->at(i + 2));
-				}
+				glPopMatrix();
+				glEnd();
 
 			}
 
@@ -171,12 +219,12 @@ public:
 		else {
 			std::cout << "File with the name " << key << "does not exist.";
 		}
-
+		
 	}
 
 	void printData() {
 
-		std::unordered_map<std::string, Model*>::iterator itr;
+		std::unordered_map<std::string, std::vector<Model*>>::iterator itr;
 
 		for (itr = data.begin(); itr != data.end(); itr++)
 		{
@@ -246,18 +294,85 @@ public:
 	std::vector < float > rotation;
 	std::vector < float > scale;
 
+	TransformationState() {
+		translation = { 0,0,0 };
+		rotation = { 0,0,0,0 };
+		scale = { 1,1,1 };
+	}
+	
+	TransformationState(std::vector<float> x, std::vector<float> y, std::vector<float> z) {
+		translation = { x[0],x[1],x[2] };
+		rotation = { y[0],y[1],y[2],y[3]};
+		scale = { z[0], z[1],z[2]};
+	}
+
+	void translate(float x, float y, float z) {
+		translation[0] = x;
+		translation[1] = y;
+		translation[2] = z;
+	}
+
+	void rotate(float x, float y, float z, float w) {
+		rotation[0] = x;
+		rotation[1] = y;
+		rotation[2] = z;
+		rotation[3] = w;
+	}
+
+	void setScale(float x, float y, float z) {
+		scale[0] = x;
+		scale[1] = y;
+		scale[2] = z;
+	}	
+
+	TransformationState clone() {
+		return TransformationState(translation, rotation, scale);
+	}
+
 };
 
-void auxReadFile() {
+void auxReadFile(XMLElement * elem, TransformationState ts) {
+	for (XMLElement* child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
+		
+		if (strcmp(child->Name(), "translate") == 0) {
+			ts.translate(child->FindAttribute("X") ? atof(child->FindAttribute("X")->Value()) + ts.translation[0] : ts.translation[0], child->FindAttribute("Y") ? atof(child->FindAttribute("Y")->Value()) + ts.translation[1] : ts.translation[1], child->FindAttribute("Z") ? atof(child->FindAttribute("Z")->Value()) + ts.translation[2] : ts.translation[2]);
+			
+		}
+		else if (strcmp(child->Name(), "rotate") == 0) {
+			ts.rotate(child->FindAttribute("angle") ? atof(child->FindAttribute("angle")->Value()) + ts.rotation[0] : ts.rotation[0], child->FindAttribute("axisX") ? atof(child->FindAttribute("axisX")->Value()) + ts.rotation[1] : ts.rotation[1], child->FindAttribute("axisY") ? atof(child->FindAttribute("axisY")->Value()) + ts.rotation[2] : ts.rotation[2], child->FindAttribute("axisZ") ? atof(child->FindAttribute("axisZ")->Value()) + ts.rotation[3] : ts.rotation[3]);
+		}
+		else if (strcmp(child->Name(), "scale") == 0) {
+			ts.setScale(child->FindAttribute("X") ? atof(child->FindAttribute("X")->Value())  : ts.scale[0], child->FindAttribute("Y") ? atof(child->FindAttribute("Y")->Value()) : ts.scale[1], child->FindAttribute("Z") ? atof(child->FindAttribute("Z")->Value()) : ts.scale[2]);
+		}
+		else if (strcmp(child->Name(), "models") == 0) {
+			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
+				std::string filename = childModels->Attribute("file");
+				models->addFile(filename, ts.translation, ts.rotation, ts.scale);
+				
+			}
+		}
+		else if (strcmp(child->Name(), "group") == 0) {
+			auxReadFile(child, ts.clone());
+	
+		}
 
+		else {
+			std::cout << "What command is this? -> " << child->Name() << std::endl;
+			exit(0);
+		}
+	}
 }
+
 void readXMLFile() {
 	XMLDocument doc;
 	if (doc.LoadFile(pathXML) == XML_SUCCESS) {
-
+		XMLElement* root = doc.RootElement();
+		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
+			auxReadFile(child, TransformationState());
+		}
 	}
 	else {
-		printf("Nenhum modelo gerado de momento! Gere em %s\n", pathXML);
+		printf("Nenhum modelo gerado de momento ou ficheiro mal formatado! Gere em %s\n", pathXML);
 		exit(0);
 	}
 
@@ -297,7 +412,7 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	gluLookAt(5.0, 5.0, 5.0,
+	gluLookAt(camX, camY, camZ,
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
 
@@ -331,19 +446,56 @@ void renderScene(void) {
 	glPopMatrix();
 	*/
 	
-
-	glBegin(GL_TRIANGLES);
-	models->stepDrawGL(models->files[models->pos], steps ,color);
-	glEnd();
+	
+	//glBegin(GL_TRIANGLES);
+	models->stepDrawGL(models->files[models->pos], steps ,color, true);
+	//glEnd();
 
 	// End of frame
 	glutSwapBuffers();
 }
 
+void spherical2Cartesian() {
 
+	camX = radius * cos(beta) * sin(alfa);
+	camY = radius * sin(beta);
+	camZ = radius * cos(beta) * cos(alfa);
+}
 
 // write function to process keyboard events
+void processSpecialKeys(int key, int xx, int yy) {
 
+	switch (key) {
+
+	case GLUT_KEY_RIGHT:
+		alfa -= 0.1; break;
+
+	case GLUT_KEY_LEFT:
+		alfa += 0.1; break;
+
+	case GLUT_KEY_UP:
+		beta += 0.1f;
+		if (beta > 1.5f)
+			beta = 1.5f;
+		break;
+
+	case GLUT_KEY_DOWN:
+		beta -= 0.1f;
+		if (beta < -1.5f)
+			beta = -1.5f;
+		break;
+
+	case GLUT_KEY_PAGE_DOWN: radius -= 1.0f;
+		if (radius < 1.0f)
+			radius = 1.0f;
+		break;
+
+	case GLUT_KEY_PAGE_UP: radius += 1.0f; break;
+	}
+	spherical2Cartesian();
+	glutPostRedisplay();
+
+}
 
 
 
@@ -415,6 +567,7 @@ int main(int argc, char **argv) {
 // Required callback registry 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
+	glutSpecialFunc(processSpecialKeys);
 
 	
 // put here the registration of the keyboard callbacks
@@ -424,7 +577,8 @@ int main(int argc, char **argv) {
 //  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	
+	spherical2Cartesian();
+
 // enter GLUT's main cycle
 	glutMainLoop();
 	
