@@ -342,7 +342,7 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 			ts.rotate(child->FindAttribute("angle") ? atof(child->FindAttribute("angle")->Value()) + ts.rotation[0] : ts.rotation[0], child->FindAttribute("axisX") ? atof(child->FindAttribute("axisX")->Value()) + ts.rotation[1] : ts.rotation[1], child->FindAttribute("axisY") ? atof(child->FindAttribute("axisY")->Value()) + ts.rotation[2] : ts.rotation[2], child->FindAttribute("axisZ") ? atof(child->FindAttribute("axisZ")->Value()) + ts.rotation[3] : ts.rotation[3]);
 		}
 		else if (strcmp(child->Name(), "scale") == 0) {
-			ts.setScale(child->FindAttribute("X") ? atof(child->FindAttribute("X")->Value()) + ts.scale[0] : ts.scale[0], child->FindAttribute("Y") ? atof(child->FindAttribute("Y")->Value())+ ts.scale[1] : ts.scale[1], child->FindAttribute("Z") ? atof(child->FindAttribute("Z")->Value()) + ts.scale[2] : ts.scale[2]);
+			ts.setScale(child->FindAttribute("X") ? atof(child->FindAttribute("X")->Value())  : ts.scale[0], child->FindAttribute("Y") ? atof(child->FindAttribute("Y")->Value()) : ts.scale[1], child->FindAttribute("Z") ? atof(child->FindAttribute("Z")->Value()) : ts.scale[2]);
 		}
 		else if (strcmp(child->Name(), "models") == 0) {
 			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
