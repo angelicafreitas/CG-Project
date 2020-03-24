@@ -174,8 +174,8 @@ public:
 
 				}
 				if(debug) std::cout << "Pontos processados: " << j << "; Pontos processados esperados: " << aux->points.size() * data[key].size() << " (" << (float)j / (float)(aux->points.size() * data[key].size()) * 100 << "%)" << std::endl;
-				glPopMatrix();
 				glEnd();
+				glPopMatrix();
 				steps = steps >= aux->points.size() ? aux->points.size() : steps;
 
 			}
@@ -448,7 +448,7 @@ void renderScene(void) {
 	
 	
 	//glBegin(GL_TRIANGLES);
-	models->stepDrawGL(models->files[models->pos], steps ,color, true);
+	models->stepDrawGL(models->files[models->pos], steps ,color, false);
 	//glEnd();
 
 	// End of frame

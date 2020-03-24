@@ -1,4 +1,60 @@
-<Scene>
-    <Model file="box.3d"/>
-    <Model file="sphere.3d"/>
-</Scene>
+<scene>
+    <group>
+    <!--Sol-->
+        <group>
+            <models>
+                <model file="sol.3d" />
+            </models>
+        </group>
+        <!--Mercúrio-->
+        <group>
+            <!--10 + 10*0.0216 + 0.4*10 + -->
+            <translate X="14.216" Y="0" Z="0" />
+            <!--0.0036*6-->
+            <scale X="0.0216" Y="0.0216" Z="0.0216" />
+            <models>
+                <model file="sol.3d" />
+            </models>
+        </group>
+        <!--Vénus-->
+        <group>
+            <!--0.7 0 0-->
+            <!--10 + 10*0.0528 + 0.7*10 + -->
+            <translate X="17.528" Y="0" Z="0" />
+            <!--0.0088*6-->
+            <scale X="0.0528" Y="0.0528" Z="0.0528" />
+            <models>
+                <model file="sol.3d" />
+            </models>
+        </group>
+        <group>
+            <!--10 + 10*0.0558 + 1*10 + -->
+            <translate X="20.558" Y="0" Z="0" />
+            <!--0.0093*6-->
+            <scale X="0.0558" Y="0.0558" Z="0.0558" />
+            <models>
+                <model file="sol.3d" />
+            </models>
+        </group>
+        <!--Marte-->
+        <group>
+            <!--10 + 10*0.0288 + 1.5*10 + -->            
+            <translate X="25.288" Y="0" Z="0" />
+            <!--0.0048*6-->
+            <scale X="0.0288" Y="0.0288" Z="0.0288" />
+            <models>
+                <model file="sol.3d" />
+            </models>
+        </group>
+        <!--Jupiter-->
+        <group>
+            <!--10 + 10*0.618 + 5.2*10 + --> 
+            <!--0.103*6-->                       
+            <translate X="68.18" Y="0" Z="0" />
+            <scale X="0.618" Y="0.618" Z="0.618" />
+            <models>
+                <model file="sol.3d" />
+            </models>
+        </group>
+</group>
+</scene>
