@@ -449,6 +449,13 @@ void renderScene(void) {
 	
 	//glBegin(GL_TRIANGLES);
 	models->stepDrawGL(models->files[models->pos], steps ,color, false);
+	glPushMatrix();
+	glTranslatef(75,0,0);
+	glRotatef(-26.73, 0, 0, 1);
+	glRotatef(90,1,0,0);
+	glutSolidTorus(1, 3.8, 2, 40);
+	glPopMatrix();
+
 	//glEnd();
 
 	// End of frame
