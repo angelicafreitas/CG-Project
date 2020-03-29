@@ -16,8 +16,8 @@
 using namespace tinyxml2;
 
 
-std::string pathGen = "../../Generator/Debug/";
-char *pathXML = "../../Generator/Debug/Files.xml";
+std::string pathGen = "../../../Generator/Debug/";
+char *pathXML = "../../../Generator/Debug/Files.xml";
 bool color = false;
 unsigned int steps = -1;
 unsigned int stepRange = 1;
@@ -419,16 +419,16 @@ void renderScene(void) {
 	glBegin(GL_LINES);
 	// X axis in red
 	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(-100.0f, 0.0f, 0.0f);
-	glVertex3f(100.0f, 0.0f, 0.0f);
+	glVertex3f(-200.0f, 0.0f, 0.0f);
+	glVertex3f(200.0f, 0.0f, 0.0f);
 	// Y Axis in Green
 	glColor3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, -100.0f, 0.0f);
-	glVertex3f(0.0f, 100.0f, 0.0f);
+	glVertex3f(0.0f, -200.0f, 0.0f);
+	glVertex3f(0.0f, 200.0f, 0.0f);
 	// Z Axis in Blue
 	glColor3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, -100.0f);
-	glVertex3f(0.0f, 0.0f, 100.0f);
+	glVertex3f(0.0f, 0.0f, -200.0f);
+	glVertex3f(0.0f, 0.0f, 200.0f);
 	glEnd();
 
 
@@ -450,7 +450,7 @@ void renderScene(void) {
 	//glBegin(GL_TRIANGLES);
 	models->stepDrawGL(models->files[models->pos], steps ,color, false);
 	glPushMatrix();
-	glTranslatef(75,0,0);
+	glTranslatef(90,0,0);
 	glRotatef(-26.73, 0, 0, 1);
 	glRotatef(90,1,0,0);
 	glutSolidTorus(1, 3.8, 2, 40);
