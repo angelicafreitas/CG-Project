@@ -17,7 +17,7 @@ using namespace tinyxml2;
 
 
 std::string pathGen = "../../../Generator/Debug/";
-char *pathXML = "../../../Generator/Debug/Files.xml";
+std::string pathXML = "../../../Generator/Debug/Files.xml";
 bool color = false;
 unsigned int steps = -1;
 unsigned int stepRange = 1;
@@ -271,14 +271,17 @@ void fileToGL(std::string file, bool oneColor = true) {
 }
 
 
-/* without hierarchical scenes
-void readXMLFile() {
+// without hierarchical scenes
+void readFileSM() {
 	XMLDocument doc;
-	if (doc.LoadFile(pathXML) == XML_SUCCESS) {
+	if (doc.LoadFile(pathXML.c_str()) == XML_SUCCESS) {
 		XMLElement* root = doc.RootElement();
 		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
 			std::string name = child->Attribute("file");
-			models->addFile(name);
+			std::vector<float> translation = { 0,0,0 };
+			std::vector<float> rotation = { 0,0,0,0 };
+			std::vector<float> scale = { 1,1,1 };
+			models->addFile(name, translation, rotation, scale);
 		}
 	}
 	else {
@@ -287,7 +290,7 @@ void readXMLFile() {
 	}
 
 }
-*/
+
 class TransformationState{
 public:
 	std::vector < float > translation;
@@ -365,7 +368,7 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 
 void readXMLFile() {
 	XMLDocument doc;
-	if (doc.LoadFile(pathXML) == XML_SUCCESS) {
+	if (doc.LoadFile(pathXML.c_str()) == XML_SUCCESS) {
 		XMLElement* root = doc.RootElement();
 		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
 			auxReadFile(child, TransformationState());
@@ -562,8 +565,36 @@ void function(unsigned char key, int x, int y) {
 }
 
 int main(int argc, char **argv) {
+
+	if (argc < 4) {
+		std::cout << "\nWrong number of arguments provided!\n\n > ./Engine.exe <MODE> <PATH_TO_XML_AND_MODELS_DIR> <XML_FILE_NAME>\n\n Mode: 'x' (XML with Groups) and 's' (Simple Model(s) XML)\n PATH: XML and Model(s) directory path\n\n";
+		exit(1);
+	}
+	else {
+		try {
+
+
+			if (strcmp(argv[1], "x") == 0) {
+				pathGen = argv[2];
+				pathXML = pathGen + argv[3];
+				readXMLFile();
+			} 
+			else if (strcmp(argv[1], "s") == 0) {
+				pathGen = argv[2];
+				pathXML = pathGen + argv[3];
+				readFileSM();
+			}
+			else {
+				std::cout << "Invalid mode provided. MODES: 'x' or 's' not found!\n";
+				exit(1);
+			}
+		}
+		catch (...) {
+			std::cout << "Something went wrong.\n";
+		}
+	}
+
 // Read XML structered models.
-	readXMLFile();
 // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
