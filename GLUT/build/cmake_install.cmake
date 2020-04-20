@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT
+# Install script for directory: C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/class2")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/class6")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

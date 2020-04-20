@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\glut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glut;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glew;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -76,7 +76,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\glut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glut;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glew;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -86,7 +86,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\glut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glut;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glew;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\glut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glut;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\glew;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -105,10 +105,10 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\CMakeLists.txt">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/CMakeLists.txt</Message>
+    <CustomBuild Include="C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
+C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -119,9 +119,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeCCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeCXXCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeRCCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeSystem.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCXXInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeGenericSystem.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeInitializeConfigs.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeLanguageInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeRCInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\MSVC-C.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\MSVC-CXX.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindOpenGL.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindPackageMessage.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
+C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -132,9 +132,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeCCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeCXXCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeRCCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeSystem.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCXXInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeGenericSystem.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeInitializeConfigs.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeLanguageInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeRCInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\MSVC-C.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\MSVC-CXX.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindOpenGL.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindPackageMessage.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
+C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -145,9 +145,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeCCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeCXXCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeRCCompiler.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\3.17.0-rc1\CMakeSystem.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCXXInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeGenericSystem.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeInitializeConfigs.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeLanguageInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeRCInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\MSVC-C.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Compiler\MSVC-CXX.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindOpenGL.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\FindPackageMessage.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows-MSVC.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\Windows.cmake;C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\share\cmake-3.17\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
+C:\Users\rodip\Desktop\3_Ano\3ano2sem\Cmake\bin\cmake.exe -SC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build -BC:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build --check-stamp-file C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone

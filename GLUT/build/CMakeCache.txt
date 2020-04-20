@@ -71,7 +71,7 @@ CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/class2
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/class6
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x86/link.exe
@@ -179,20 +179,26 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
 
-//Path to GLUT folder
-GLUT_DIR:PATH=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/glut
-
 //OpenGL library for win32
 OPENGL_gl_LIBRARY:STRING=opengl32
 
 //GLU library for win32
 OPENGL_glu_LIBRARY:STRING=glu32
 
+//Path to Toolkits folder
+TOOLKITS_FOLDER:PATH=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/toolkits
+
 //Value Computed by CMake
 class2_BINARY_DIR:STATIC=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build
 
 //Value Computed by CMake
-class2_SOURCE_DIR:STATIC=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT
+class2_SOURCE_DIR:STATIC=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build
+
+//Value Computed by CMake
+class6_BINARY_DIR:STATIC=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build
+
+//Value Computed by CMake
+class6_SOURCE_DIR:STATIC=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build
 
 
 ########################
@@ -225,8 +231,6 @@ CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_STANDARD_LIBRARIES
 CMAKE_CXX_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
-//Result of TRY_COMPILE
-CMAKE_C_COMPILER_WORKS:INTERNAL=TRUE
 //ADVANCED property for variable: CMAKE_C_FLAGS
 CMAKE_C_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_DEBUG
@@ -263,7 +267,7 @@ CMAKE_GENERATOR_PLATFORM:INTERNAL=Win32
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT
+CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/rodip/Desktop/3_Ano/3ano2sem/CG/CG-Project/GLUT/build
 //ADVANCED property for variable: CMAKE_LINKER
 CMAKE_LINKER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS
