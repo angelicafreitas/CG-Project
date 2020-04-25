@@ -2,6 +2,7 @@
 //
 
 #include "Generator.h"
+int nPatches=0;
 
 class Point{       
 public:             
@@ -333,11 +334,153 @@ void updateXML(const char* file){
     }
 }
 
-//plane file.3d
-//box x y z (n) file.3d
-//sphere 1 10 10 sphere.3d
-//cone r h sl st file.3d
+void multVectorMatrix(float** m, float* v, float* res) {
+
+    for (int j = 0; j < 4; ++j) {
+        res[j] = 0;
+        for (int k = 0; k < 4; ++k) {
+            res[j] += v[k] * m[k][j];
+        }
+    }
+}
+
+float* bezier(float t, float* p0, float* p1, float* p2, float* p3) {
+    float* points[4] = { p0,p1,p2,p3 };
+    float vectorT[4] = { pow((1 - t),3), 3 * t * pow((1 - t),2), 3 * (1 - t) * pow(t,2), pow(t,3) };
+
+    float* res = (float*)malloc(sizeof(float*) * 10);
+    multVectorMatrix(points, vectorT, res);
+    return res;
+}
+
+float* bezierPatch(float u, float v, float** allPoints, int* index) {
+    float* controlPoints[4];
+    for(int i=0;i<4;i++){
+        int idd = index[4 * i];
+
+        float* p0 = allPoints[index[4 * i]];
+        float* p1 = allPoints[index[4 * i + 1]];
+        float* p2 = allPoints[index[4 * i + 2]];
+        float* p3 = allPoints[index[4 * i + 3]];
+
+        float* point = bezier(u, p0, p1, p2, p3);
+        
+        controlPoints[i] = point;
+    }
+    return bezier(v, controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3]);
+}
+
+void removeChar(std::string& str, char character)
+{
+    size_t pos;
+    while ((pos = str.find(character)) != std::string::npos)
+        str[pos] = ' ';
+}
+
+void writeResultPoints(int tecellationLevel, float** allPoints, int** index, string f) {
+    vector<Triangle> triangles;
+    float inc = 1.0 / tecellationLevel;
+    float x, x1, y, y1;
+    
+
+    for (int i = 0; i < nPatches; i++) {
+
+        for (int j = 0; j < tecellationLevel; j++) {
+            for (int k = 0; k < tecellationLevel; k++) {
+                x = inc * j;
+                x1 = inc * (j + 1);
+                y = inc * k;
+                y1 = inc * (k + 1);
+
+                float* aux = bezierPatch(x, y, allPoints, index[i]);
+                float* aux1 = bezierPatch(x, y1, allPoints, index[i]);
+                float* aux2 = bezierPatch(x1, y, allPoints, index[i]);
+                float* aux3 = bezierPatch(x1, y1, allPoints, index[i]);
+
+                Point pA(aux[0], aux[1], aux[2]);
+                Point pB(aux1[0], aux1[1], aux1[2]);
+                Point pC(aux2[0], aux2[1], aux2[2]);
+                Point pD(aux3[0], aux3[1], aux3[2]);
+                
+                Triangle t1(pC, pA, pB);
+                Triangle t2(pB, pD, pC);
+                triangles.push_back(t1);
+                triangles.push_back(t2);
+            }
+        }
+    }
+    trianglesToFile(triangles, f);
+
+}
+
+
+int readBezier(ifstream file, char* fDest, int tecellationLevel) {
+    int x = 0;
+    
+    string line;
+    if (file.is_open()) {
+        getline(file, line);
+        nPatches = atoi(line.c_str());
+        int** index = (int** )malloc(sizeof(int*) * nPatches);
+
+        for (int efe = 0; efe < nPatches; efe++) {
+            index[efe] = (int *) malloc(sizeof(int) * 16);
+        }
+
+        for (x = 0; x < nPatches;x++)
+        {
+            getline(file, line);
+            removeChar(line, ',');
+
+            std::istringstream data(line.c_str());
+            int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;
+            data >> a >> b >> c >> d >> e >> f >> g >> h >> i >> j >> k >> l >> m >> n >> o >> p;
+
+            vector<int> *aux = new vector<int>();
+            *aux = { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p };
+
+            index[x] = aux->data();
+
+        }
+        /*        for (int i = 0; i < nPatches; i++) {
+            printf("I: %d -> %f %f %f\n", i, allPoints[i][0], allPoints[i][1], allPoints[i][2]);
+        }*/
+
+
+        getline(file, line);
+        int nPoints = atoi(line.c_str());
+        float** allPoints = (float**)malloc(sizeof(float*) * nPoints);
+
+        for (int efe = 0; efe < nPoints; efe++) {
+            allPoints[efe] = (float*)malloc(sizeof(float) * 3);
+        }
+        
+        
+        for (x = 0; x < nPoints; x++)
+        {
+            getline(file, line);
+            removeChar(line, ',');
+
+            std::istringstream data(line.c_str());
+            float a, b, c;
+            data >> a >> b >> c;
+            vector<float>* aux = new vector<float>();
+            *aux = { a,b,c };
+
+            allPoints[x] = aux->data();
+        }
+
+        writeResultPoints(tecellationLevel, allPoints, index, fDest);
+        return 0;
+    }
+    else {
+        return -1;
+    }
+}
+
+
 int main(int argc, char* argv[]){
+
     if (strcmp(argv[1], "plane") == 0 && argc==5){
         generatePlaneFile(atof(argv[2]),atof(argv[3]),argv[4]);
         updateXML(argv[4]);
@@ -361,9 +504,14 @@ int main(int argc, char* argv[]){
         updateXML(argv[6]);
 
     } 
-    else if (strcmp(argv[1], "bezier") == 0 && argc == 3) {
+    else if (strcmp(argv[1], "bezier") == 0 && argc == 5) {
+        //bezier file tecellation destFile.txt
 
-        exit(1);
+        int res = readBezier(ifstream(argv[2]),argv[4], atoi(argv[3]));
+        if (res == -1) printf("Erro");
+        else {
+            updateXML(argv[4]);
+        }
     }
     else {
         printf("%s\n", "Can't Generate that. Please see the README for more details.");

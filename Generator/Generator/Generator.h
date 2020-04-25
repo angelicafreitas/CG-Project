@@ -3,6 +3,8 @@
 #include<stdio.h>
 #include<vector>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <fstream>
 #include "tinyxml2/tinyxml2.h"
 #include "tinyxml2/tinyxml2.cpp"

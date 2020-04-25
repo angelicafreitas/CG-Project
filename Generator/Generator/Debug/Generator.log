@@ -1,3 +1,4 @@
 ﻿  Generator.cpp
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\Generator\Generator\Generator.cpp(305,17): warning C4101: 'atr': unreferenced local variable
-  Generator.vcxproj -> C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\Generator\Debug\Generator.exe
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(306,17): warning C4101: 'atr': unreferenced local variable
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(382,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generator.vcxproj -> C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Debug\Generator.exe

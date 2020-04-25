@@ -1,7 +1,3 @@
-<Scene>
-    <Model file="sphere.3d"/>
-</Scene>
-class Response<T> {
-	int statusCode;
-	T 	Data;
-}
+<scene>
+    <model file="vamosver.txt"/>
+</scene>
