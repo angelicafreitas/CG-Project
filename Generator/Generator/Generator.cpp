@@ -360,6 +360,10 @@ int main(int argc, char* argv[]){
         generateConeFile(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
         updateXML(argv[6]);
 
+    } 
+    else if (strcmp(argv[1], "bezier") == 0 && argc == 3) {
+
+        exit(1);
     }
     else {
         printf("%s\n", "Can't Generate that. Please see the README for more details.");
