@@ -1,6 +1,0 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (class2.dir\Release\) contains files shared from another project (class2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  main.cpp
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(197,107): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(320,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(410,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-  class2.vcxproj -> C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\Release\Engine.exe

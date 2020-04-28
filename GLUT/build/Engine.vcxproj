@@ -22,31 +22,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{70C2233F-BA91-3B45-96AF-17A2CA2A78DD}</ProjectGuid>
+    <ProjectGuid>{21270B1A-6A37-3066-BFEC-22ED28185D72}</ProjectGuid>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
-    <ProjectName>ALL_BUILD</ProjectName>
+    <ProjectName>Engine</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
-    <ConfigurationType>Utility</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
@@ -59,12 +59,53 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Engine.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Engine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Engine.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Engine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Engine.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Engine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Engine.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Engine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</GenerateManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
@@ -73,8 +114,42 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut\glut32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil\devIL.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew\glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/Debug/Engine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/Debug/Engine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
@@ -83,8 +158,42 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut\glut32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil\devIL.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew\glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/Release/Engine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/Release/Engine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
@@ -93,8 +202,41 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut\glut32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil\devIL.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew\glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/MinSizeRel/Engine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/MinSizeRel/Engine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
@@ -103,6 +245,19 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glut\glut32.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\devil\devIL.lib;C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew\glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/RelWithDebInfo/Engine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/RelWithDebInfo/Engine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\CMakeLists.txt">
@@ -161,6 +316,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\ZERO_CHECK.vcxproj">
@@ -168,10 +324,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\Engine.vcxproj">
-      <Project>{21270B1A-6A37-3066-BFEC-22ED28185D72}</Project>
-      <Name>Engine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
