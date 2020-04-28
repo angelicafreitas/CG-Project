@@ -139,15 +139,7 @@ public:
 		files.push_back(file);
 		len++;
 	}
-	/*
-	void addFile(std::string file) {
-		Model* m = new Model();
-		m->points = fileToVector(pathGen + file);
-		data[file] = m;
-		files.push_back(file);
-		len++;
-	}
-	*/
+
 
 	void drawVBO(std::string key, unsigned int steps, bool oneColor = true, bool debug = false) {
 		if (data.find(key) != data.end()) {
