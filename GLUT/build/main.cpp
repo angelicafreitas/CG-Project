@@ -77,21 +77,16 @@ class Model {
 public:
 	std::vector < std::vector<float>> points;
 	std::vector < float > vbo_ready;
-	std::vector < float > translation;
+	std::vector < std::vector<float>> translation;
 	std::vector < float > rotation;
+	float time = 0;
 	std::vector < float > scale;
 
 	Model() {
-		translation = { 0,0,0 };
 		rotation = { 0,0,0,0 };
 		scale = { 0,0,0 };
 	}
-	void setTranslation(float x, float y, float z) {
-		translation[0] = x;
-		translation[1] = y;
-		translation[2] = z;
 
-	}
 	void setRotation(float angle, float x, float y, float z) {
 		rotation[0] = angle;
 		rotation[1] = x;
@@ -120,9 +115,9 @@ public:
 
 public:
 	//get points from file and add to hashmap
-	void addFile(std::string file, std::vector<float> trans, std::vector<float> rot, std::vector<float> sca) {
+	void addFile(std::string file, std::vector<std::vector<float>> trans, std::vector<float> rot, std::vector<float> sca) {
 		Model* m = new Model();
-		m->setTranslation(trans[0], trans[1], trans[2]);
+		m->translation = trans;
 		m->setRotation(rot[0],rot[1],rot[2],rot[3]);
 		m->setScale(sca[0], sca[1], sca[2]);
 		m->points = std::get<0>(fileToVector(pathGen + file));
@@ -317,26 +312,26 @@ void readFileSM() {
 
 class TransformationState{
 public:
-	std::vector < float > translation;
+	std::vector < std::vector<float> > translation;
 	std::vector < float > rotation;
 	std::vector < float > scale;
+	float time;
 
 	TransformationState() {
-		translation = { 0,0,0 };
 		rotation = { 0,0,0,0 };
 		scale = { 1,1,1 };
 	}
 	
-	TransformationState(std::vector<float> x, std::vector<float> y, std::vector<float> z) {
-		translation = { x[0],x[1],x[2] };
+	TransformationState(std::vector<std::vector<float>> x, std::vector<float> y, std::vector<float> z,float time1) {
+		translation = x;
 		rotation = { y[0],y[1],y[2],y[3]};
 		scale = { z[0], z[1],z[2]};
+		time = time1;
 	}
 
 	void translate(float x, float y, float z) {
-		translation[0] = x;
-		translation[1] = y;
-		translation[2] = z;
+		std::vector<float> aux = { x,y,z };
+		translation.push_back(aux);
 	}
 
 	void rotate(float x, float y, float z, float w) {
@@ -353,17 +348,43 @@ public:
 	}	
 
 	TransformationState clone() {
-		return TransformationState(translation, rotation, scale);
+		return TransformationState(translation, rotation, scale,time);
 	}
-
+	
+	void sum(int index, float x, float y, float z) {
+		translation[index][0] += x;
+		translation[index][1] += y;
+		translation[index][2] += z;
+	}
 };
+
 
 void auxReadFile(XMLElement * elem, TransformationState ts) {
 	for (XMLElement* child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
-		
 		if (strcmp(child->Name(), "translate") == 0) {
-			ts.translate(child->FindAttribute("X") ? atof(child->FindAttribute("X")->Value()) + ts.translation[0] : ts.translation[0], child->FindAttribute("Y") ? atof(child->FindAttribute("Y")->Value()) + ts.translation[1] : ts.translation[1], child->FindAttribute("Z") ? atof(child->FindAttribute("Z")->Value()) + ts.translation[2] : ts.translation[2]);
-			
+			if (child->FindAttribute("time")) {
+				ts.time = atof(child->FindAttribute("time")->Value());
+				if (ts.translation.size() > 0) {
+					int i = 0;
+					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement(),i++) {
+						float x= tag->FindAttribute("X") ? atof(tag->FindAttribute("X")->Value()) : 0;
+						float y= tag->FindAttribute("Y") ? atof(tag->FindAttribute("Y")->Value()) : 0;
+						float z=tag->FindAttribute("Z") ? atof(tag->FindAttribute("Z")->Value()) : 0;
+						ts.sum(i, x, y, z);
+
+					}
+				}
+				else {
+					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement()) {
+						ts.translate(tag->FindAttribute("X") ? atof(tag->FindAttribute("X")->Value()) : 0, tag->FindAttribute("Y") ? atof(tag->FindAttribute("Y")->Value()) : 0, tag->FindAttribute("Z") ? atof(tag->FindAttribute("Z")->Value()) : 0);
+					}
+				}
+				
+			}
+			else {
+				std::cout << "Attribute time missing from translate tag." << std::endl;
+				exit(-1);
+			}
 		}
 		else if (strcmp(child->Name(), "rotate") == 0) {
 			ts.rotate(child->FindAttribute("angle") ? atof(child->FindAttribute("angle")->Value()) + ts.rotation[0] : ts.rotation[0], child->FindAttribute("axisX") ? atof(child->FindAttribute("axisX")->Value()) + ts.rotation[1] : ts.rotation[1], child->FindAttribute("axisY") ? atof(child->FindAttribute("axisY")->Value()) + ts.rotation[2] : ts.rotation[2], child->FindAttribute("axisZ") ? atof(child->FindAttribute("axisZ")->Value()) + ts.rotation[3] : ts.rotation[3]);

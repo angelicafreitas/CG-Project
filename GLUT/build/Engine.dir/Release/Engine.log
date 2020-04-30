@@ -1,6 +1,64 @@
-﻿  Building Custom Rule C:/Users/Angelica/Desktop/universidade/3ano/CG/CG-Project/GLUT/build/CMakeLists.txt
-  main.cpp
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(197,107): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(320,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(410,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-  Engine.vcxproj -> C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\Release\Engine.exe
+﻿  main.cpp
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(144,1): error C2664: 'void glTranslatef(GLfloat,GLfloat,GLfloat)': cannot convert argument 1 from '_Ty' to 'GLfloat'
+          with
+          [
+              _Ty=std::vector<float,std::allocator<float>>
+          ]
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(144,36): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew\GL/glew.h(1149,23): message : see declaration of 'glTranslatef'
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(173,1): error C2679: binary '<<': no operator found which takes a right-hand operand of type '_Ty' (or there is no acceptable conversion)
+          with
+          [
+              _Ty=std::vector<float,std::allocator<float>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(462,39): message : could be 'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_streambuf<char,std::char_traits<char>> *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(437,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(const void *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(419,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(long double)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(401,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(383,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(float)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(365,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned __int64)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(347,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(__int64)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(329,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned long)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(311,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(long)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(292,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned int)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(266,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(int)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(247,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned short)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(213,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(short)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(195,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(bool)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(190,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::ios_base &(__cdecl *)(std::ios_base &))'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(185,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_ios<char,std::char_traits<char>> &(__cdecl *)(std::basic_ios<char,std::char_traits<char>> &))'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(180,39): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_ostream<char,std::char_traits<char>> &(__cdecl *)(std::basic_ostream<char,std::char_traits<char>> &))'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(650,32): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(694,32): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,char)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(730,31): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(775,31): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,char)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(892,31): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const signed char *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(898,31): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,signed char)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(903,31): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const unsigned char *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(909,31): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,unsigned char)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\ostream(963,32): message : or       'std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const std::error_code &)'
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(173,1): message : while trying to match the argument list '(std::basic_ostream<char,std::char_traits<char>>, _Ty)'
+          with
+          [
+              _Ty=std::vector<float,std::allocator<float>>
+          ]
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(180,1): error C2664: 'void glTranslatef(GLfloat,GLfloat,GLfloat)': cannot convert argument 1 from '_Ty' to 'GLfloat'
+          with
+          [
+              _Ty=std::vector<float,std::allocator<float>>
+          ]
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(180,36): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew\GL/glew.h(1149,23): message : see declaration of 'glTranslatef'
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(184,107): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(216,1): error C2664: 'void glTranslatef(GLfloat,GLfloat,GLfloat)': cannot convert argument 1 from '_Ty' to 'GLfloat'
+          with
+          [
+              _Ty=std::vector<float,std::allocator<float>>
+          ]
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(216,36): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\toolkits\glew\GL/glew.h(1149,23): message : see declaration of 'glTranslatef'
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(303,54): error C2664: 'void Models::addFile(std::string,std::vector<std::vector<float,std::allocator<float>>,std::allocator<std::vector<float,std::allocator<float>>>>,std::vector<float,std::allocator<float>>,std::vector<float,std::allocator<float>>)': cannot convert argument 2 from 'std::vector<float,std::allocator<float>>' to 'std::vector<std::vector<float,std::allocator<float>>,std::allocator<std::vector<float,std::allocator<float>>>>'
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(303,26): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(118,7): message : see declaration of 'Models::addFile'
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(307,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\GLUT\build\main.cpp(423,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'

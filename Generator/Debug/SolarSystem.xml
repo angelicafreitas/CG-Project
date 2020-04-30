@@ -2,7 +2,9 @@
     <group>
         <!--Sol-->
         <group>
-            <translate X="0" Y="0" Z="0" />
+            <translate time="0">
+                <point X="0" Y="0" Z="0" />
+            </translate>
             <scale X="10" Y="10" Z="10" />
             <models>            
                 <model file="sol.3d" />
@@ -10,7 +12,9 @@
         </group>
         <!--Mercúrio-->
         <group>
-            <translate X="18" Y="0" Z="0" />
+            <translate time="0">
+                <point X="18" Y="0" Z="0" />
+            </translate>
             <scale X="0.36" Y="0.36" Z="0.36" />
             <models>
                 <model file="sol.3d" />
@@ -18,7 +22,9 @@
         </group>
         <!--Vénus-->
         <group>
-            <translate X="24" Y="0" Z="0" />
+            <translate time="0">
+                <point X="24" Y="0" Z="0" />
+            </translate>
             <rotate angle="-177.3" axisX="0" axisY="0" axisZ="1" />
             <scale X="0.88" Y="0.88" Z="0.88" />
             <models>
@@ -27,7 +33,9 @@
         </group>
         <!--Terra-->
         <group>
-            <translate X="29.4" Y="0" Z="0" />
+            <translate time="0">
+                <point X="29.4" Y="0" Z="0" />
+            </translate>
             <rotate angle="-23.5" axisX="0" axisY="0" axisZ="1" />
             <scale X="0.93" Y="0.93" Z="0.93" />
             <models>
@@ -35,7 +43,9 @@
             </models>
             <!--Lua-->
             <group>
-                <translate X="1.457" Y="0" Z="0" />
+                <translate time="0">
+                    <point X="1.457" Y="0" Z="0" />
+                </translate>
                 <scale X="0.247" Y="0.247" Z="0.247" />
                 <models>
                     <model file="sol.3d" />
@@ -44,7 +54,9 @@
         </group>
         <!--Marte-->
         <group>
-            <translate X="40.2" Y="0" Z="0" />
+            <translate time="0">
+                <point X="40.2" Y="0" Z="0" />
+            </translate>
             <rotate angle="-25.19" axisX="0" axisY="0" axisZ="1" />
             <scale X="0.48" Y="0.48" Z="0.48" />
             <models>
@@ -52,7 +64,9 @@
             </models>
             <!--Phobos-->
             <group>
-                <translate X="0.5" Y="0" Z="0.8" />
+                <translate time="0">
+                    <point X="0.5" Y="0" Z="0.8" />
+                </translate>
                 <scale X="0.090" Y="0.090" Z="0.090" />
                 <models>
                     <model file="sol.3d" />
@@ -60,7 +74,9 @@
             </group>
             <!--Deimos-->
             <group>
-                <translate X="0.6" Y="" Z="1.5" />
+                <translate time="0">
+                    <point X="0.6" Y="" Z="1.5" />
+                </translate>
                 <scale X="0.0507" Y="0.054" Z="0.054" />
                 <models>
                     <model file="sol.3d" />
@@ -69,7 +85,9 @@
         </group>
         <!--Jupiter-->
         <group>
-            <translate X="72" Y="0" Z="0" />
+            <translate time="0">
+                <point X="72" Y="0" Z="0" />
+            </translate>
             <rotate angle="-3.13" axisX="0" axisY="0" axisZ="1" />
             <scale X="2.73" Y="2.73" Z="2.73" />
             <models>
@@ -77,7 +95,9 @@
             </models>
               <!--Io-->
               <group>
-                <translate X="3.7231" Y="0" Z="-0.2" />
+                <translate time="0">
+                    <point X="3.7231" Y="0" Z="-0.2" />
+                </translate>
                 <scale X="0.2505" Y="0.2505" Z="0.2505" />
                 <models>
                     <model file="sol.3d" />
@@ -85,7 +105,9 @@
               </group>
               <!--Europa-->
               <group>
-                <translate X="-3.7531" Y="0" Z="3.4231" />
+                <translate time="0">
+                    <point X="-3.7531" Y="0" Z="3.4231" />
+                </translate>
                 <scale X="0.2133" Y="0.2133" Z="0.2133" />
                 <models>
                     <model file="sol.3d" />
@@ -93,7 +115,9 @@
               </group>
               <!--Ganymede-->
               <group>
-                <translate X="-3.5231" Y="0" Z="5.3067" />
+                <translate time="0">
+                    <point X="-3.5231" Y="0" Z="5.3067" />
+                </translate>
                 <scale X="0.2731" Y="0.2731" Z="0.2731" />
                 <models>
                     <model file="sol.3d" />
@@ -102,7 +126,9 @@
         </group>
         <!--Saturno-->
         <group>
-            <translate X="90" Y="0" Z="0" />
+            <translate time="0">
+                <point X="90" Y="0" Z="0" />
+            </translate>
             <rotate angle="-26.73" axisX="0" axisY="0" axisZ="1" />
             <scale X="2.3" Y="2.3" Z="2.3" />
             <models>
@@ -112,7 +138,9 @@
 
         <!--Urano-->
         <group>
-            <translate X="126" Y="0" Z="0" />
+            <translate time="0">
+                <point X="126" Y="0" Z="0" />
+            </translate>
             <rotate angle="-97.77" axisX="0" axisY="0" axisZ="1" />
             <scale X="1.788" Y="1.788" Z="1.788" />
             <models>
@@ -120,7 +148,9 @@
             </models>
             <!--Titania-->
             <group>
-              <translate X="3.13" Y="0" Z="-0.3" />
+              <translate time="0">
+                <point X="3.13" Y="0" Z="-0.3" />
+              </translate>
               <scale X="0.1134" Y="0.1134" Z="0.1134" />
               <models>
                   <model file="sol.3d" />
@@ -128,7 +158,9 @@
             </group>
             <!--Oberon-->
             <group>
-              <translate X="1.92" Y="0" Z="3.81" />
+              <translate time="0">
+                <point X="1.92" Y="0" Z="3.81" />
+              </translate>
               <scale X="0.101" Y="0.101" Z="0.101" />
               <models>
                   <model file="sol.3d" />
@@ -136,7 +168,9 @@
             </group>
             <!--Umbriel-->
             <group>
-              <translate X="-2.12" Y="0" Z="-1.7" />
+              <translate time="0">
+                <point X="-2.12" Y="0" Z="-1.7" />
+              </translate>
               <scale X="0.084" Y="0.084" Z="0.084" />
               <models>
                   <model file="sol.3d" />
@@ -145,7 +179,9 @@
         </group>
         <!--Neptuno-->
         <group>
-            <translate X="150" Y="0" Z="0" />
+            <translate time="0">
+                <point X="150" Y="0" Z="0" />
+            </translate>
             <rotate angle="-28.32" axisX="0" axisY="0" axisZ="1" />
             <scale X="1.774" Y="1.774" Z="1.774" />
             <models>
@@ -153,7 +189,9 @@
             </models>
             <!--Triton-->
             <group>
-                <translate X="3.4515" Y="0" Z="-4.515" />
+                <translate time="0">
+                    <point X="3.4515" Y="0" Z="-4.515" />
+                </translate>
                 <scale X="0.165" Y="0.165" Z="0.165" />
                 <models>
                     <model file="sol.3d" />
@@ -161,7 +199,9 @@
             </group>
             <!--Proteu-->
             <group>
-                <translate X="2.655" Y="0" Z="-3.473" />
+                <translate time="0">
+                    <point X="2.655" Y="0" Z="-3.473" />
+                </translate>
                 <scale X="0.0891" Y="0.0891" Z="0.0891" />
                 <models>
                     <model file="sol.3d" />
