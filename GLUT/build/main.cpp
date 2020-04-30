@@ -141,7 +141,7 @@ public:
 			for (auto aux : data[key]) {
 
 				glPushMatrix();
-				glTranslatef(aux->translation[0], aux->translation[1], aux->translation[2]);
+				glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
 				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				
@@ -170,14 +170,14 @@ public:
 				if (debug) {
 					std::cout << std::endl << key << std::endl;
 					std::cout << "Numero de pontos: " << aux->points.size() << std::endl;
-					std::cout << "Translation data: (" << aux->translation[0] << ", " << aux->translation[1] << ", " << aux->translation[2] << ")" << std::endl;
+					std::cout << "Translation data: (" << aux->translation[0][0] << ", " << aux->translation[0][1] << ", " << aux->translation[0][2] << ")" << std::endl;
 					std::cout << "Rotation data: (" << aux->rotation[0] << ", " << aux->rotation[1] << ", " << aux->rotation[2] << ", " << aux->rotation[3] << ")" << std::endl;
 					std::cout << "Scale data: (" << aux->scale[0] << ", " << aux->scale[1] << ", " << aux->scale[2] << ")" << std::endl;
 				}
 				
 				glPushMatrix();
 
-				glTranslatef(aux->translation[0], aux->translation[1], aux->translation[2]);
+				glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
 				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				glBegin(GL_TRIANGLES);
@@ -213,7 +213,7 @@ public:
 			for (auto aux : data[key]) {
 
 				glPushMatrix();
-				glTranslatef(aux->translation[0], aux->translation[1], aux->translation[2]);
+				glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
 				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				glBegin(GL_TRIANGLES);
@@ -297,7 +297,7 @@ void readFileSM() {
 		XMLElement* root = doc.RootElement();
 		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
 			std::string name = child->Attribute("file");
-			std::vector<float> translation = { 0,0,0 };
+			std::vector< std::vector< float >> translation;
 			std::vector<float> rotation = { 0,0,0,0 };
 			std::vector<float> scale = { 1,1,1 };
 			models->addFile(name, translation, rotation, scale);
