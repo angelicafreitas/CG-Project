@@ -14,11 +14,14 @@
 #include "GL/glut.h"
 #endif
 
+// XML library. Helps reading XML files.
 using namespace tinyxml2;
 
-
+// Important paths for getting xml or simple models.
 std::string pathGen = "../../../Generator/Debug/";
 std::string pathXML = "../../../Generator/Debug/Files.xml";
+
+// Color changing and step of the drawing variables.
 bool color = false;
 unsigned int steps = -1;
 unsigned int stepRange = 1;
@@ -26,17 +29,22 @@ unsigned int stepRange = 1;
 
 #define XMLDOC "Files.xml"
 
+
 float alfa = 0.0f, beta = 0.5f, radius = 100.0f;
 float camX, camY, camZ;
 
+// Control variables for the movement of the screen with the keyboard keys.
 float translate[3] = { 0,0,0 };
 float rotate[4] = { 0,0,0,0 };
 
+// Catmull variable.
 int tecellation = 500;
 
+// VBO buffer.
 GLuint vertices_gl;
 
 float previousY[3] = { 0,1,0 };
+
 
 void buildRotMatrix(float* x, float* y, float* z, float* m) {
 
@@ -122,7 +130,7 @@ void getGlobalCatmullRomPoint(float gt, float* pos, float* deriv, std::vector<st
 }
 
 
-void renderCatmullRomCurve() {
+void renderCatmullRomCurve(std::vector< std::vector< float >> basePoints) {
 
 	// draw curve using line segments with GL_LINE_LOOP
 	float res[3];
@@ -132,7 +140,7 @@ void renderCatmullRomCurve() {
 	glBegin(GL_LINE_LOOP);
 	
 	for (int i = 0; i < tecellation; i++) {
-		getGlobalCatmullRomPoint(i / float(tecellation), res, deriv);
+		getGlobalCatmullRomPoint(i / float(tecellation), res, deriv,basePoints);
 		glVertex3f(res[0], res[1], res[2]);
 	}
 
@@ -186,6 +194,7 @@ public:
 	std::vector < std::vector<float>> translation;
 	std::vector < float > rotation;
 	float time = 0;
+	float elapsedTime = 0;
 	std::vector < float > scale;
 
 	Model() {
@@ -221,11 +230,12 @@ public:
 
 public:
 	//get points from file and add to hashmap
-	void addFile(std::string file, std::vector<std::vector<float>> trans, std::vector<float> rot, std::vector<float> sca) {
+	void addFile(std::string file, std::vector<std::vector<float>> trans, std::vector<float> rot, std::vector<float> sca, float timeTS) {
 		Model* m = new Model();
 		m->translation = trans;
 		m->setRotation(rot[0],rot[1],rot[2],rot[3]);
 		m->setScale(sca[0], sca[1], sca[2]);
+		m->time = timeTS;
 		m->points = std::get<0>(fileToVector(pathGen + file));
 		m->vbo_ready = std::get<1>(fileToVector(pathGen + file));
 
@@ -244,10 +254,35 @@ public:
 
 	void drawVBO(std::string key, unsigned int steps, bool oneColor = true, bool debug = false) {
 		if (data.find(key) != data.end()) {
+			
 			for (auto aux : data[key]) {
 
 				glPushMatrix();
-				glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
+				
+
+				if (aux->translation.size() > 1) {
+					
+					if (aux->time != 0) {
+						float pos[3]; float deriv[3];
+						
+						renderCatmullRomCurve(aux->translation);
+						getGlobalCatmullRomPoint(aux->elapsedTime + (1.0 / aux->time), pos, deriv, aux->translation);
+						aux->elapsedTime += (1.0 / aux->time);
+
+						glTranslatef(pos[0], pos[1], pos[2]);
+
+						
+					}
+					else {
+						glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
+					}
+						
+				}
+				else {
+					glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
+				}
+
+				
 				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				
@@ -406,7 +441,7 @@ void readFileSM() {
 			std::vector< std::vector< float >> translation;
 			std::vector<float> rotation = { 0,0,0,0 };
 			std::vector<float> scale = { 1,1,1 };
-			models->addFile(name, translation, rotation, scale);
+			models->addFile(name, translation, rotation, scale,0);
 		}
 	}
 	else {
@@ -426,6 +461,7 @@ public:
 	TransformationState() {
 		rotation = { 0,0,0,0 };
 		scale = { 1,1,1 };
+		time = 1;
 	}
 	
 	TransformationState(std::vector<std::vector<float>> x, std::vector<float> y, std::vector<float> z,float time1) {
@@ -454,7 +490,8 @@ public:
 	}	
 
 	TransformationState clone() {
-		return TransformationState(translation, rotation, scale,time);
+		std::vector<std::vector<float>> clone(translation);
+		return TransformationState(clone, rotation, scale,time);
 	}
 	
 	void sum(int index, float x, float y, float z) {
@@ -469,7 +506,8 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 	for (XMLElement* child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
 		if (strcmp(child->Name(), "translate") == 0) {
 			if (child->FindAttribute("time")) {
-				ts.time = atof(child->FindAttribute("time")->Value());
+				ts.time = atof(child->FindAttribute("time")->Value()) > 0 ? atof(child->FindAttribute("time")->Value()) : 1000;
+				printf("Time: %f\n", ts.time);
 				if (ts.translation.size() > 0) {
 					int i = 0;
 					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement(),i++) {
@@ -479,11 +517,15 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 						ts.sum(i, x, y, z);
 
 					}
+					printf("Points Moon: %d\n", i);
+					
 				}
 				else {
-					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement()) {
+					int i = 0;
+					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement(),i++) {
 						ts.translate(tag->FindAttribute("X") ? atof(tag->FindAttribute("X")->Value()) : 0, tag->FindAttribute("Y") ? atof(tag->FindAttribute("Y")->Value()) : 0, tag->FindAttribute("Z") ? atof(tag->FindAttribute("Z")->Value()) : 0);
 					}
+					printf("Points Planet: %d\n", i);
 				}
 				
 			}
@@ -501,7 +543,7 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 		else if (strcmp(child->Name(), "models") == 0) {
 			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
 				std::string filename = childModels->Attribute("file");
-				models->addFile(filename, ts.translation, ts.rotation, ts.scale);
+				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time);
 				
 			}
 		}
@@ -755,6 +797,7 @@ int main(int argc, char **argv) {
 		
 // Required callback registry 
 	glutDisplayFunc(renderScene);
+	glutIdleFunc(renderScene);
 	glutReshapeFunc(changeSize);
 	glutSpecialFunc(processSpecialKeys);
 
