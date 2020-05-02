@@ -1,5 +1,5 @@
 ﻿  main.cpp
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(325,107): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(448,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(571,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(335,107): warning C4018: '<': signed/unsigned mismatch
+C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(458,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(594,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
   Engine.vcxproj -> C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\Release\Engine.exe

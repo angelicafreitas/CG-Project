@@ -193,6 +193,7 @@ public:
 	std::vector < float > vbo_ready;
 	std::vector < std::vector<float>> translation;
 	std::vector < float > rotation;
+	std::vector < int > color;
 	float time = 0;
 	float elapsedTime = 0;
 	std::vector < float > scale;
@@ -200,6 +201,7 @@ public:
 	Model() {
 		rotation = { 0,0,0,0 };
 		scale = { 0,0,0 };
+		color = { 255,255,255 };
 	}
 
 	void setRotation(float angle, float x, float y, float z) {
@@ -213,6 +215,12 @@ public:
 		scale[1] = y;
 		scale[2] = z;
 
+	}
+
+	void setColor(int x, int y, int z) {
+		color[0] = x;
+		color[1] = y;
+		color[2] = z;
 	}
 
 };
@@ -230,7 +238,7 @@ public:
 
 public:
 	//get points from file and add to hashmap
-	void addFile(std::string file, std::vector<std::vector<float>> trans, std::vector<float> rot, std::vector<float> sca, float timeTS) {
+	void addFile(std::string file, std::vector<std::vector<float>> trans, std::vector<float> rot, std::vector<float> sca, float timeTS, std::vector< int > colorTS ) {
 		Model* m = new Model();
 		m->translation = trans;
 		m->setRotation(rot[0],rot[1],rot[2],rot[3]);
@@ -238,6 +246,7 @@ public:
 		m->time = timeTS;
 		m->points = std::get<0>(fileToVector(pathGen + file));
 		m->vbo_ready = std::get<1>(fileToVector(pathGen + file));
+		m->setColor(colorTS[0], colorTS[1], colorTS[2]);
 
 		if (data.find(file) != data.end()) {
 			data[file].push_back(m);
@@ -259,6 +268,8 @@ public:
 
 				glPushMatrix();
 				
+				
+				glColor3f(aux->color[0] / 100.0, aux->color[1] / 100.0, aux->color[2] / 100.0);
 
 				if (aux->translation.size() > 1) {
 					
@@ -270,7 +281,7 @@ public:
 						aux->elapsedTime += (1.0 / aux->time);
 
 						glTranslatef(pos[0], pos[1], pos[2]);
-
+	
 						
 					}
 					else {
@@ -281,7 +292,6 @@ public:
 				else {
 					glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
 				}
-
 				
 				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
@@ -441,7 +451,7 @@ void readFileSM() {
 			std::vector< std::vector< float >> translation;
 			std::vector<float> rotation = { 0,0,0,0 };
 			std::vector<float> scale = { 1,1,1 };
-			models->addFile(name, translation, rotation, scale,0);
+			models->addFile(name, translation, rotation, scale, 0, {255,255,255});
 		}
 	}
 	else {
@@ -454,6 +464,7 @@ void readFileSM() {
 class TransformationState{
 public:
 	std::vector < std::vector<float> > translation;
+	std::vector< int > color;
 	std::vector < float > rotation;
 	std::vector < float > scale;
 	float time;
@@ -462,13 +473,15 @@ public:
 		rotation = { 0,0,0,0 };
 		scale = { 1,1,1 };
 		time = 1;
+		color = { 255, 255, 255 };
 	}
 	
-	TransformationState(std::vector<std::vector<float>> x, std::vector<float> y, std::vector<float> z,float time1) {
+	TransformationState(std::vector<std::vector<float>> x, std::vector<float> y, std::vector<float> z,float time1, std::vector<int> color1) {
 		translation = x;
 		rotation = { y[0],y[1],y[2],y[3]};
 		scale = { z[0], z[1],z[2]};
 		time = time1;
+		color = { color1[0],color1[1],color1[2] };
 	}
 
 	void translate(float x, float y, float z) {
@@ -489,9 +502,11 @@ public:
 		scale[2] = z;
 	}	
 
+
 	TransformationState clone() {
 		std::vector<std::vector<float>> clone(translation);
-		return TransformationState(clone, rotation, scale,time);
+		std::vector<int> clonedColor(color);
+		return TransformationState(clone, rotation, scale,time, clonedColor);
 	}
 	
 	void sum(int index, float x, float y, float z) {
@@ -504,10 +519,17 @@ public:
 
 void auxReadFile(XMLElement * elem, TransformationState ts) {
 	for (XMLElement* child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
-		if (strcmp(child->Name(), "translate") == 0) {
+		if (strcmp(child->Name(), "colour") == 0) {
+			ts.color[0] = child->FindAttribute("R") ? atoi(child->FindAttribute("R")->Value()) : ts.color[0];
+			ts.color[1] = child->FindAttribute("G") ? atoi(child->FindAttribute("G")->Value()) : ts.color[1];
+			ts.color[2] = child->FindAttribute("B") ? atoi(child->FindAttribute("B")->Value()) : ts.color[2];
+			printf("Color\n");
+			printf("%d %d %d \n", ts.color[0], ts.color[1], ts.color[2]);
+		}
+		else if (strcmp(child->Name(), "translate") == 0) {
 			if (child->FindAttribute("time")) {
 				ts.time = atof(child->FindAttribute("time")->Value()) > 0 ? atof(child->FindAttribute("time")->Value()) : 1000;
-				printf("Time: %f\n", ts.time);
+				
 				if (ts.translation.size() > 0) {
 					int i = 0;
 					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement(),i++) {
@@ -517,7 +539,7 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 						ts.sum(i, x, y, z);
 
 					}
-					printf("Points Moon: %d\n", i);
+					
 					
 				}
 				else {
@@ -525,7 +547,7 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement(),i++) {
 						ts.translate(tag->FindAttribute("X") ? atof(tag->FindAttribute("X")->Value()) : 0, tag->FindAttribute("Y") ? atof(tag->FindAttribute("Y")->Value()) : 0, tag->FindAttribute("Z") ? atof(tag->FindAttribute("Z")->Value()) : 0);
 					}
-					printf("Points Planet: %d\n", i);
+					
 				}
 				
 			}
@@ -542,12 +564,13 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 		}
 		else if (strcmp(child->Name(), "models") == 0) {
 			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
-				std::string filename = childModels->Attribute("file");
-				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time);
+				std::string filename = childModels->Attribute("file");				
+				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color);
 				
 			}
 		}
 		else if (strcmp(child->Name(), "group") == 0) {
+			printf("%d %d %d \n", ts.color[0], ts.color[1], ts.color[2]);
 			auxReadFile(child, ts.clone());
 	
 		}
