@@ -191,11 +191,12 @@ class Model {
 public:
 	std::vector < std::vector<float>> points;
 	std::vector < float > vbo_ready;
-	std::vector < std::vector<float>> translation;
+	std::vector< std::vector < std::vector<float>>> translation;
 	std::vector < float > rotation;
 	std::vector < int > color;
-	float time = 0;
-	float elapsedTime = 0;
+	std::vector<float> time = {1,1,1,1,1};
+	std::vector<float> elapsedTime = {0,0,0,0};
+	int deepLevel;
 	std::vector < float > scale;
 
 	Model() {
@@ -238,7 +239,7 @@ public:
 
 public:
 	//get points from file and add to hashmap
-	void addFile(std::string file, std::vector<std::vector<float>> trans, std::vector<float> rot, std::vector<float> sca, float timeTS, std::vector< int > colorTS ) {
+	void addFile(std::string file, std::vector<std::vector<std::vector<float>>> trans, std::vector<float> rot, std::vector<float> sca, std::vector<float> timeTS, std::vector< int > colorTS, int deep ) {
 		Model* m = new Model();
 		m->translation = trans;
 		m->setRotation(rot[0],rot[1],rot[2],rot[3]);
@@ -247,6 +248,7 @@ public:
 		m->points = std::get<0>(fileToVector(pathGen + file));
 		m->vbo_ready = std::get<1>(fileToVector(pathGen + file));
 		m->setColor(colorTS[0], colorTS[1], colorTS[2]);
+		m->deepLevel = deep;
 
 		if (data.find(file) != data.end()) {
 			data[file].push_back(m);
@@ -261,9 +263,10 @@ public:
 	}
 
 
-	void drawVBO(std::string key, unsigned int steps, bool oneColor = true, bool debug = false) {
-		if (data.find(key) != data.end()) {
-			
+	void drawVBO( unsigned int steps, bool oneColor = true, bool debug = false) {
+		int i = 0;
+		for (auto itr = data.begin(); itr != data.end(); itr++, i++) {
+			std::string key = itr->first;
 			for (auto aux : data[key]) {
 
 				glPushMatrix();
@@ -271,27 +274,21 @@ public:
 				
 				glColor3f(aux->color[0] / 100.0, aux->color[1] / 100.0, aux->color[2] / 100.0);
 
-				if (aux->translation.size() > 1) {
-					
-					if (aux->time != 0) {
-						float pos[3]; float deriv[3];
+				float pos[3]; float deriv[3];
+				for (int i = 0; i <= aux->deepLevel; i++) {
+					if (aux->time[i] > 0) {
 						
-						renderCatmullRomCurve(aux->translation);
-						getGlobalCatmullRomPoint(aux->elapsedTime + (1.0 / aux->time), pos, deriv, aux->translation);
-						aux->elapsedTime += (1.0 / aux->time);
-
+						renderCatmullRomCurve(aux->translation[i]);
+						getGlobalCatmullRomPoint(aux->elapsedTime[i] + (1.0 / aux->time[i]), pos, deriv, aux->translation[i]);
 						glTranslatef(pos[0], pos[1], pos[2]);
-	
-						
+						aux->elapsedTime[i] += (1.0 / aux->time[i]);
+
+					}else {
+						glTranslatef(aux->translation[aux->deepLevel][0][0], aux->translation[aux->deepLevel][0][1], aux->translation[aux->deepLevel][0][2]);
 					}
-					else {
-						glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
-					}
-						
+					
 				}
-				else {
-					glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
-				}
+							
 				
 				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
@@ -307,10 +304,12 @@ public:
 
 				
 			}
-		
+			
+			
 		
 		}
 	}
+	/*
 	void stepDrawGL(std::string key, unsigned int steps, bool oneColor = true, bool debug = false) {
 		if (data.find(key) != data.end()) {
 			int i = 0;
@@ -321,14 +320,14 @@ public:
 				if (debug) {
 					std::cout << std::endl << key << std::endl;
 					std::cout << "Numero de pontos: " << aux->points.size() << std::endl;
-					std::cout << "Translation data: (" << aux->translation[0][0] << ", " << aux->translation[0][1] << ", " << aux->translation[0][2] << ")" << std::endl;
+					std::cout << "Translation data: (" << aux->translation[0][0][0] << ", " << aux->translation[0][0][1] << ", " << aux->translation[0][2] << ")" << std::endl;
 					std::cout << "Rotation data: (" << aux->rotation[0] << ", " << aux->rotation[1] << ", " << aux->rotation[2] << ", " << aux->rotation[3] << ")" << std::endl;
 					std::cout << "Scale data: (" << aux->scale[0] << ", " << aux->scale[1] << ", " << aux->scale[2] << ")" << std::endl;
 				}
 				
 				glPushMatrix();
 
-				glTranslatef(aux->translation[0][0], aux->translation[0][1], aux->translation[0][2]);
+				glTranslatef(aux->translation[0][0][0], aux->translation[0][1], aux->translation[0][2]);
 				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				glBegin(GL_TRIANGLES);
@@ -357,7 +356,8 @@ public:
 		}
 		
 	}
-
+	*/
+	/*
 	void drawGL(std::string key, bool oneColor = true) {
 		if (data.find(key) != data.end()) {
 
@@ -391,7 +391,7 @@ public:
 		}
 		
 	}
-
+	*/
 	void printData() {
 
 		std::unordered_map<std::string, std::vector<Model*>>::iterator itr;
@@ -448,10 +448,10 @@ void readFileSM() {
 		XMLElement* root = doc.RootElement();
 		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
 			std::string name = child->Attribute("file");
-			std::vector< std::vector< float >> translation;
+			std::vector<std::vector< std::vector< float >>> translation;
 			std::vector<float> rotation = { 0,0,0,0 };
 			std::vector<float> scale = { 1,1,1 };
-			models->addFile(name, translation, rotation, scale, 0, {255,255,255});
+			models->addFile(name, translation, rotation, scale, {1,1,1,1}, { 255,255,255 }, 0);
 		}
 	}
 	else {
@@ -463,30 +463,34 @@ void readFileSM() {
 
 class TransformationState{
 public:
-	std::vector < std::vector<float> > translation;
+	std::vector<std::vector < std::vector<float> >> translation;
 	std::vector< int > color;
 	std::vector < float > rotation;
 	std::vector < float > scale;
-	float time;
+	int deepLevel = -1;
+	std::vector<float> time;
 
 	TransformationState() {
 		rotation = { 0,0,0,0 };
 		scale = { 1,1,1 };
-		time = 1;
+		time = {1,1,1,1};
 		color = { 255, 255, 255 };
 	}
 	
-	TransformationState(std::vector<std::vector<float>> x, std::vector<float> y, std::vector<float> z,float time1, std::vector<int> color1) {
+	TransformationState(int dl, std::vector<std::vector<std::vector<float>>> x, std::vector<float> y, std::vector<float> z, std::vector<float> time1, std::vector<int> color1) {
 		translation = x;
 		rotation = { y[0],y[1],y[2],y[3]};
 		scale = { z[0], z[1],z[2]};
 		time = time1;
 		color = { color1[0],color1[1],color1[2] };
+		deepLevel = dl;
 	}
 
-	void translate(float x, float y, float z) {
-		std::vector<float> aux = { x,y,z };
-		translation.push_back(aux);
+	void translate(int i, std::vector<std::vector<float>> trans) {
+		auto clone(trans);
+		
+		translation.push_back(clone);
+		
 	}
 
 	void rotate(float x, float y, float z, float w) {
@@ -504,59 +508,49 @@ public:
 
 
 	TransformationState clone() {
-		std::vector<std::vector<float>> clone(translation);
+		auto clone(translation);
 		std::vector<int> clonedColor(color);
-		return TransformationState(clone, rotation, scale,time, clonedColor);
+		
+		return TransformationState(deepLevel,clone, rotation, scale,time, clonedColor);
 	}
 	
-	void sum(int index, float x, float y, float z) {
-		translation[index][0] += x;
-		translation[index][1] += y;
-		translation[index][2] += z;
-	}
 };
 
 
 void auxReadFile(XMLElement * elem, TransformationState ts) {
 	for (XMLElement* child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
+		
 		if (strcmp(child->Name(), "colour") == 0) {
 			ts.color[0] = child->FindAttribute("R") ? atoi(child->FindAttribute("R")->Value()) : ts.color[0];
 			ts.color[1] = child->FindAttribute("G") ? atoi(child->FindAttribute("G")->Value()) : ts.color[1];
 			ts.color[2] = child->FindAttribute("B") ? atoi(child->FindAttribute("B")->Value()) : ts.color[2];
-			printf("Color\n");
-			printf("%d %d %d \n", ts.color[0], ts.color[1], ts.color[2]);
+			
+			
 		}
 		else if (strcmp(child->Name(), "translate") == 0) {
 			if (child->FindAttribute("time")) {
-				ts.time = atof(child->FindAttribute("time")->Value()) > 0 ? atof(child->FindAttribute("time")->Value()) : 1000;
 				
-				if (ts.translation.size() > 0) {
-					int i = 0;
-					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement(),i++) {
-						float x= tag->FindAttribute("X") ? atof(tag->FindAttribute("X")->Value()) : 0;
-						float y= tag->FindAttribute("Y") ? atof(tag->FindAttribute("Y")->Value()) : 0;
-						float z=tag->FindAttribute("Z") ? atof(tag->FindAttribute("Z")->Value()) : 0;
-						ts.sum(i, x, y, z);
+				ts.time[ts.deepLevel + 1] = atof(child->FindAttribute("time")->Value()) > 0 ? atof(child->FindAttribute("time")->Value()) : 1000;
+				std::vector<std::vector<float>> tstate;
+				std::vector<float> points;
+					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement()) {
+						
+						 points = { tag->FindAttribute("X") ? (float)atof(tag->FindAttribute("X")->Value()) : 0, tag->FindAttribute("Y") ? (float)atof(tag->FindAttribute("Y")->Value()) : 0, tag->FindAttribute("Z") ? (float)atof(tag->FindAttribute("Z")->Value()) : 0 };
+						
+						tstate.push_back(std::vector<float>(points));
+						
+					}					
 
-					}
 					
-					
-				}
-				else {
-					int i = 0;
-					for (auto tag = child->FirstChildElement(); tag != NULL; tag = tag->NextSiblingElement(),i++) {
-						ts.translate(tag->FindAttribute("X") ? atof(tag->FindAttribute("X")->Value()) : 0, tag->FindAttribute("Y") ? atof(tag->FindAttribute("Y")->Value()) : 0, tag->FindAttribute("Z") ? atof(tag->FindAttribute("Z")->Value()) : 0);
-					}
-					
-				}
-				
-			}
+					ts.translate(ts.deepLevel, tstate);
+					ts.deepLevel++;
+			}	
 			else {
 				std::cout << "Attribute time missing from translate tag." << std::endl;
 				exit(-1);
 			}
 		}
-		else if (strcmp(child->Name(), "rotate") == 0) {
+		else if (strcmp(child->Name(), "rotate") == 0) {	
 			ts.rotate(child->FindAttribute("angle") ? atof(child->FindAttribute("angle")->Value()) + ts.rotation[0] : ts.rotation[0], child->FindAttribute("axisX") ? atof(child->FindAttribute("axisX")->Value()) + ts.rotation[1] : ts.rotation[1], child->FindAttribute("axisY") ? atof(child->FindAttribute("axisY")->Value()) + ts.rotation[2] : ts.rotation[2], child->FindAttribute("axisZ") ? atof(child->FindAttribute("axisZ")->Value()) + ts.rotation[3] : ts.rotation[3]);
 		}
 		else if (strcmp(child->Name(), "scale") == 0) {
@@ -564,13 +558,13 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 		}
 		else if (strcmp(child->Name(), "models") == 0) {
 			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
-				std::string filename = childModels->Attribute("file");				
-				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color);
+				std::string filename = childModels->Attribute("file");	
+				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color,ts.deepLevel);
 				
 			}
 		}
 		else if (strcmp(child->Name(), "group") == 0) {
-			printf("%d %d %d \n", ts.color[0], ts.color[1], ts.color[2]);
+			
 			auxReadFile(child, ts.clone());
 	
 		}
@@ -667,14 +661,15 @@ void renderScene(void) {
 	
 	
 	//glBegin(GL_TRIANGLES);
-	models->drawVBO(models->files[models->pos], steps ,color, false);
+	models->drawVBO(steps ,color, false);
+	/*
 	glPushMatrix();
 	glTranslatef(90,0,0);
 	glRotatef(-26.73, 0, 0, 1);
 	glRotatef(90,1,0,0);
 	glutSolidTorus(1, 3.8, 2, 40);
 	glPopMatrix();
-
+	*/
 	//glEnd();
 
 	// End of frame
