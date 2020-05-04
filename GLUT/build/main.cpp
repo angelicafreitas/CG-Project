@@ -198,6 +198,8 @@ public:
 	std::vector<float> elapsedTime = {0,0,0,0};
 	int deepLevel;
 	std::vector < float > scale;
+	float rotationTime = 1;
+	float angle = 0;
 
 	Model() {
 		rotation = { 0,0,0,0 };
@@ -205,11 +207,11 @@ public:
 		color = { 255,255,255 };
 	}
 
-	void setRotation(float angle, float x, float y, float z) {
-		rotation[0] = angle;
-		rotation[1] = x;
-		rotation[2] = y;
-		rotation[3] = z;
+	void setRotation( float x, float y, float z) {
+		
+		rotation[0] = x;
+		rotation[1] = y;
+		rotation[2] = z;
 	}
 	void setScale(float x, float y, float z) {
 		scale[0] = x;
@@ -239,17 +241,17 @@ public:
 
 public:
 	//get points from file and add to hashmap
-	void addFile(std::string file, std::vector<std::vector<std::vector<float>>> trans, std::vector<float> rot, std::vector<float> sca, std::vector<float> timeTS, std::vector< int > colorTS, int deep ) {
+	void addFile(std::string file, std::vector<std::vector<std::vector<float>>> trans, std::vector<float> rot, std::vector<float> sca, std::vector<float> timeTS, std::vector< int > colorTS, int deep, float rotTime) {
 		Model* m = new Model();
 		m->translation = trans;
-		m->setRotation(rot[0],rot[1],rot[2],rot[3]);
+		m->setRotation(rot[0],rot[1],rot[2]);
 		m->setScale(sca[0], sca[1], sca[2]);
 		m->time = timeTS;
 		m->points = std::get<0>(fileToVector(pathGen + file));
 		m->vbo_ready = std::get<1>(fileToVector(pathGen + file));
 		m->setColor(colorTS[0], colorTS[1], colorTS[2]);
 		m->deepLevel = deep;
-
+		m->rotationTime = rotTime;
 		if (data.find(file) != data.end()) {
 			data[file].push_back(m);
 		}
@@ -288,9 +290,12 @@ public:
 					}
 					
 				}
-							
 				
-				glRotatef(aux->rotation[0], aux->rotation[1], aux->rotation[2], aux->rotation[3]);
+				if (aux->rotationTime != 0) {
+					glRotatef(aux->angle, aux->rotation[0], aux->rotation[1], aux->rotation[2]);
+					aux->angle += 360 / aux->rotationTime;
+				}
+				
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				
 				
@@ -451,7 +456,7 @@ void readFileSM() {
 			std::vector<std::vector< std::vector< float >>> translation;
 			std::vector<float> rotation = { 0,0,0,0 };
 			std::vector<float> scale = { 1,1,1 };
-			models->addFile(name, translation, rotation, scale, {1,1,1,1}, { 255,255,255 }, 0);
+			models->addFile(name, translation, rotation, scale, {1,1,1,1}, { 255,255,255 }, 0, 1);
 		}
 	}
 	else {
@@ -469,21 +474,24 @@ public:
 	std::vector < float > scale;
 	int deepLevel = -1;
 	std::vector<float> time;
+	float rotationTime = 1;
 
 	TransformationState() {
 		rotation = { 0,0,0,0 };
 		scale = { 1,1,1 };
 		time = {1,1,1,1};
 		color = { 255, 255, 255 };
+		
 	}
 	
-	TransformationState(int dl, std::vector<std::vector<std::vector<float>>> x, std::vector<float> y, std::vector<float> z, std::vector<float> time1, std::vector<int> color1) {
+	TransformationState(int dl, std::vector<std::vector<std::vector<float>>> x, std::vector<float> y, std::vector<float> z, std::vector<float> time1, std::vector<int> color1, float rotationT) {
 		translation = x;
-		rotation = { y[0],y[1],y[2],y[3]};
+		rotation = { y[0],y[1],y[2]};
 		scale = { z[0], z[1],z[2]};
 		time = time1;
 		color = { color1[0],color1[1],color1[2] };
 		deepLevel = dl;
+		rotationTime = rotationT;
 	}
 
 	void translate(int i, std::vector<std::vector<float>> trans) {
@@ -493,11 +501,10 @@ public:
 		
 	}
 
-	void rotate(float x, float y, float z, float w) {
-		rotation[0] = x;
-		rotation[1] = y;
-		rotation[2] = z;
-		rotation[3] = w;
+	void rotate(float y, float z, float w) {
+		rotation[0] = y;
+		rotation[1] = z;
+		rotation[2] = w;
 	}
 
 	void setScale(float x, float y, float z) {
@@ -511,7 +518,7 @@ public:
 		auto clone(translation);
 		std::vector<int> clonedColor(color);
 		
-		return TransformationState(deepLevel,clone, rotation, scale,time, clonedColor);
+		return TransformationState(deepLevel,clone, rotation, scale,time, clonedColor, rotationTime);
 	}
 	
 };
@@ -550,8 +557,17 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 				exit(-1);
 			}
 		}
-		else if (strcmp(child->Name(), "rotate") == 0) {	
-			ts.rotate(child->FindAttribute("angle") ? atof(child->FindAttribute("angle")->Value()) + ts.rotation[0] : ts.rotation[0], child->FindAttribute("axisX") ? atof(child->FindAttribute("axisX")->Value()) + ts.rotation[1] : ts.rotation[1], child->FindAttribute("axisY") ? atof(child->FindAttribute("axisY")->Value()) + ts.rotation[2] : ts.rotation[2], child->FindAttribute("axisZ") ? atof(child->FindAttribute("axisZ")->Value()) + ts.rotation[3] : ts.rotation[3]);
+		else if (strcmp(child->Name(), "rotate") == 0) {
+
+			if (child->FindAttribute("time")) {
+				ts.rotationTime = atof(child->FindAttribute("time")->Value());
+				ts.rotate(child->FindAttribute("axisX") ? atof(child->FindAttribute("axisX")->Value()) : 0, child->FindAttribute("axisY") ? atof(child->FindAttribute("axisY")->Value()) : 0, child->FindAttribute("axisZ") ? atof(child->FindAttribute("axisZ")->Value()) : 0);
+			}
+			else {
+				std::cout << "Attribute time missing from translate tag." << std::endl;
+				exit(-1);
+			}
+			
 		}
 		else if (strcmp(child->Name(), "scale") == 0) {
 			ts.setScale(child->FindAttribute("X") ? atof(child->FindAttribute("X")->Value())  : ts.scale[0], child->FindAttribute("Y") ? atof(child->FindAttribute("Y")->Value()) : ts.scale[1], child->FindAttribute("Z") ? atof(child->FindAttribute("Z")->Value()) : ts.scale[2]);
@@ -559,7 +575,7 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 		else if (strcmp(child->Name(), "models") == 0) {
 			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
 				std::string filename = childModels->Attribute("file");	
-				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color,ts.deepLevel);
+				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color,ts.deepLevel, ts.rotationTime);
 				
 			}
 		}
@@ -771,6 +787,18 @@ void function(unsigned char key, int x, int y) {
 	}
 	else if (key == 'u' || key == 'U') {
 		stepRange = stepRange <= 1 ? 1 : stepRange-1;
+		glutPostRedisplay();
+	}
+	else if (key == 'l' || key == 'L') {
+		glPolygonMode(GL_FRONT, GL_LINE);
+		glutPostRedisplay();
+	}
+	else if (key == 'p' || key == 'P') {
+		glPolygonMode(GL_FRONT, GL_POINT);
+		glutPostRedisplay();
+	}
+	else if (key == 'f' || key == 'F') {
+		glPolygonMode(GL_FRONT, GL_FILL);
 		glutPostRedisplay();
 	}
 }
