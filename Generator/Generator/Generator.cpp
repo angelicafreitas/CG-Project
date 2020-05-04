@@ -238,6 +238,55 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
     trianglesToFile(triangles, f);
 }
 
+void torus(float iRadius, float eRadius, float slices, float stacks,string f) {
+    float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
+    float theta = 0, phi = 0;
+    float sliceSkew = 2 * PI / slices;
+    float stackSkew = 2 * PI / stacks;
+    //Stack-> phi, slice -> teta
+    vector<Triangle> triangles;
+
+    for (int i = 0; i < slices; i++) {
+        for (int j = 0; j < stacks; j++) {
+
+            x1 = (iRadius + eRadius * cos(phi)) * cos(theta);
+            z1 = (iRadius + eRadius * cos(phi)) * sin(theta);
+            y1 = eRadius * sin(phi);
+
+
+            x2 = (iRadius + eRadius * cos(phi)) * cos(theta + sliceSkew);
+            z2 = (iRadius + eRadius * cos(phi)) * sin(theta + sliceSkew);
+            y2 = eRadius * sin(phi);
+
+
+            x3 = (iRadius + eRadius * cos(phi + stackSkew)) * cos(theta + sliceSkew);
+            z3 = (iRadius + eRadius * cos(phi + stackSkew)) * sin(theta + sliceSkew);
+            y3 = eRadius * sin(phi + stackSkew);
+
+            x4 = (iRadius + eRadius * cos(phi + stackSkew)) * cos(theta);
+            z4 = (iRadius + eRadius * cos(phi + stackSkew)) * sin(theta);
+            y4 = eRadius * sin(phi + stackSkew);
+
+            
+            Point p1(x1, y1, z1);
+            Point p2(x2, y2, z2);
+            Point p3(x3, y3, z3);
+            Point p4(x4, y4, z4);
+
+
+            Triangle t1(p1, p2, p3);
+            Triangle t2(p3, p4, p1);
+
+            triangles.push_back(t1);
+            triangles.push_back(t2);
+            phi = stackSkew * (j + 1);
+        }
+        theta = sliceSkew * (i + 1);
+    }
+    trianglesToFile(triangles, f);
+
+}
+
 void generateConeFile(double radius, double height, double slices, double stacks, string f) {
 
     vector<Triangle> triangles;
@@ -512,6 +561,9 @@ int main(int argc, char* argv[]){
         else {
             updateXML(argv[4]);
         }
+    }
+    else if (strcmp(argv[1], "torus") == 0 && argc == 7) {
+        torus(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
     }
     else {
         printf("%s\n", "Can't Generate that. Please see the README for more details.");
