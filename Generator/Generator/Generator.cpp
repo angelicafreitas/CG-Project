@@ -4,6 +4,15 @@
 #include "Generator.h"
 int nPatches = 0;
 
+void normalize(float* a) {
+
+    float l = sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+    a[0] = a[0] / l;
+    a[1] = a[1] / l;
+    a[2] = a[2] / l;
+}
+
+
 class Point {
 public:
     double x = 0;
@@ -285,6 +294,7 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
 
     double i, j;
     vector<Triangle> triangles;
+    vector<Triangle> normals;
 
     double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
     for (i = 1; i <= stacks;i++) {
@@ -302,6 +312,21 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
 
             Triangle t(p1, p2, p3);
             triangles.push_back(t);
+            
+            //normals
+            float point1[3] = { p1.x,p1.y,p1.z };
+            float point2[3] = { p2.x,p2.y,p2.z };
+            float point3[3] = { p3.x,p3.y,p3.z };
+            normalize(point1);
+            normalize(point2);
+            normalize(point3);
+            
+            Point normalP1(point1[0], point1[1], point1[2]);
+            Point normalP2(point2[0], point2[1], point2[2]);
+            Point normalP3(point3[0], point3[1], point3[2]);
+            Triangle normal1(normalP1, normalP2, normalP3);
+            normals.push_back(normal1);
+
             double auxX = radius * cos(phi + stackSkew) * sin(teta + sliceSkew), auxZ = radius * cos(teta + sliceSkew) * cos(phi + stackSkew);
 
             Point p5(auxX * cos(sliceSkew) + auxZ * sin(sliceSkew), radius * sin(phi + stackSkew), -auxX * sin(sliceSkew) + auxZ * cos(sliceSkew));
@@ -310,9 +335,15 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             Triangle t1(p3, p5, p1);
             triangles.push_back(t1);
 
+            //normals
+            float point5[3] = { p5.x,p5.y,p5.z };
+            normalize(point5);
+            Point normalP5(point5[0], point5[1], point5[2]);
+            Triangle normal2(normalP3, normalP5, normalP1);
+            normals.push_back(normal2);
         }
     }
-    trianglesToFile(triangles, f);
+    trianglesNormalsToFile(triangles,normals, f);
 }
 
 void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
@@ -367,6 +398,7 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
 void generateConeFile(double radius, double height, double slices, double stacks, string f) {
 
     vector<Triangle> triangles;
+    vector<Triangle> normals;
 
     double alpha = (2 * PI) / slices;
     double beta = height / stacks;
@@ -385,6 +417,9 @@ void generateConeFile(double radius, double height, double slices, double stacks
 
         Triangle t1(p1, p2, p3);
         triangles.push_back(t1);
+        Point normal(0, -1, 0);
+        Triangle normal1(normal, normal, normal);
+        normals.push_back(normal1);
     }
     //##############################
 
@@ -405,15 +440,45 @@ void generateConeFile(double radius, double height, double slices, double stacks
             Triangle t2(p4, p5, p6);
             triangles.push_back(t2);
 
+            //normals
+            float point4[3] = { p4.x,p4.y,p4.z };
+            float point5[3] = { p5.x,p5.y,p5.z };
+            float point6[3] = { p6.x,p6.y,p6.z };
+            normalize(point4);
+            normalize(point5);
+            normalize(point6);
+
+            Point normalP4(point4[0], point4[1], point4[2]);
+            Point normalP5(point5[0], point5[1], point5[2]);
+            Point normalP6(point6[0], point6[1], point6[2]);
+            Triangle normal1(normalP4, normalP5, normalP6);
+            normals.push_back(normal1);
+
+
             Point p7(raio2 * sin(height), scnd, raio2 * cos(height));
             Point p8(raio2 * sin(height + alpha), scnd, raio2 * cos(height + alpha));
             Point p9(raio1 * sin(height + alpha), frst, raio1 * cos(height + alpha));
 
             Triangle t3(p7, p8, p9);
             triangles.push_back(t3);
+
+            //normals
+            float point7[3] = { p7.x,p7.y,p7.z };
+            float point8[3] = { p8.x,p8.y,p8.z };
+            float point9[3] = { p9.x,p9.y,p9.z };
+            normalize(point7);
+            normalize(point8);
+            normalize(point9);
+
+            Point normalP7(point7[0], point7[1], point7[2]);
+            Point normalP8(point8[0], point8[1], point8[2]);
+            Point normalP9(point9[0], point9[1], point9[2]);
+            Triangle normal2(normalP7, normalP8, normalP9);
+            normals.push_back(normal2);
+
         }
     }
-    trianglesToFile(triangles, f);
+    trianglesNormalsToFile(triangles, normals,f);
 }
 
 void createXML() {
