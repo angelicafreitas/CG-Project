@@ -50,13 +50,34 @@ void trianglesToFile(vector<Triangle> t, string f) {
     }
 }
 
+void trianglesNormalsToFile(vector<Triangle> t, vector<Triangle> n,string f) {
+    ofstream file(f);
+    unsigned int i = 0;
+    while (i < t.size()) {
+        int x = (rand() % 3 + 1), y = (rand() % 3), z = (rand() % 3);
+        file << x << " " << y << " " << z << ",";
+
+        file << get<0>(t[i].coord).pointToString() << "," << get<1>(t[i].coord).pointToString() << "," << get<2>(t[i].coord).pointToString() << " | ";
+        file << get<0>(n[i].coord).pointToString() << "," << get<1>(n[i].coord).pointToString() << "," << get<2>(n[i].coord).pointToString() << endl;
+
+        i++;
+    }
+}
+
 void generatePlaneFile(double x, double z, string f) {
     double auxX = x / 2, auxZ = z / 2;
+    vector<Triangle> normals;
 
     //Pontos para Triangulo 1
     Point p1(-auxX, 0, auxZ);
     Point p2(-auxX, 0, -auxZ);
     Point p3(auxX, 0, -auxZ);
+
+    //normal
+    Point vectorNormalt1t2(0, -1, 0);
+    Triangle normal1(vectorNormalt1t2, vectorNormalt1t2, vectorNormalt1t2);
+    normals.push_back(normal1);
+
 
     //Pontos para Trinagulo 2
     Point p4(-auxX, 0, auxZ);
@@ -64,15 +85,26 @@ void generatePlaneFile(double x, double z, string f) {
     Point p6(auxX, 0, auxZ);
 
     Triangle t1(p1, p2, p3);
+    //normal
+    normals.push_back(normal1);
+
     //ordem original(p4,p5,p6) mas p4 = p1 e p5=p3
     Triangle t2(p1, p3, p6);
+    //normal
+    Point vectorNormalt2t1(0, 1, 0);
+    Triangle normal3(vectorNormalt2t1, vectorNormalt2t1, vectorNormalt2t1);
+    normals.push_back(normal3);
+
     Triangle t3(p3, p2, p1);
+    //normal
+    normals.push_back(normal3);
+
     //ordem original(p6,p5,p4) mas p4 = p1 e p5=p3
     Triangle t4(p6, p3, p1);
 
     vector <Triangle> v = { t1,t2,t3,t4 };
 
-    trianglesToFile(v, f);
+    trianglesNormalsToFile(v,normals, f);
 
 }
 
@@ -80,6 +112,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
     double xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
     double i, j, k;
     vector<Triangle> triangles;
+    vector<Triangle> normals;
 
     //face 1 e 6 (laterais)
     for (j = 0; j < y; j += yn) {
@@ -91,16 +124,25 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
 
             Triangle f1a(p1, p2, p3);
             triangles.push_back(f1a);
-
+            
+            //normal
+            Point vectorNormalf1(-1, 0, 0);
+            Triangle normalF1a(vectorNormalf1, vectorNormalf1, vectorNormalf1);
+            normals.push_back(normalF1a);
+            
             //Face 1 Triangulo B
-//          Point p4(0, j, k);
             Point p5(0, j, k + zn);
-            //          Point p6(0, j+yn, k+zn);
 
-                        //ordem original(p4,p5,p6) mas p6=p1 e p4=p3
+            //ordem original(p4,p5,p6) mas p6=p1 e p4=p3
             Triangle f1b(p3, p5, p1);
             triangles.push_back(f1b);
+            
+            //normal
+            Triangle normalF1b(vectorNormalf1, vectorNormalf1, vectorNormalf1);
+            normals.push_back(normalF1b);
 
+            
+            
             //Face 6 Triangulo A
             Point p7(x, j, k);
             Point p8(x, j + yn, k);
@@ -108,15 +150,22 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
 
             Triangle f6a(p7, p8, p9);
             triangles.push_back(f6a);
+            
+            //normal
+            Point vectorNormalf6(1, 0, 0);
+            Triangle normalF6a(vectorNormalf6, vectorNormalf6, vectorNormalf6);
+            normals.push_back(normalF6a);
 
             //Face 6 Triangulo B
-//            Point p10(x, j + yn, k + zn);
             Point p11(x, j, k + zn);
-            //          Point p12(x, j , k);
 
-                      //ordem original(p10,p11,p12) mas p12=p7 p10=p9
+            //ordem original(p10,p11,p12) mas p12=p7 p10=p9
             Triangle f6b(p9, p11, p7);
             triangles.push_back(f6b);
+
+            //normal
+            Triangle normalF6b(vectorNormalf6, vectorNormalf6, vectorNormalf6);
+            normals.push_back(normalF6b);
 
         }
     }
@@ -132,14 +181,22 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle f2a(p1, p2, p3);
             triangles.push_back(f2a);
 
-            //Face 2 Triangulo B
-//            Point p4(i, y, k);
-            Point p5(i, y, k + zn);
-            //          Point p6(i+xn, y, k+zn);
+            //normal
+            Point vectorNormalf2(0, 1, 0);
+            Triangle normalF2a(vectorNormalf2, vectorNormalf2, vectorNormalf2);
+            normals.push_back(normalF2a);
 
-                      //ordem original(p4,p5,p6) mas p4=p1 e p6=p2
+            
+            //Face 2 Triangulo B
+            Point p5(i, y, k + zn);
+
+            //ordem original(p4,p5,p6) mas p4=p1 e p6=p2
             Triangle f2b(p1, p5, p2);
             triangles.push_back(f2b);
+
+            //normal
+            Triangle normalF2b(vectorNormalf2, vectorNormalf2, vectorNormalf2);
+            normals.push_back(normalF2b);
 
             //Face 4 Triangulo A
             Point p7(i + xn, 0, k + zn);
@@ -148,15 +205,22 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
 
             Triangle f4a(p7, p8, p9);
             triangles.push_back(f4a);
+            
+            //normal
+            Point vectorNormalf4(0, -1, 0);
+            Triangle normalF4a(vectorNormalf4, vectorNormalf4, vectorNormalf4);
+            normals.push_back(normalF4a);
 
             //Face 4 Triangulo B
- //           Point p10(i, 0, k);
             Point p11(i + xn, 0, k);
-            //         Point p12(i+xn, 0, k+zn);
-
-                     //ordem original(p10,p11,p12) mas p10=p9 e p12=p7
+ 
+            //ordem original(p10,p11,p12) mas p10=p9 e p12=p7
             Triangle f4b(p9, p11, p7);
             triangles.push_back(f4b);
+
+            //normal
+            Triangle normalF4b(vectorNormalf4, vectorNormalf4, vectorNormalf4);
+            normals.push_back(normalF4b);
 
         }
     }
@@ -172,14 +236,21 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle f5a(p1, p2, p3);
             triangles.push_back(f5a);
 
+            //normal
+            Point vectorNormalf5(0, 0, 1);
+            Triangle normalF5a(vectorNormalf5, vectorNormalf5, vectorNormalf5);
+            normals.push_back(normalF5a);
+
             //Face 5 Triangulo B
-            //Point p4(i, j+yn, z);
             Point p5(i, j, z);
-            //Point p6(i+xn, j, z);
 
             //ordem original(p4,p5,p6) mas p4=p3 p6=p1
             Triangle f5b(p3, p5, p1);
             triangles.push_back(f5b);
+            
+            //normal
+            Triangle normalF5b(vectorNormalf5, vectorNormalf5, vectorNormalf5);
+            normals.push_back(normalF5b);
 
             //Face 3 Triangulo A
             Point p7(i, j, 0);
@@ -188,18 +259,26 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
 
             Triangle f3a(p7, p8, p9);
             triangles.push_back(f3a);
+            
+            //normal
+            Point vectorNormalf3(0, 0, -1);
+            Triangle normalF3a(vectorNormalf3, vectorNormalf3, vectorNormalf3);
+            normals.push_back(normalF3a);
 
             //Face 3 Triangulo B
-       //     Point p10(i, j+yn, 0);
             Point p11(i + xn, j + yn, 0);
-            //   Point p12(i+xn, j, 0);
 
-               //ordem original(p10,p11,p12) p10=p8 p12=p9
+            //ordem original(p10,p11,p12) p10=p8 p12=p9
             Triangle f3b(p8, p11, p9);
             triangles.push_back(f3b);
+            
+            //normal
+            Triangle normalF3b(vectorNormalf3, vectorNormalf3, vectorNormalf3);
+            normals.push_back(normalF3b);
+
         }
     }
-    trianglesToFile(triangles, f);
+    trianglesNormalsToFile(triangles,normals, f);
 }
 
 void generateSphereFile(double radius, int slices, int stacks, string f) {
@@ -225,9 +304,7 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             triangles.push_back(t);
             double auxX = radius * cos(phi + stackSkew) * sin(teta + sliceSkew), auxZ = radius * cos(teta + sliceSkew) * cos(phi + stackSkew);
 
-            //Point p4(previousX * cos(sliceSkew) + previousZ * sin(sliceSkew), radius * sin(phi), -previousX * sin(sliceSkew) + previousZ * cos(sliceSkew));
             Point p5(auxX * cos(sliceSkew) + auxZ * sin(sliceSkew), radius * sin(phi + stackSkew), -auxX * sin(sliceSkew) + auxZ * cos(sliceSkew));
-            //Point p6(radius * cos(phi + stackSkew) * sin(teta + sliceSkew), radius * sin(phi + stackSkew), radius * cos(teta + sliceSkew) * cos(phi + stackSkew));
 
             //ordem original(p4,p5,p6) mas p4=p3 e p6=p1
             Triangle t1(p3, p5, p1);
