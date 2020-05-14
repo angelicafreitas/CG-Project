@@ -353,6 +353,7 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
     float stackSkew = 2 * PI / stacks;
     //Stack-> phi, slice -> teta
     vector<Triangle> triangles;
+    vector<Triangle> normals;
 
     for (int i = 0; i < slices; i++) {
         for (int j = 0; j < stacks; j++) {
