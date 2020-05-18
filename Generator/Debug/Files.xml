@@ -1,4 +1,5 @@
 <scene>
     <model file="SolarSystem.xml"/>
     <model file="plane.txt"/>
+    <model file="dld.txt"/>
 </scene>

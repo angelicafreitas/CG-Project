@@ -12,6 +12,13 @@ void normalize(float* a) {
     a[2] = a[2] / l;
 }
 
+void cross(float* a, float* b, float* res) {
+
+    res[0] = a[1] * b[2] - a[2] * b[1];
+    res[1] = a[2] * b[0] - a[0] * b[2];
+    res[2] = a[0] * b[1] - a[1] * b[0];
+}
+
 
 class Point {
 public:
@@ -60,6 +67,7 @@ void trianglesToFile(vector<Triangle> t, string f) {
 }
 
 void trianglesNormalsToFile(vector<Triangle> t, vector<Triangle> n,string f) {
+    printf("ola");
     ofstream file(f);
     unsigned int i = 0;
     while (i < t.size()) {
@@ -352,12 +360,13 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
     float sliceSkew = 2 * PI / slices;
     float stackSkew = 2 * PI / stacks;
     //Stack-> phi, slice -> teta
+    
     vector<Triangle> triangles;
     vector<Triangle> normals;
 
     for (int i = 0; i < slices; i++) {
         for (int j = 0; j < stacks; j++) {
-
+            
             x1 = (iRadius + eRadius * cos(phi)) * cos(theta);
             z1 = (iRadius + eRadius * cos(phi)) * sin(theta);
             y1 = eRadius * sin(phi);
@@ -388,11 +397,29 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
 
             triangles.push_back(t1);
             triangles.push_back(t2);
+
+            //normal
+            if (j >= stacks / 2) {
+                Point vectorNormalt1t2(0, -1, 0);
+                Triangle normal1(vectorNormalt1t2, vectorNormalt1t2, vectorNormalt1t2);
+                normals.push_back(normal1);
+                normals.push_back(normal1);
+                normals.push_back(normal1);
+            }
+            else {
+                Point vectorNormalt1t2(0, 1, 0);
+                Triangle normal1(vectorNormalt1t2, vectorNormalt1t2, vectorNormalt1t2);
+                normals.push_back(normal1);
+                normals.push_back(normal1);
+                normals.push_back(normal1);
+            }
+
+
             phi = stackSkew * (j + 1);
         }
         theta = sliceSkew * (i + 1);
     }
-    trianglesToFile(triangles, f);
+    trianglesNormalsToFile(triangles,normals, f);
 
 }
 
@@ -479,6 +506,7 @@ void generateConeFile(double radius, double height, double slices, double stacks
 
         }
     }
+
     trianglesNormalsToFile(triangles, normals,f);
 }
 
@@ -569,14 +597,146 @@ void removeChar(std::string& str, char character)
         str[pos] = ' ';
 }
 
+std::vector<std::vector<float> > transpose(const std::vector<std::vector<float> > data) {
+    std::vector<std::vector<float> > result(data[0].size(),
+        std::vector<float>(data.size()));
+    for (std::vector<float>::size_type i = 0; i < data.size(); i++) {
+        for (std::vector<float>::size_type j = 0; j < data[0].size(); j++) {
+            result[j][i] = data[i][j];
+        }
+    }
+    return result;
+}
+
+float** convertVVtoFloat(std::vector<std::vector<float>> matrix) {
+    float** res = (float**)malloc(sizeof(float*) * 5);
+
+    for (int efe = 0; efe < 5; efe++) {
+        res[efe] = (float*)malloc(sizeof(float) * 5);
+    }
+
+    for (std::vector<float>::size_type i = 0; i < matrix.size(); i++) {
+        for (std::vector<float>::size_type j = 0; j < matrix[0].size(); j++) {
+            res[i][j] = matrix[i][j];
+        }
+    }
+    return res;
+}
+
+float *getdVectorU(float u, float v, float** allPoints, int* index) {
+    float vectorU[3];
+
+    float **matrixP[3];
+
+    for (int k = 0; k < 3; k++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                float* p0 = allPoints[index[j]];
+                matrixP[0][i][j] = p0[0];
+                matrixP[1][i][j] = p0[1];
+                matrixP[2][i][j] = p0[2];
+            }
+        }
+
+    }
+    printf("vector U");
+    float vectordU[4] = { 3* pow(u,2), 2 * u , 1 , 0};
+    std::vector<std::vector<float>> vectorV = { {pow(v,3), pow(v,2),v,1} };
+    
+
+    std::vector<std::vector<float>> matrixM;
+    
+    matrixM = { {-1.0f,  3.0f, -3.0f,  1.0f},
+                          { 3.0f, -6.0f,  3.0f,  0.0f},
+                          {-3.0f,  3.0f,  0.0f,  0.0f},
+                          { 1.0f,  0.0f,  0.0f,  0.0f} };
+
+    
+
+    std::vector<std::vector<float>> vectorVT;
+    vectorVT = transpose(vectorV);
+
+    for (int i = 0; i < 3; i++) {
+        float** mtrixM = convertVVtoFloat(matrixM);
+
+        //vector dU.M
+        float* dxUM = (float*)malloc(sizeof(float*) * 10);
+        multVectorMatrix(mtrixM, vectordU, dxUM);
+
+        //vector (dU.M).P
+        float* dUxMxP = (float*)malloc(sizeof(float*) * 10);
+        multVectorMatrix(matrixP[i], dxUM, dUxMxP);
+
+        //Vector ((dU.M).P) .Mt
+        float* dUxMPxMt = (float*)malloc(sizeof(float*) * 10);
+        multVectorMatrix(mtrixM, dUxMxP, dUxMPxMt);
+
+        vectorU[i] = dUxMPxMt[0] * vectorVT[0][0] + dUxMPxMt[1] * vectorVT[0][1] + dUxMPxMt[2] * vectorVT[0][2] + dUxMPxMt[3] * vectorVT[0][3];
+
+    }
+
+    return vectorU;
+}
+
+float* getdVectorV(float u, float v, float** allPoints, int* index) {
+    float vectorV[3];
+
+    float** matrixP[3];
+
+    for (int k = 0; k < 3; k++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                float* p0 = allPoints[index[j]];
+                matrixP[0][i][j] = p0[0];
+                matrixP[1][i][j] = p0[1];
+                matrixP[2][i][j] = p0[2];
+            }
+        }
+
+    }
+
+    float vectorU[4] = { pow(u,3), pow(u,2) , u , 1 };
+    std::vector<std::vector<float>> vV = { {3 * pow(v,2) }, { 2 * v }, { 1 }, { 0 } };
+
+
+    std::vector<std::vector<float>> matrixM;
+
+    matrixM = { {-1.0f,  3.0f, -3.0f,  1.0f},
+                          { 3.0f, -6.0f,  3.0f,  0.0f},
+                          {-3.0f,  3.0f,  0.0f,  0.0f},
+                          { 1.0f,  0.0f,  0.0f,  0.0f} };
+
+
+    for (int i = 0; i < 3; i++) {
+        float** mtrixM = convertVVtoFloat(matrixM);
+
+        //vector U.M
+        float* UxM = (float*)malloc(sizeof(float*) * 10);
+        multVectorMatrix(mtrixM, vectorU, UxM);
+
+        //vector (U.M).P
+        float* UxMxP = (float*)malloc(sizeof(float*) * 10);
+        multVectorMatrix(matrixP[i], UxM, UxMxP);
+
+        //Vector ((dU.M).P) .Mt
+        float* UxMPxMt = (float*)malloc(sizeof(float*) * 10);
+        multVectorMatrix(mtrixM, UxMxP, UxMPxMt);
+
+        vectorV[i] = UxMPxMt[0] * vV[0][0] + UxMPxMt[1] * vV[0][1] + UxMPxMt[2] * vV[0][2] + UxMPxMt[3] * vV[0][3];
+
+    }
+    printf("\nekj\n");
+    return vectorV;
+}
+
 void writeResultPoints(int tecellationLevel, float** allPoints, int** index, string f) {
     vector<Triangle> triangles;
     float step = 1.0 / tecellationLevel;
     float u, u1, v, v1;
-
-
+    vector<Triangle> normals;
+    
     for (int i = 0; i < nPatches; i++) {
-
+        
         for (int j = 0; j < tecellationLevel; j++) {
             for (int k = 0; k < tecellationLevel; k++) {
                 u = step * j;
@@ -589,26 +749,59 @@ void writeResultPoints(int tecellationLevel, float** allPoints, int** index, str
                 float* aux2 = bezierPatch(u1, v, allPoints, index[i]);
                 float* aux3 = bezierPatch(u1, v1, allPoints, index[i]);
 
+                float* vectorUpA = getdVectorU(u, v, allPoints, index[i]);
+                float* vectorUpB = getdVectorU(u, v1, allPoints, index[i]);
+                float* vectorUpC = getdVectorU(u1, v, allPoints, index[i]);
+                float* vectorUpD = getdVectorU(u1, v1, allPoints, index[i]);
+
+                printf("\nkjrewv\n");
+                float* vectorVpA = getdVectorV(u, v, allPoints, index[i]);
+                float* vectorVpB = getdVectorV(u, v1, allPoints, index[i]);
+                float* vectorVpC = getdVectorV(u1, v, allPoints, index[i]);
+                float* vectorVpD = getdVectorV(u1, v1, allPoints, index[i]);
+
+                float* auxNormalPA = (float*)malloc(sizeof(float*) * 10);
+                float* auxNormalPB = (float*)malloc(sizeof(float*) * 10);
+                float* auxNormalPC = (float*)malloc(sizeof(float*) * 10);
+                float* auxNormalPD = (float*)malloc(sizeof(float*) * 10);
+
+                cross(vectorVpA, vectorUpA, auxNormalPA);
+                cross(vectorVpB, vectorUpB, auxNormalPB);
+                cross(vectorVpC, vectorUpC, auxNormalPC);
+                cross(vectorVpD, vectorUpD, auxNormalPD);
+
                 Point pA(aux[0], aux[1], aux[2]);
                 Point pB(aux1[0], aux1[1], aux1[2]);
                 Point pC(aux2[0], aux2[1], aux2[2]);
                 Point pD(aux3[0], aux3[1], aux3[2]);
 
+                Point normalPA(auxNormalPA[0], auxNormalPA[1], auxNormalPA[2]);
+                Point normalPB(auxNormalPB[0], auxNormalPB[1], auxNormalPB[2]);
+                Point normalPC(auxNormalPC[0], auxNormalPC[1], auxNormalPC[2]);
+                Point normalPD(auxNormalPD[0], auxNormalPD[1], auxNormalPD[2]);
+
                 Triangle t1(pC, pA, pB);
                 Triangle t2(pB, pD, pC);
                 triangles.push_back(t1);
                 triangles.push_back(t2);
+                printf("hi");
+                Triangle normalT1(normalPC, normalPA, normalPB);
+                Triangle normalT2(normalPB, normalPD, normalPC);
+                normals.push_back(normalT1);
+                normals.push_back(normalT2);
+
             }
         }
     }
-    trianglesToFile(triangles, f);
+    printf("hello");
+    trianglesNormalsToFile(triangles,normals, f);
 
 }
 
 
 int readBezier(ifstream file, char* fDest, int tecellationLevel) {
     int x = 0;
-
+    
     string line;
     if (file.is_open()) {
         getline(file, line);
@@ -698,7 +891,7 @@ int main(int argc, char* argv[]) {
     }
     else if (strcmp(argv[1], "bezier") == 0 && argc == 5) {
         //bezier file tecellation destFile.txt
-
+        printf("hi4");
         int res = readBezier(ifstream(argv[2]), argv[4], atoi(argv[3]));
         if (res == -1) printf("Erro");
         else {
