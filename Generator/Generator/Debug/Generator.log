@@ -62,9 +62,9 @@ C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Ge
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(495,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(495,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(525,17): warning C4101: 'atr': unreferenced local variable
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(702,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,64): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(710,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(887,64): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(887,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(887,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(887,19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Generator.vcxproj -> C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Debug\Generator.exe

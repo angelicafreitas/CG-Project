@@ -613,9 +613,14 @@ float** convertVVtoFloat(std::vector<std::vector<float>> matrix) {
     return res;
 }
 
-std::tuple<float*,float*> getdVectorsUandV(float u, float v, float** allPoints, int* index) {
+float** getdVectorsUandV(float u, float v, float** allPoints, int* index) {
     float resU[3];
     float resV[3];
+    float** res = (float**)malloc(sizeof(float*) * 3);
+
+    for (int efe = 0; efe < 3; efe++) {
+        res[efe] = (float*)malloc(sizeof(float) * 16);
+    }
 
     float **matrixP[3];
     
@@ -678,7 +683,6 @@ std::tuple<float*,float*> getdVectorsUandV(float u, float v, float** allPoints, 
         /*                  ------------------                  */
 
 
-
         /*                  CALCULATE VECTOR V                  */
         //vector (U.M).P
         float* UxMxP = (float*)malloc(sizeof(float*) * 10);
@@ -691,8 +695,12 @@ std::tuple<float*,float*> getdVectorsUandV(float u, float v, float** allPoints, 
         resV[i] = UxMPxMt[0] * vectordV[0][0] + UxMPxMt[1] * vectordV[1][0] + UxMPxMt[2] * vectordV[2][0] + UxMPxMt[3] * vectordV[3][0];
 
     }
-
-    return std::tuple<float*,float*>(resU,resV);
+    //printf("U: %f %f %f \n", resU[0],resU[1],resU[2]);
+    //printf("V: %f %f %f \n", resV[0], resV[1], resV[2]);
+    //printf("-------\n");
+    res[0] = resU;
+    res[1] = resV;
+    return res;
 }
 
 
@@ -717,33 +725,36 @@ void writeResultPoints(int tecellationLevel, float** allPoints, int** index, str
                 float* aux2 = bezierPatch(u1, v, allPoints, index[i]);
                 float* aux3 = bezierPatch(u1, v1, allPoints, index[i]);
 
-                std::tuple<float*,float*> vectorsPA = getdVectorsUandV(u, v, allPoints, index[i]);
-                std::tuple<float*, float*> vectorsPB = getdVectorsUandV(u, v1, allPoints, index[i]);
-                std::tuple<float*, float*> vectorsPC = getdVectorsUandV(u1, v, allPoints, index[i]);
-                std::tuple<float*, float*> vectorsPD = getdVectorsUandV(u1, v1, allPoints, index[i]);
+                auto vectorsPA = getdVectorsUandV(u, v, allPoints, index[i]);
+                auto vectorsPB = getdVectorsUandV(u, v1, allPoints, index[i]);
+                auto vectorsPC = getdVectorsUandV(u1, v, allPoints, index[i]);
+                auto vectorsPD = getdVectorsUandV(u1, v1, allPoints, index[i]);
 
-                float* vectorUpA = get<0>(vectorsPA);
-                float* vectorUpB = get<0>(vectorsPB);
-                float* vectorUpC = get<0>(vectorsPC);
-                float* vectorUpD = get<0>(vectorsPD);
+                float vectorUpA[3] = { vectorsPA[0][0], vectorsPA[0][1],vectorsPA[0][2] };
+                float vectorUpB[3] = { vectorsPB[0][0], vectorsPB[0][1],vectorsPB[0][2] };
+                float vectorUpC[3] = { vectorsPC[0][0], vectorsPC[0][1],vectorsPC[0][2] };
+                float vectorUpD[3] = { vectorsPD[0][0], vectorsPD[0][1],vectorsPD[0][2] };
 
-                float* vectorVpA = get<1>(vectorsPA);
-                float* vectorVpB = get<1>(vectorsPB);
-                float* vectorVpC = get<1>(vectorsPC);
-                float* vectorVpD = get<1>(vectorsPD);
-                
-                //printf("u:%f %f %f v:%f %f %f\n", vectorUpA[0], vectorUpA[1], vectorUpA[2], vectorVpA[0], vectorVpA[1], vectorVpA[2]);
-                float* auxNormalPA = (float*)malloc(sizeof(float*) * 10);
-                float* auxNormalPB = (float*)malloc(sizeof(float*) * 10);
-                float* auxNormalPC = (float*)malloc(sizeof(float*) * 10);
-                float* auxNormalPD = (float*)malloc(sizeof(float*) * 10);
+                float vectorVpA[3] = { vectorsPA[1][0], vectorsPA[1][1],vectorsPA[1][2] };
+                float vectorVpB[3] = { vectorsPB[1][0], vectorsPB[1][1],vectorsPB[1][2] };
+                float vectorVpC[3] = { vectorsPC[1][0], vectorsPC[1][1],vectorsPC[1][2] };
+                float vectorVpD[3] = { vectorsPD[1][0], vectorsPD[1][1],vectorsPD[1][2] };
+
+                float* auxNormalPA = (float*)malloc(sizeof(float) * 10);
+                float* auxNormalPB = (float*)malloc(sizeof(float) * 10);
+                float* auxNormalPC = (float*)malloc(sizeof(float) * 10);
+                float* auxNormalPD = (float*)malloc(sizeof(float) * 10);
 
                 cross(vectorVpA, vectorUpA, auxNormalPA);
                 cross(vectorVpB, vectorUpB, auxNormalPB);
                 cross(vectorVpC, vectorUpC, auxNormalPC);
                 cross(vectorVpD, vectorUpD, auxNormalPD);
-                //printf("%f %f %f \n", auxNormalPA[0]);
-                //printf("---------------------------\n");
+
+                normalize(auxNormalPA);
+                normalize(auxNormalPB);
+                normalize(auxNormalPC);
+                normalize(auxNormalPD);
+
                 Point pA(aux[0], aux[1], aux[2]);
                 Point pB(aux1[0], aux1[1], aux1[2]);
                 Point pC(aux2[0], aux2[1], aux2[2]);
