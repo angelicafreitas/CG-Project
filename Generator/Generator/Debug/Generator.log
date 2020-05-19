@@ -1,4 +1,10 @@
 ﻿  Generator.cpp
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(324,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(324,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(324,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(324,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(324,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(324,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(325,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(325,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(325,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
@@ -11,20 +17,20 @@ C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Ge
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(326,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(326,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(326,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(327,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(327,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(327,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(327,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(327,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(327,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(347,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(347,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(347,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(347,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(347,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(347,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(346,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(346,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(346,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(346,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(346,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(346,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(359,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(360,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(361,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(471,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(471,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(471,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(471,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(471,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(471,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(472,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(472,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(472,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
@@ -37,12 +43,12 @@ C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Ge
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(473,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(473,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(473,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(474,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(474,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(474,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(474,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(474,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(474,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(493,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(493,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(493,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(493,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(493,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(493,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(494,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(494,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(494,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
@@ -55,18 +61,10 @@ C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Ge
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(495,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(495,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(495,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(496,35): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(496,35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(496,40): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(496,40): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(496,45): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(496,45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(526,17): warning C4101: 'atr': unreferenced local variable
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(734,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(902,64): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(902,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(902,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(902,19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(678): warning C4172: returning address of local variable or temporary: vectorU
-C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(729): warning C4172: returning address of local variable or temporary: vectorV
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(525,17): warning C4101: 'atr': unreferenced local variable
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(702,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,64): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Generator\Generator.cpp(876,19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Generator.vcxproj -> C:\Users\Angelica\Desktop\universidade\3ano\CG\CG-Project\Generator\Debug\Generator.exe

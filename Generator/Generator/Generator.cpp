@@ -67,7 +67,6 @@ void trianglesToFile(vector<Triangle> t, string f) {
 }
 
 void trianglesNormalsToFile(vector<Triangle> t, vector<Triangle> n,string f) {
-    printf("ola");
     ofstream file(f);
     unsigned int i = 0;
     while (i < t.size()) {
@@ -556,13 +555,14 @@ void updateXML(const char* file) {
 
 void multVectorMatrix(float** m, float* v, float* res) {
 
-    for (int j = 0; j < 4; ++j) {
+    for (int j = 0; j < 4 ; ++j) {
         res[j] = 0;
         for (int k = 0; k < 4; ++k) {
             res[j] += v[k] * m[k][j];
         }
     }
 }
+
 
 float* bezier(float t, float* p0, float* p1, float* p2, float* p3) {
     float* points[4] = { p0,p1,p2,p3 };
@@ -597,16 +597,6 @@ void removeChar(std::string& str, char character)
         str[pos] = ' ';
 }
 
-std::vector<std::vector<float> > transpose(const std::vector<std::vector<float> > data) {
-    std::vector<std::vector<float> > result(data[0].size(),
-        std::vector<float>(data.size()));
-    for (std::vector<float>::size_type i = 0; i < data.size(); i++) {
-        for (std::vector<float>::size_type j = 0; j < data[0].size(); j++) {
-            result[j][i] = data[i][j];
-        }
-    }
-    return result;
-}
 
 float** convertVVtoFloat(std::vector<std::vector<float>> matrix) {
     float** res = (float**)malloc(sizeof(float*) * 5);
@@ -623,111 +613,89 @@ float** convertVVtoFloat(std::vector<std::vector<float>> matrix) {
     return res;
 }
 
-float *getdVectorU(float u, float v, float** allPoints, int* index) {
-    float vectorU[3];
+std::tuple<float*,float*> getdVectorsUandV(float u, float v, float** allPoints, int* index) {
+    float resU[3];
+    float resV[3];
 
     float **matrixP[3];
-
+    
     for (int k = 0; k < 3; k++) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                float* p0 = allPoints[index[j]];
-                matrixP[0][i][j] = p0[0];
-                matrixP[1][i][j] = p0[1];
-                matrixP[2][i][j] = p0[2];
-            }
+        matrixP[k] = (float**)malloc(sizeof(float*) * 5);
+
+        for (int j = 0; j < 4; j++) {
+            matrixP[k][j] = (float*)malloc(sizeof(float) * 5);
+
         }
 
     }
-    printf("vector U");
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            float* p0 = allPoints[index[4*i+j]];
+            matrixP[0][i][j] = p0[0];
+            matrixP[1][i][j] = p0[1];
+            matrixP[2][i][j] = p0[2];
+        }
+    }
+
     float vectordU[4] = { 3* pow(u,2), 2 * u , 1 , 0};
-    std::vector<std::vector<float>> vectorV = { {pow(v,3), pow(v,2),v,1} };
-    
+    std::vector<std::vector<float>> vectorV = { {pow(v,3)}, {pow(v,2)},{v},{1 }};
+    float vectorU[4] = { pow(u,3), pow(u,2) , u , 1 };
+    std::vector<std::vector<float>> vectordV = { {3 * pow(v,2) }, { 2 * v }, { 1 }, { 0 } };
+
 
     std::vector<std::vector<float>> matrixM;
     
     matrixM = { {-1.0f,  3.0f, -3.0f,  1.0f},
-                          { 3.0f, -6.0f,  3.0f,  0.0f},
-                          {-3.0f,  3.0f,  0.0f,  0.0f},
-                          { 1.0f,  0.0f,  0.0f,  0.0f} };
+                { 3.0f, -6.0f,  3.0f,  0.0f},
+                {-3.0f,  3.0f,  0.0f,  0.0f},
+                { 1.0f,  0.0f,  0.0f,  0.0f} };
 
     
 
-    std::vector<std::vector<float>> vectorVT;
-    vectorVT = transpose(vectorV);
+    float** mtrixM = convertVVtoFloat(matrixM);
+
+    //vector dU.M [FOR VECTOR U]
+    float* dxUM = (float*)malloc(sizeof(float*) * 10);
+    multVectorMatrix(mtrixM, vectordU, dxUM);
+
+    //vector U.M  [FOR VECTOR V]
+    float* UxM = (float*)malloc(sizeof(float*) * 10);
+    multVectorMatrix(mtrixM, vectorU, UxM);
 
     for (int i = 0; i < 3; i++) {
-        float** mtrixM = convertVVtoFloat(matrixM);
 
-        //vector dU.M
-        float* dxUM = (float*)malloc(sizeof(float*) * 10);
-        multVectorMatrix(mtrixM, vectordU, dxUM);
-
+        /*                  CALCULATE VECTOR U                  */
         //vector (dU.M).P
         float* dUxMxP = (float*)malloc(sizeof(float*) * 10);
         multVectorMatrix(matrixP[i], dxUM, dUxMxP);
-
+            
         //Vector ((dU.M).P) .Mt
         float* dUxMPxMt = (float*)malloc(sizeof(float*) * 10);
         multVectorMatrix(mtrixM, dUxMxP, dUxMPxMt);
 
-        vectorU[i] = dUxMPxMt[0] * vectorVT[0][0] + dUxMPxMt[1] * vectorVT[0][1] + dUxMPxMt[2] * vectorVT[0][2] + dUxMPxMt[3] * vectorVT[0][3];
-
-    }
-
-    return vectorU;
-}
-
-float* getdVectorV(float u, float v, float** allPoints, int* index) {
-    float vectorV[3];
-
-    float** matrixP[3];
-
-    for (int k = 0; k < 3; k++) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                float* p0 = allPoints[index[j]];
-                matrixP[0][i][j] = p0[0];
-                matrixP[1][i][j] = p0[1];
-                matrixP[2][i][j] = p0[2];
-            }
-        }
-
-    }
-
-    float vectorU[4] = { pow(u,3), pow(u,2) , u , 1 };
-    std::vector<std::vector<float>> vV = { {3 * pow(v,2) }, { 2 * v }, { 1 }, { 0 } };
+        resU[i] = dUxMPxMt[0] * vectorV[0][0] + dUxMPxMt[1] * vectorV[1][0] + dUxMPxMt[2] * vectorV[2][0] + dUxMPxMt[3] * vectorV[3][0];
+        /*                  ------------------                  */
 
 
-    std::vector<std::vector<float>> matrixM;
 
-    matrixM = { {-1.0f,  3.0f, -3.0f,  1.0f},
-                          { 3.0f, -6.0f,  3.0f,  0.0f},
-                          {-3.0f,  3.0f,  0.0f,  0.0f},
-                          { 1.0f,  0.0f,  0.0f,  0.0f} };
-
-
-    for (int i = 0; i < 3; i++) {
-        float** mtrixM = convertVVtoFloat(matrixM);
-
-        //vector U.M
-        float* UxM = (float*)malloc(sizeof(float*) * 10);
-        multVectorMatrix(mtrixM, vectorU, UxM);
-
+        /*                  CALCULATE VECTOR V                  */
         //vector (U.M).P
         float* UxMxP = (float*)malloc(sizeof(float*) * 10);
         multVectorMatrix(matrixP[i], UxM, UxMxP);
 
-        //Vector ((dU.M).P) .Mt
+        //Vector ((U.M).P) .Mt
         float* UxMPxMt = (float*)malloc(sizeof(float*) * 10);
         multVectorMatrix(mtrixM, UxMxP, UxMPxMt);
 
-        vectorV[i] = UxMPxMt[0] * vV[0][0] + UxMPxMt[1] * vV[0][1] + UxMPxMt[2] * vV[0][2] + UxMPxMt[3] * vV[0][3];
+        resV[i] = UxMPxMt[0] * vectordV[0][0] + UxMPxMt[1] * vectordV[1][0] + UxMPxMt[2] * vectordV[2][0] + UxMPxMt[3] * vectordV[3][0];
 
     }
-    printf("\nekj\n");
-    return vectorV;
+
+    return std::tuple<float*,float*>(resU,resV);
 }
+
+
 
 void writeResultPoints(int tecellationLevel, float** allPoints, int** index, string f) {
     vector<Triangle> triangles;
@@ -749,17 +717,22 @@ void writeResultPoints(int tecellationLevel, float** allPoints, int** index, str
                 float* aux2 = bezierPatch(u1, v, allPoints, index[i]);
                 float* aux3 = bezierPatch(u1, v1, allPoints, index[i]);
 
-                float* vectorUpA = getdVectorU(u, v, allPoints, index[i]);
-                float* vectorUpB = getdVectorU(u, v1, allPoints, index[i]);
-                float* vectorUpC = getdVectorU(u1, v, allPoints, index[i]);
-                float* vectorUpD = getdVectorU(u1, v1, allPoints, index[i]);
+                std::tuple<float*,float*> vectorsPA = getdVectorsUandV(u, v, allPoints, index[i]);
+                std::tuple<float*, float*> vectorsPB = getdVectorsUandV(u, v1, allPoints, index[i]);
+                std::tuple<float*, float*> vectorsPC = getdVectorsUandV(u1, v, allPoints, index[i]);
+                std::tuple<float*, float*> vectorsPD = getdVectorsUandV(u1, v1, allPoints, index[i]);
 
-                printf("\nkjrewv\n");
-                float* vectorVpA = getdVectorV(u, v, allPoints, index[i]);
-                float* vectorVpB = getdVectorV(u, v1, allPoints, index[i]);
-                float* vectorVpC = getdVectorV(u1, v, allPoints, index[i]);
-                float* vectorVpD = getdVectorV(u1, v1, allPoints, index[i]);
+                float* vectorUpA = get<0>(vectorsPA);
+                float* vectorUpB = get<0>(vectorsPB);
+                float* vectorUpC = get<0>(vectorsPC);
+                float* vectorUpD = get<0>(vectorsPD);
 
+                float* vectorVpA = get<1>(vectorsPA);
+                float* vectorVpB = get<1>(vectorsPB);
+                float* vectorVpC = get<1>(vectorsPC);
+                float* vectorVpD = get<1>(vectorsPD);
+                
+                //printf("u:%f %f %f v:%f %f %f\n", vectorUpA[0], vectorUpA[1], vectorUpA[2], vectorVpA[0], vectorVpA[1], vectorVpA[2]);
                 float* auxNormalPA = (float*)malloc(sizeof(float*) * 10);
                 float* auxNormalPB = (float*)malloc(sizeof(float*) * 10);
                 float* auxNormalPC = (float*)malloc(sizeof(float*) * 10);
@@ -769,7 +742,8 @@ void writeResultPoints(int tecellationLevel, float** allPoints, int** index, str
                 cross(vectorVpB, vectorUpB, auxNormalPB);
                 cross(vectorVpC, vectorUpC, auxNormalPC);
                 cross(vectorVpD, vectorUpD, auxNormalPD);
-
+                //printf("%f %f %f \n", auxNormalPA[0]);
+                //printf("---------------------------\n");
                 Point pA(aux[0], aux[1], aux[2]);
                 Point pB(aux1[0], aux1[1], aux1[2]);
                 Point pC(aux2[0], aux2[1], aux2[2]);
@@ -784,7 +758,7 @@ void writeResultPoints(int tecellationLevel, float** allPoints, int** index, str
                 Triangle t2(pB, pD, pC);
                 triangles.push_back(t1);
                 triangles.push_back(t2);
-                printf("hi");
+
                 Triangle normalT1(normalPC, normalPA, normalPB);
                 Triangle normalT2(normalPB, normalPD, normalPC);
                 normals.push_back(normalT1);
@@ -793,7 +767,7 @@ void writeResultPoints(int tecellationLevel, float** allPoints, int** index, str
             }
         }
     }
-    printf("hello");
+
     trianglesNormalsToFile(triangles,normals, f);
 
 }
@@ -891,7 +865,7 @@ int main(int argc, char* argv[]) {
     }
     else if (strcmp(argv[1], "bezier") == 0 && argc == 5) {
         //bezier file tecellation destFile.txt
-        printf("hi4");
+
         int res = readBezier(ifstream(argv[2]), argv[4], atoi(argv[3]));
         if (res == -1) printf("Erro");
         else {
