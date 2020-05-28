@@ -1,4 +1,7 @@
 <scene>
+    <lights>
+        <light type="POINT" posX="0.0" posY="0.0" posZ="0.0" /> 
+    </lights>
     <group>
         <!--Sol-->
         <group>

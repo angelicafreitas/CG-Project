@@ -46,6 +46,24 @@ GLuint vertices_gl;
 float previousY[3] = { 0,1,0 };
 
 
+class Light {
+public:
+	std::string type;
+	std::vector<double> coords;
+
+	Light(std::string t, std::vector<double> c) {
+		type = t;
+		coords = c;
+	}
+
+};
+
+
+// Light global variables.
+std::vector<Light> lights;
+
+
+
 void buildRotMatrix(float* x, float* y, float* z, float* m) {
 
 	m[0] = x[0]; m[1] = x[1]; m[2] = x[2]; m[3] = 0;
@@ -187,6 +205,8 @@ std::tuple<std::vector<std::vector<float>>, std::vector<float>> fileToVector(std
 	return std::make_tuple(ret, vbo);
 
 }
+
+
 class Model {
 public:
 	std::vector < std::vector<float>> points;
@@ -302,6 +322,9 @@ public:
 				glBindBuffer(GL_ARRAY_BUFFER, vertices_gl);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * aux->vbo_ready.size(), aux->vbo_ready.data(), GL_STATIC_DRAW);
 				glVertexPointer(3, GL_FLOAT, 0, 0);
+
+				float mat_emi[] = { 0.0, 0.0, 0.0, 1.0 };
+				glMaterialfv(GL_FRONT, GL_EMISSION, mat_emi);
 
 				glDrawArrays(GL_TRIANGLES, 0, ((GLuint) aux->vbo_ready.size() / 3));
 				
@@ -532,7 +555,6 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 			ts.color[1] = child->FindAttribute("G") ? atoi(child->FindAttribute("G")->Value()) : ts.color[1];
 			ts.color[2] = child->FindAttribute("B") ? atoi(child->FindAttribute("B")->Value()) : ts.color[2];
 			
-			
 		}
 		else if (strcmp(child->Name(), "translate") == 0) {
 			if (child->FindAttribute("time")) {
@@ -597,7 +619,37 @@ void readXMLFile() {
 	if (doc.LoadFile(pathXML.c_str()) == XML_SUCCESS) {
 		XMLElement* root = doc.RootElement();
 		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
-			auxReadFile(child, TransformationState());
+
+			if (strcmp(child->Name(), "lights") == 0) {
+
+				for (auto light = child->FirstChildElement(); light != NULL; light = light->NextSiblingElement()) {
+					if (light->FindAttribute("type")) {
+
+						if (light->FindAttribute("posX") && light->FindAttribute("posY") && light->FindAttribute("posZ")) {
+							std::vector<double> cc = { atof(light->FindAttribute("posX")->Value()), atof(light->FindAttribute("posY")->Value()),atof(light->FindAttribute("posZ")->Value()) };
+							auto aux = new Light(light->FindAttribute("type")->Value(), cc);
+
+							lights.push_back(*aux);
+
+						}
+						else {
+							std::cout << "Coordinates on the light tags are not right!\n";
+							exit(-1);
+						}
+						
+					}
+					else {
+						std::cout << "One light source does not have a type!\n";
+						exit(-1);
+					}
+					
+					
+				}
+			}
+			else {
+				auxReadFile(child, TransformationState());
+			}
+			
 		}
 	}
 	else {
@@ -633,6 +685,45 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
+void loadLights() {
+	int i = 0;
+	
+	//glMaterialf(GL_FRONT, GL_SHININESS, 50);
+
+	float quad_att = 0.3f;
+
+	GLfloat amb[3] = { 0.5, 0.5, 0.5 };
+	GLfloat diff[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+
+	for (auto light : lights) {
+
+		if (i == 8) {
+			std::cout << "Reached max number of lights!\n";
+			exit(-1);
+		}
+
+		light.coords.push_back(1);
+
+		GLfloat* data = (GLfloat*)malloc(sizeof(float) * 4);
+
+		data[0] = light.coords[0];
+		data[1] = light.coords[1];
+		data[2] = light.coords[2];
+		data[3] = 1;
+
+
+
+		glLightfv(GL_LIGHT0 + i, GL_POSITION, data); // posição da luz
+		//glLightfv(GL_LIGHT0+ i, GL_AMBIENT, amb); // luz ambiente
+		//glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff); // luz difusa
+		//glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff); // luz difusa
+		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, quad_att);
+
+		i++;
+
+	}
+}
+
 
 void renderScene(void) {
 
@@ -641,6 +732,7 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
+
 	gluLookAt(camX, camY, camZ,
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
@@ -678,6 +770,13 @@ void renderScene(void) {
 	
 	//glBegin(GL_TRIANGLES);
 	models->drawVBO(steps ,color, false);
+
+	glPushMatrix();
+
+	//loadLights();
+
+	glPopMatrix();
+
 	/*
 	glPushMatrix();
 	glTranslatef(90,0,0);
@@ -857,10 +956,16 @@ int main(int argc, char **argv) {
 	
 
 //  OpenGL settings
+	
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	spherical2Cartesian();
+	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
 
 // enter GLUT's main cycle
 	glutMainLoop();

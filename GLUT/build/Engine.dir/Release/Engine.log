@@ -1,4 +1,4 @@
 ﻿  main.cpp
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(463,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\main.cpp(604,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-  Engine.vcxproj -> C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\Release\Engine.exe
+C:\Users\rodip\Workspace\3ano_2sem\CG\CG-Project\GLUT\build\main.cpp(486,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\rodip\Workspace\3ano_2sem\CG\CG-Project\GLUT\build\main.cpp(656,10): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+  Engine.vcxproj -> C:\Users\rodip\Workspace\3ano_2sem\CG\CG-Project\GLUT\build\Release\Engine.exe

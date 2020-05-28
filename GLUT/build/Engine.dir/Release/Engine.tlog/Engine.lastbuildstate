@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v142:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native64Bit:WindowsTargetPlatformVersion=10.0.18362.0
-Release|Win32|C:\Users\rodip\Desktop\3_Ano\3ano2sem\CG\CG-Project\GLUT\build\|
+PlatformToolSet=v142:VCToolArchitecture=Native64Bit:VCToolsVersion=14.26.28801:TargetPlatformVersion=10.0.18362.0:
+Release|Win32|C:\Users\rodip\Workspace\3ano_2sem\CG\CG-Project\GLUT\build\|
