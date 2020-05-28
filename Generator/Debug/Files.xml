@@ -1,4 +1,6 @@
 <scene>
     <model file="SolarSystem.xml"/>
     <model file="teapotNormals.txt"/>
+    <model file="textSphere.txt"/>
+    <model file="plaaaane.txt"/>
 </scene>

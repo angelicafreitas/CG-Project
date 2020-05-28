@@ -80,9 +80,29 @@ void trianglesNormalsToFile(vector<Triangle> t, vector<Triangle> n,string f) {
     }
 }
 
+void trianglesNormalsTexturesToFile(vector<Triangle> triangles, vector<Triangle> normals, vector<tuple<float,float>> textures,string f) {
+    ofstream file(f);
+    unsigned int i = 0;
+    while (i < triangles.size()) {
+        int x = (rand() % 3 + 1), y = (rand() % 3), z = (rand() % 3);
+        file << x << " " << y << " " << z << ",";
+
+        file << get<0>(triangles[i].coord).pointToString() << "," << get<1>(triangles[i].coord).pointToString() << "," << get<2>(triangles[i].coord).pointToString() << " | ";
+        file << get<0>(normals[i].coord).pointToString() << "," << get<1>(normals[i].coord).pointToString() << "," << get<2>(normals[i].coord).pointToString() << " | ";
+
+        char* buff = (char*)malloc(sizeof(char) * 100);
+        snprintf(buff, 100, "%.8f %.8f ", get<0>(textures[i]), get<1>(textures[i]));
+
+        file << buff << endl;
+
+        i++;
+    }
+}
+
 void generatePlaneFile(double x, double z, string f) {
     double auxX = x / 2, auxZ = z / 2;
     vector<Triangle> normals;
+    vector<tuple<float, float>> textures;
 
     //Pontos para Triangulo 1
     Point p1(-auxX, 0, auxZ);
@@ -120,15 +140,23 @@ void generatePlaneFile(double x, double z, string f) {
 
     vector <Triangle> v = { t1,t2,t3,t4 };
 
-    trianglesNormalsToFile(v,normals, f);
+    //textures
+    tuple<float, float> tex(0, 0);
+    textures.push_back(tex);
+    textures.push_back(tex);
+    textures.push_back(tex);
+    textures.push_back(tex);
+
+    trianglesNormalsTexturesToFile(v,normals,textures, f);
 
 }
 
-void generateBoxFile(double x, double y, double z, long int n, string f) {
-    double xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
-    double i, j, k;
+void generateBoxFile(float x, float y, float z, long int n, string f) {
+    float xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
+    float i, j, k;
     vector<Triangle> triangles;
     vector<Triangle> normals;
+    vector<tuple<float, float>> textures;
 
     //face 1 e 6 (laterais)
     for (j = 0; j < y; j += yn) {
@@ -146,6 +174,11 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF1a(vectorNormalf1, vectorNormalf1, vectorNormalf1);
             normals.push_back(normalF1a);
             
+            //textures
+            tuple<float, float> texF1F6(yn * j, zn * k);
+            textures.push_back(texF1F6);
+
+
             //Face 1 Triangulo B
             Point p5(0, j, k + zn);
 
@@ -157,8 +190,9 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF1b(vectorNormalf1, vectorNormalf1, vectorNormalf1);
             normals.push_back(normalF1b);
 
-            
-            
+            textures.push_back(texF1F6);
+
+
             //Face 6 Triangulo A
             Point p7(x, j, k);
             Point p8(x, j + yn, k);
@@ -172,6 +206,9 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF6a(vectorNormalf6, vectorNormalf6, vectorNormalf6);
             normals.push_back(normalF6a);
 
+            textures.push_back(texF1F6);
+
+
             //Face 6 Triangulo B
             Point p11(x, j, k + zn);
 
@@ -183,6 +220,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF6b(vectorNormalf6, vectorNormalf6, vectorNormalf6);
             normals.push_back(normalF6b);
 
+            textures.push_back(texF1F6);
         }
     }
 
@@ -202,7 +240,11 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF2a(vectorNormalf2, vectorNormalf2, vectorNormalf2);
             normals.push_back(normalF2a);
 
-            
+            //textures
+            tuple<float, float> texF2F4(zn * k, xn * i);
+            textures.push_back(texF2F4);
+
+
             //Face 2 Triangulo B
             Point p5(i, y, k + zn);
 
@@ -213,6 +255,8 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             //normal
             Triangle normalF2b(vectorNormalf2, vectorNormalf2, vectorNormalf2);
             normals.push_back(normalF2b);
+
+            textures.push_back(texF2F4);
 
             //Face 4 Triangulo A
             Point p7(i + xn, 0, k + zn);
@@ -227,6 +271,8 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF4a(vectorNormalf4, vectorNormalf4, vectorNormalf4);
             normals.push_back(normalF4a);
 
+            textures.push_back(texF2F4);
+
             //Face 4 Triangulo B
             Point p11(i + xn, 0, k);
  
@@ -238,6 +284,7 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF4b(vectorNormalf4, vectorNormalf4, vectorNormalf4);
             normals.push_back(normalF4b);
 
+            textures.push_back(texF2F4);
         }
     }
 
@@ -257,6 +304,10 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF5a(vectorNormalf5, vectorNormalf5, vectorNormalf5);
             normals.push_back(normalF5a);
 
+            //textures
+            tuple<float, float> texF3F5(yn* j, xn* i);
+            textures.push_back(texF3F5);
+            
             //Face 5 Triangulo B
             Point p5(i, j, z);
 
@@ -268,6 +319,8 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF5b(vectorNormalf5, vectorNormalf5, vectorNormalf5);
             normals.push_back(normalF5b);
 
+            textures.push_back(texF3F5);
+            
             //Face 3 Triangulo A
             Point p7(i, j, 0);
             Point p8(i, j + yn, 0);
@@ -281,6 +334,8 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF3a(vectorNormalf3, vectorNormalf3, vectorNormalf3);
             normals.push_back(normalF3a);
 
+            textures.push_back(texF3F5);
+            
             //Face 3 Triangulo B
             Point p11(i + xn, j + yn, 0);
 
@@ -292,16 +347,18 @@ void generateBoxFile(double x, double y, double z, long int n, string f) {
             Triangle normalF3b(vectorNormalf3, vectorNormalf3, vectorNormalf3);
             normals.push_back(normalF3b);
 
+            textures.push_back(texF3F5);
         }
     }
-    trianglesNormalsToFile(triangles,normals, f);
+    trianglesNormalsTexturesToFile(triangles,normals,textures ,f);
 }
 
 void generateSphereFile(double radius, int slices, int stacks, string f) {
 
-    double i, j;
+    float i, j;
     vector<Triangle> triangles;
     vector<Triangle> normals;
+    vector<tuple<float, float>> textures;
 
     double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
     for (i = 1; i <= stacks;i++) {
@@ -348,9 +405,17 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             Point normalP5(point5[0], point5[1], point5[2]);
             Triangle normal2(normalP3, normalP5, normalP1);
             normals.push_back(normal2);
+
+            //textures
+            float text1 = (float)j / slices;
+            float text2 = (float)i / stacks;
+
+            tuple<float, float> tex(text1, text2);
+            textures.push_back(tex);
+            textures.push_back(tex);
         }
     }
-    trianglesNormalsToFile(triangles,normals, f);
+    trianglesNormalsTexturesToFile(triangles,normals,textures, f);
 }
 
 void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
@@ -426,11 +491,12 @@ void generateConeFile(double radius, double height, double slices, double stacks
 
     vector<Triangle> triangles;
     vector<Triangle> normals;
+    vector<tuple<float, float>> textures;
 
     double alpha = (2 * PI) / slices;
     double beta = height / stacks;
     double altura = -height / 2; //centra o cone no referencial
-    double i, j;
+    float i, j;
     double ang, raio1, raio2, frst, scnd;
 
     //fazer a circunfer�ncia da base
@@ -447,6 +513,15 @@ void generateConeFile(double radius, double height, double slices, double stacks
         Point normal(0, -1, 0);
         Triangle normal1(normal, normal, normal);
         normals.push_back(normal1);
+
+        float tex1 = (float(i)) / slices;
+        float tex2 = 1.0f;
+        tuple<float, float> text(tex1, tex2);
+        textures.push_back(text);
+        float tex3 = (float(i)) / slices;
+        float tex4 = 0.0f;
+        tuple<float, float> text2(tex1, tex2);
+        textures.push_back(text2);
     }
     //##############################
 
@@ -503,10 +578,16 @@ void generateConeFile(double radius, double height, double slices, double stacks
             Triangle normal2(normalP7, normalP8, normalP9);
             normals.push_back(normal2);
 
+            float tex1 = (slices - j) / slices;
+            float tex2 = (stacks - i) / stacks;
+            tuple<float, float> text(tex1, tex2);
+            textures.push_back(text);
+            textures.push_back(text);
+
         }
     }
 
-    trianglesNormalsToFile(triangles, normals,f);
+    trianglesNormalsTexturesToFile(triangles, normals,textures,f);
 }
 
 void createXML() {
