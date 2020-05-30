@@ -399,9 +399,12 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
     float i, j;
     vector<Triangle> triangles;
     vector<Triangle> normals;
-    vector<tuple<float, float>> textures;
+    vector<Triangle> textures;
 
     double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
+
+    float textSli = 1 / (float)slices, textSta = 1 / (float)stacks;
+
     for (i = 1; i <= stacks;i++) {
         double phi = (PI / 2) - (i * stackSkew);
         for (j = 1; j <= slices;j++) {
@@ -448,12 +451,16 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             normals.push_back(normal2);
 
             //textures
-            float text1 = (float)j / slices;
-            float text2 = (float)i / stacks;
+            Point textP1(textSta * i + textSta, j * textSli, 0);
+            Point textP2(textSta * i, j * textSli, 0);
+            Point textP3(textSta * i, j * textSli + textSli, 0);
+            Point textP5(textSta * i + textSta, j * textSli + textSli, 0);
 
-            tuple<float, float> tex(text1, text2);
-            textures.push_back(tex);
-            textures.push_back(tex);
+            Triangle textureT1(textP1, textP2, textP3);
+            Triangle textureT2(textP3, textP5, textP1);
+
+            textures.push_back(textureT1);
+            textures.push_back(textureT2);
         }
     }
     trianglesNormalsTexturesToFile(triangles,normals,textures, f);
@@ -468,7 +475,11 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
     
     vector<Triangle> triangles;
     vector<Triangle> normals;
+    vector<Triangle> textures;
 
+    float textStacks = 1 / stacks;
+    float textSlices = 1 / slices;
+    
     for (int i = 0; i < slices; i++) {
         for (int j = 0; j < stacks; j++) {
             
@@ -515,11 +526,23 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
             normals.push_back(normalT1);
             normals.push_back(normalT2);
 
+            //textures
+            Point textP1(i * textSlices, j * textStacks, 0);
+            Point textP2((i + 1) * textSlices, j * textStacks, 0);
+            Point textP3((i + 1) * textSlices, (j + 1) * textStacks, 0);
+            Point textP4(i * textSlices, (j + 1) * textStacks, 0);
+
+            Triangle textureT1(textP1, textP2, textP3);
+            Triangle textureT2(textP3, textP4, textP1);
+
+            textures.push_back(textureT1);
+            textures.push_back(textureT2);
+
             phi = stackSkew * (j + 1);
         }
         theta = sliceSkew * (i + 1);
     }
-    trianglesNormalsToFile(triangles,normals, f);
+    trianglesNormalsTexturesToFile(triangles,normals,textures, f);
 
 }
 
@@ -527,7 +550,7 @@ void generateConeFile(double radius, double height, double slices, double stacks
 
     vector<Triangle> triangles;
     vector<Triangle> normals;
-    vector<tuple<float, float>> textures;
+    vector<Triangle> textures;
 
     double alpha = (2 * PI) / slices;
     double beta = height / stacks;
@@ -550,14 +573,12 @@ void generateConeFile(double radius, double height, double slices, double stacks
         Triangle normal1(normal, normal, normal);
         normals.push_back(normal1);
 
-        float tex1 = (float(i)) / slices;
-        float tex2 = 1.0f;
-        tuple<float, float> text(tex1, tex2);
-        textures.push_back(text);
-        float tex3 = (float(i)) / slices;
-        float tex4 = 0.0f;
-        tuple<float, float> text2(tex1, tex2);
-        textures.push_back(text2);
+        Point textP1(0,altura,0);
+        Point textP2(sin(ang + alpha), cos(ang + alpha),0);
+        Point textP3(sin(ang), cos(ang),0);
+
+        Triangle textBase(textP1, textP2, textP3);
+        textures.push_back(textBase);
     }
     //##############################
 
@@ -571,6 +592,7 @@ void generateConeFile(double radius, double height, double slices, double stacks
         for (j = 0; j < slices; j++) {
             height = alpha * j;
 
+            //Triangle T2
             Point p4(raio2 * sin(height), scnd, raio2 * cos(height));
             Point p5(raio1 * sin(height + alpha), frst, raio1 * cos(height + alpha));
             Point p6(raio1 * sin(height), frst, raio1 * cos(height));
@@ -592,18 +614,25 @@ void generateConeFile(double radius, double height, double slices, double stacks
             Triangle normal1(normalP4, normalP5, normalP6);
             normals.push_back(normal1);
 
+            //texture
+            Point textP4(sin(height), cos(height), 0);
+            Point textP5(sin(height + alpha), cos(height + alpha), 0);
+            Point textP6(sin(height), cos(height), 0);
+            Triangle textureT2(textP4, textP5, textP6);
+            textures.push_back(textureT2);
 
-            Point p7(raio2 * sin(height), scnd, raio2 * cos(height));
+
+            //Triangle T3
             Point p8(raio2 * sin(height + alpha), scnd, raio2 * cos(height + alpha));
-            Point p9(raio1 * sin(height + alpha), frst, raio1 * cos(height + alpha));
 
-            Triangle t3(p7, p8, p9);
+            //p9=p5 p7=p4, ordem original p7 p8 p9
+            Triangle t3(p4, p8, p5);
             triangles.push_back(t3);
 
             //normals
-            float point7[3] = { p7.x,p7.y,p7.z };
+            float point7[3] = { p4.x,p4.y,p4.z };
             float point8[3] = { p8.x,p8.y,p8.z };
-            float point9[3] = { p9.x,p9.y,p9.z };
+            float point9[3] = { p5.x,p5.y,p5.z };
             normalize(point7);
             normalize(point8);
             normalize(point9);
@@ -614,11 +643,11 @@ void generateConeFile(double radius, double height, double slices, double stacks
             Triangle normal2(normalP7, normalP8, normalP9);
             normals.push_back(normal2);
 
-            float tex1 = (slices - j) / slices;
-            float tex2 = (stacks - i) / stacks;
-            tuple<float, float> text(tex1, tex2);
-            textures.push_back(text);
-            textures.push_back(text);
+            //texture
+            Point textP8(sin(height + alpha), cos(height + alpha), 0);
+            Triangle textureT3(textP4, textP8, textP5);
+            textures.push_back(textureT3);
+
 
         }
     }
