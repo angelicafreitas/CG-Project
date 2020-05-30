@@ -402,10 +402,12 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
     vector<Triangle> textures;
 
     double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
-
+    int aux1, aux2;
     for (i = 1; i <= stacks;i++) {
         double phi = (PI / 2) - (i * stackSkew);
         for (j = 1; j <= slices;j++) {
+            aux1 = i - 1;
+            aux2 = j - 1;
             double teta = j * sliceSkew;
 
             double previousX = radius * cos(phi) * sin(teta);
@@ -449,10 +451,10 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             normals.push_back(normal2);
 
             //textures
-            Point textP1(j / slices, (i +1)/ stacks, 0);
-            Point textP2(j / slices, i / stacks, 0);
-            Point textP3((j+1) / slices, i / stacks, 0);
-            Point textP5((j+1) / slices, (i+1) / stacks, 0);
+            Point textP1(aux2 / slices, (aux1 +1)/ stacks, 0);
+            Point textP2(aux2 / slices, aux1 / stacks, 0);
+            Point textP3((aux2+1) / slices, aux1 / stacks, 0);
+            Point textP5((aux2+1) / slices, (aux1+1) / stacks, 0);
 
             Triangle textureT1(textP1, textP2, textP3);
             Triangle textureT2(textP3, textP5, textP1);
