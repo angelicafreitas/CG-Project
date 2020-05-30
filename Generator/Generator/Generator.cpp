@@ -449,10 +449,10 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             normals.push_back(normal2);
 
             //textures
-            Point textP1(j / slices, (i +1)/ stacks, 0);
-            Point textP2(j / slices, i / stacks, 0);
-            Point textP3((j+1) / slices, i / stacks, 0);
-            Point textP5((j+1) / slices, (i+1) / stacks, 0);
+            Point textP1((j-1) / slices, i/ stacks, 0);
+            Point textP2((j-1) / slices, (i-1) / stacks, 0);
+            Point textP3(j / slices, (i-1) / stacks, 0);
+            Point textP5(j / slices, i / stacks, 0);
 
             Triangle textureT1(textP1, textP2, textP3);
             Triangle textureT2(textP3, textP5, textP1);
