@@ -484,22 +484,22 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
         for (int j = 0; j < stacks; j++) {
             
             x1 = (iRadius + eRadius * cos(phi)) * cos(theta);
-            z1 = (iRadius + eRadius * cos(phi)) * sin(theta);
             y1 = eRadius * sin(phi);
+            z1 = (iRadius + eRadius * cos(phi)) * sin(theta);
 
 
             x2 = (iRadius + eRadius * cos(phi)) * cos(theta + sliceSkew);
-            z2 = (iRadius + eRadius * cos(phi)) * sin(theta + sliceSkew);
             y2 = eRadius * sin(phi);
+            z2 = (iRadius + eRadius * cos(phi)) * sin(theta + sliceSkew);
 
 
             x3 = (iRadius + eRadius * cos(phi + stackSkew)) * cos(theta + sliceSkew);
-            z3 = (iRadius + eRadius * cos(phi + stackSkew)) * sin(theta + sliceSkew);
             y3 = eRadius * sin(phi + stackSkew);
+            z3 = (iRadius + eRadius * cos(phi + stackSkew)) * sin(theta + sliceSkew);
 
             x4 = (iRadius + eRadius * cos(phi + stackSkew)) * cos(theta);
-            z4 = (iRadius + eRadius * cos(phi + stackSkew)) * sin(theta);
             y4 = eRadius * sin(phi + stackSkew);
+            z4 = (iRadius + eRadius * cos(phi + stackSkew)) * sin(theta);
 
 
             Point p1(x1, y1, z1);
@@ -515,10 +515,10 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
             triangles.push_back(t2);
 
             //normals
-            Point nP1(cos(theta) * cos(phi), sin(theta) * cos(phi), sin(phi));
-            Point nP2(cos(theta + sliceSkew) * cos(phi), sin(theta + sliceSkew) * cos(phi), sin(phi));
-            Point nP3(cos(theta + sliceSkew) * cos(phi + stackSkew), sin(theta + stackSkew) * cos(phi + stackSkew), sin(phi + stackSkew));
-            Point nP4(cos(phi + stackSkew)* cos(theta), cos(phi + stackSkew)* sin(theta), sin(phi + stackSkew));
+            Point nP1(cos(theta) * cos(phi), sin(phi), sin(theta) * cos(phi));
+            Point nP2(cos(theta + sliceSkew) * cos(phi), sin(phi), sin(theta + sliceSkew) * cos(phi));
+            Point nP3(cos(theta + sliceSkew) * cos(phi + stackSkew), sin(phi + stackSkew), sin(theta + stackSkew) * cos(phi + stackSkew));
+            Point nP4(cos(phi + stackSkew)* cos(theta), sin(phi + stackSkew), cos(phi + stackSkew)* sin(theta));
 
             Triangle normalT1(nP1, nP2, nP3);
             Triangle normalT2(nP3, nP4, nP1);
