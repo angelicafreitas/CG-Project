@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include <iostream>
+#include <IL/il.h>
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -13,6 +14,8 @@
 #include "GL/glew.h"
 #include "GL/glut.h"
 #endif
+
+
 
 // XML library. Helps reading XML files.
 using namespace tinyxml2;
@@ -41,7 +44,7 @@ float rotate[4] = { 0,0,0,0 };
 int tecellation = 500;
 
 // VBO buffer.
-GLuint vertices_gl;
+GLuint vertices_gl, normals, textures;
 
 float previousY[3] = { 0,1,0 };
 
@@ -62,7 +65,42 @@ public:
 // Light global variables.
 std::vector<Light> lights;
 
+int loadTexture(std::string s) {
 
+	unsigned int t, tw, th;
+	unsigned char* texData;
+	unsigned int texID;
+
+	ilInit();
+	ilEnable(IL_ORIGIN_SET);
+	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+	ilGenImages(1, &t);
+	ilBindImage(t);
+	ilLoadImage((ILstring)s.c_str());
+	
+	tw = ilGetInteger(IL_IMAGE_WIDTH);
+	th = ilGetInteger(IL_IMAGE_HEIGHT);
+	ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+	texData = ilGetData();
+
+	glGenTextures(1, &texID);
+
+	glBindTexture(GL_TEXTURE_2D, texID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+	//glGenerateMipmap(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	
+
+	return texID;
+}
 
 void buildRotMatrix(float* x, float* y, float* z, float* m) {
 
@@ -173,45 +211,73 @@ void removeChar(std::string& str, char character)
 		str[pos] = ' ';
 }
 
-std::tuple<std::vector<std::vector<float>>, std::vector<float>> fileToVector(std::string file) {
+std::tuple< std::vector<std::vector<float>>, std::vector<std::vector<float>>> fileToVector(std::string file) {
 
 	std::vector<std::vector<float>> ret;
 
 	std::ifstream fd(file);
 
 	if (fd.fail()) {
-		printf("Model File does not exist.");
+		printf("Model File does not exist [%s].", file);
 		exit(-1);
 	}
 
 	float x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12;
+	float n1, n2, n3, n4, n5, n6, n7, n8, n9;
+	float t1, t2, t3, t4, t5, t6, t7, t8, t9;
+
 	std::vector< float > vbo;
+	std::vector< float > normals;
+	std::vector< float > texture;
+
 
 	for (std::string line; getline(fd, line);) {
-
+		
 		removeChar(line, ',');
+		removeChar(line, '|');
 
 		std::istringstream data(line);
 		
-		data >> x1 >> x2 >> x3 >> x4 >> x5 >> x6 >> x7 >> x8 >> x9 >> x10 >> x11 >> x12;
+		data >> x1 >> x2 >> x3 >> x4 >> x5 >> x6 >> x7 >> x8 >> x9 >> x10 >> x11 >> x12; // Points.
+		data >> n1 >> n2 >> n3 >> n4 >> n5 >> n6 >> n7 >> n8 >> n9; // Normals.
+		data >> t1 >> t2 >> t3 >> t4 >> t5 >> t6 >> t7 >> t8 >> t9; // Texture coords.
 
 		std::vector<float> t = { x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12 };
+
 		vbo.insert(vbo.end(), { x4,x5,x6,x7,x8,x9,x10,x11,x12 });
+		normals.insert(normals.end(), { n1,n2,n3,n4,n5,n6,n7,n8,n9 });
+
 
 		ret.push_back(t);
+
+
+		if (t1 <= 1) {
+			printf("%f\n", t8);
+			texture.insert(texture.end(), { t1, t2, t4, t5, t7, t8});
+			
+		}
+		
+		
 		
 	}
 
-	return std::make_tuple(ret, vbo);
+	std::vector<std::vector<float>> aux = { vbo, normals, texture };
+
+	
+
+	return std::make_tuple(ret, aux);
 
 }
 
 
 class Model {
 public:
-	std::vector < std::vector<float>> points;
-	std::vector < float > vbo_ready;
-	std::vector< std::vector < std::vector<float>>> translation;
+	std::vector < std::vector<float>> points; // Vertex drawing.
+	std::vector < float > vbo_ready; // VBO's
+	std::vector < float > normals;
+	std::vector < float > texture;
+	GLuint textureID = 0;
+	std::vector< std::vector < std::vector<float>>> translation; // Translations.
 	std::vector < float > rotation;
 	std::vector < int > color;
 	std::vector<float> time = {1,1,1,1,1};
@@ -261,14 +327,27 @@ public:
 
 public:
 	//get points from file and add to hashmap
-	void addFile(std::string file, std::vector<std::vector<std::vector<float>>> trans, std::vector<float> rot, std::vector<float> sca, std::vector<float> timeTS, std::vector< int > colorTS, int deep, float rotTime) {
+	void addFile(std::string file, std::vector<std::vector<std::vector<float>>> trans, std::vector<float> rot, std::vector<float> sca, std::vector<float> timeTS, std::vector< int > colorTS, int deep, float rotTime, std::string tName) {
 		Model* m = new Model();
 		m->translation = trans;
 		m->setRotation(rot[0],rot[1],rot[2]);
 		m->setScale(sca[0], sca[1], sca[2]);
 		m->time = timeTS;
-		m->points = std::get<0>(fileToVector(pathGen + file));
-		m->vbo_ready = std::get<1>(fileToVector(pathGen + file));
+
+		if (tName.size() > 0) {
+			std::string pathTex = "../../textures/";
+			m->textureID = loadTexture(pathTex + tName);
+			
+		}
+		
+
+		auto dataTuple = fileToVector(pathGen + file);
+
+		m->points = std::get<0>(dataTuple);
+		m->vbo_ready = std::get<1>(dataTuple)[0];
+		m->normals = std::get<1>(dataTuple)[1];
+		m->texture = std::get<1>(dataTuple)[2];
+
 		m->setColor(colorTS[0], colorTS[1], colorTS[2]);
 		m->deepLevel = deep;
 		m->rotationTime = rotTime;
@@ -287,6 +366,8 @@ public:
 
 	void drawVBO( unsigned int steps, bool oneColor = true, bool debug = false) {
 		int i = 0;
+		GLuint imgTexture;
+
 		for (auto itr = data.begin(); itr != data.end(); itr++, i++) {
 			std::string key = itr->first;
 			for (auto aux : data[key]) {
@@ -318,15 +399,40 @@ public:
 				
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				
-				
+				int size = aux->vbo_ready.size();
+
 				glBindBuffer(GL_ARRAY_BUFFER, vertices_gl);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * aux->vbo_ready.size(), aux->vbo_ready.data(), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, aux->vbo_ready.data(), GL_STATIC_DRAW);
 				glVertexPointer(3, GL_FLOAT, 0, 0);
 
-				float mat_emi[] = { 0.0, 0.0, 0.0, 1.0 };
-				glMaterialfv(GL_FRONT, GL_EMISSION, mat_emi);
+				if (aux->normals.size() > 0) {
+					glBindBuffer(GL_ARRAY_BUFFER, normals);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, aux->normals.data(), GL_STATIC_DRAW);
+					glNormalPointer(GL_FLOAT, 0, 0);
+				}
+				
+				if (aux->texture.size() > 0 && aux->textureID > 0) {
+					
+					glBindBuffer(GL_ARRAY_BUFFER, textures);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(float) * aux->texture.size(), aux->texture.data(), GL_STATIC_DRAW);
+					glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
-				glDrawArrays(GL_TRIANGLES, 0, ((GLuint) aux->vbo_ready.size() / 3));
+					glBindTexture(GL_TEXTURE_2D, aux->textureID);
+
+					
+				}
+				
+				glDrawArrays(GL_TRIANGLES, 0, (GLuint)(size / 3));
+
+				if (aux->texture.size() > 0 && aux->textureID > 0) {
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
+
+
+				//float mat_emi[] = { 0.0, 0.0, 0.0, 1.0 };
+				//glMaterialfv(GL_FRONT, GL_EMISSION, mat_emi);
+
+				
 				
 				glPopMatrix();
 
@@ -479,7 +585,7 @@ void readFileSM() {
 			std::vector<std::vector< std::vector< float >>> translation;
 			std::vector<float> rotation = { 0,0,0,0 };
 			std::vector<float> scale = { 1,1,1 };
-			models->addFile(name, translation, rotation, scale, {1,1,1,1}, { 255,255,255 }, 0, 1);
+			models->addFile(name, translation, rotation, scale, {1,1,1,1}, { 255,255,255 }, 0, 1, "");
 		}
 	}
 	else {
@@ -596,8 +702,14 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 		}
 		else if (strcmp(child->Name(), "models") == 0) {
 			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
-				std::string filename = childModels->Attribute("file");	
-				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color,ts.deepLevel, ts.rotationTime);
+				std::string filename = childModels->Attribute("file");
+				std::string textureName = "";
+				if (childModels->FindAttribute("texture")) {
+					
+					textureName = childModels->Attribute("texture");
+				}
+
+				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color,ts.deepLevel, ts.rotationTime, textureName);
 				
 			}
 		}
@@ -619,7 +731,7 @@ void readXMLFile() {
 	if (doc.LoadFile(pathXML.c_str()) == XML_SUCCESS) {
 		XMLElement* root = doc.RootElement();
 		for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
-
+			
 			if (strcmp(child->Name(), "lights") == 0) {
 
 				for (auto light = child->FirstChildElement(); light != NULL; light = light->NextSiblingElement()) {
@@ -798,6 +910,7 @@ void spherical2Cartesian() {
 	camZ = radius * cos(beta) * cos(alfa);
 }
 
+
 // write function to process keyboard events
 void processSpecialKeys(int key, int xx, int yy) {
 
@@ -904,6 +1017,20 @@ void function(unsigned char key, int x, int y) {
 
 int main(int argc, char **argv) {
 
+	
+
+// Read XML structered models.
+
+// init GLUT and the window
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
+	glutInitWindowPosition(100,100);
+	glutInitWindowSize(800,800);
+	glutCreateWindow("CG@DI-UM");
+
+	glEnable(GL_TEXTURE_2D);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	if (argc < 4) {
 		std::cout << "\nWrong number of arguments provided!\n\n > ./Engine.exe <MODE> <PATH_TO_XML_AND_MODELS_DIR> <XML_FILE_NAME>\n\n Mode: 'x' (XML with Groups) and 's' (Simple Model(s) XML)\n PATH: XML and Model(s) directory path\n\n";
 		exit(1);
@@ -915,11 +1042,13 @@ int main(int argc, char **argv) {
 			if (strcmp(argv[1], "x") == 0) {
 				pathGen = argv[2];
 				pathXML = pathGen + argv[3];
+
 				readXMLFile();
-			} 
+			}
 			else if (strcmp(argv[1], "s") == 0) {
 				pathGen = argv[2];
 				pathXML = pathGen + argv[3];
+
 				readFileSM();
 			}
 			else {
@@ -931,14 +1060,6 @@ int main(int argc, char **argv) {
 			std::cout << "Something went wrong.\n";
 		}
 	}
-
-// Read XML structered models.
-// init GLUT and the window
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
-	glutInitWindowPosition(100,100);
-	glutInitWindowSize(800,800);
-	glutCreateWindow("CG@DI-UM");
 		
 // Required callback registry 
 	glutDisplayFunc(renderScene);
@@ -953,6 +1074,8 @@ int main(int argc, char **argv) {
 // put here the registration of the keyboard callbacks
 	glutKeyboardFunc(function);
 	glGenBuffers(1, &vertices_gl);
+	glGenBuffers(1, &normals);
+	glGenBuffers(1, &textures);
 	
 
 //  OpenGL settings
@@ -962,9 +1085,9 @@ int main(int argc, char **argv) {
 	glEnable(GL_CULL_FACE);
 	spherical2Cartesian();
 	glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT0);
 	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
 	
 
 // enter GLUT's main cycle
