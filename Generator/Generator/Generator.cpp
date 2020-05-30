@@ -462,22 +462,17 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
             triangles.push_back(t1);
             triangles.push_back(t2);
 
-            //normal
-            if (j >= stacks / 2) {
-                Point vectorNormalt1t2(0, -1, 0);
-                Triangle normal1(vectorNormalt1t2, vectorNormalt1t2, vectorNormalt1t2);
-                normals.push_back(normal1);
-                normals.push_back(normal1);
-                normals.push_back(normal1);
-            }
-            else {
-                Point vectorNormalt1t2(0, 1, 0);
-                Triangle normal1(vectorNormalt1t2, vectorNormalt1t2, vectorNormalt1t2);
-                normals.push_back(normal1);
-                normals.push_back(normal1);
-                normals.push_back(normal1);
-            }
+            //normals
+            Point nP1(cos(theta) * cos(phi), sin(theta) * cos(phi), sin(phi));
+            Point nP2(cos(theta + sliceSkew) * cos(phi), sin(theta + sliceSkew) * cos(phi), sin(phi));
+            Point nP3(cos(theta + sliceSkew) * cos(phi + stackSkew), sin(theta + stackSkew) * cos(phi + stackSkew), sin(phi + stackSkew));
+            Point nP4(cos(phi + stackSkew)* cos(theta), cos(phi + stackSkew)* sin(theta), sin(phi + stackSkew));
 
+            Triangle normalT1(nP1, nP2, nP3);
+            Triangle normalT2(nP3, nP4, nP1);
+
+            normals.push_back(normalT1);
+            normals.push_back(normalT2);
 
             phi = stackSkew * (j + 1);
         }
