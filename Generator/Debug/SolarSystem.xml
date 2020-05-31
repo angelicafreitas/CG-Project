@@ -11,7 +11,7 @@
             </translate>
             <scale X="10" Y="10" Z="10" />
             <models>            
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="sun.jpg"/>
             </models>
         </group>
         <!-- Teapot -->
@@ -65,7 +65,7 @@
             <rotate time="160.62" axisX="0" axisY="1" axisZ="0" />
             <scale X="0.36" Y="0.36" Z="0.36" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="mercury.jpg" />
             </models>
         </group>
         <!--Vénus-->
@@ -92,7 +92,7 @@
             <rotate time="320" axisX="0" axisY="1" axisZ="0" />
             <scale X="0.88" Y="0.88" Z="0.88" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="venus.jpg"/>
             </models>
         </group>
         <!--Terra-->
@@ -119,7 +119,7 @@
             <rotate time="2.74" axisX="0" axisY="1" axisZ="0" />
             <scale X="0.93" Y="0.93" Z="0.93" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="earth.jpg"/>
             </models>
             <!--Lua-->
             <group>
@@ -144,7 +144,7 @@
                 </translate>
                 <scale X="0.247" Y="0.247" Z="0.247" />
                 <models>
-                    <model file="sol.3d" />
+                    <model file="sol.3d" texture="moon.jpg"/>
                 </models>
             </group>
         </group>
@@ -172,7 +172,7 @@
             <rotate time="2.74" axisX="0" axisY="1" axisZ="0" />
             <scale X="0.48" Y="0.48" Z="0.48" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="mars.jpg"/>
             </models>
             <!--Phobos-->
             <group>
@@ -197,7 +197,7 @@
                 </translate>
                 <scale X="0.090" Y="0.090" Z="0.090" />
                 <models>
-                    <model file="sol.3d" />
+                    <model file="sol.3d" texture="phobosbump.jpg"/>
                 </models> 
             </group>
             <!--Deimos-->
@@ -223,7 +223,7 @@
                 </translate>
                 <scale X="0.0507" Y="0.054" Z="0.054" />
                 <models>
-                    <model file="sol.3d" />
+                    <model file="sol.3d" texture="deimosbump.jpg"/>
                 </models> 
             </group>
         </group>
@@ -251,7 +251,7 @@
             <rotate time="1.14" axisX="0" axisY="1" axisZ="0" />
             <scale X="2.73" Y="2.73" Z="2.73" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="jupiter.jpg" />
             </models>
               <!--Io-->
               <group>
@@ -276,7 +276,7 @@
                 </translate>
                 <scale X="0.2505" Y="0.2505" Z="0.2505" />
                 <models>
-                    <model file="sol.3d" />
+                    <model file="sol.3d"/>
                 </models>
               </group>
               <!--Europa-->
@@ -355,7 +355,7 @@
             </translate>
             <scale X="1" Y="1" Z="1" />
            <models>
-                <model file="torus.3d" />
+                <model file="torus.3d" texture="saturnringcolor.jpg"/>
             </models>
         </group>
         <!--Saturno-->
@@ -382,7 +382,7 @@
             <rotate time="1.14" axisX="0" axisY="1" axisZ="0" />
             <scale X="2.3" Y="2.3" Z="2.3" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="saturn.jpg" />
             </models>
 
         </group>
@@ -411,7 +411,7 @@
             <rotate time="1.94" axisX="0" axisY="1" axisZ="0" />
             <scale X="1.788" Y="1.788" Z="1.788" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="uranus.jpg" />
             </models>
             <!--Titania-->
             <group>
@@ -516,7 +516,7 @@
             <rotate time="1.83" axisX="0" axisY="1" axisZ="0" />
             <scale X="1.774" Y="1.774" Z="1.774" />
             <models>
-                <model file="sol.3d" />
+                <model file="sol.3d" texture="neptune.jpg"/>
             </models>
             <!--Triton-->
             <group>

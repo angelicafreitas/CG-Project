@@ -401,7 +401,10 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
     vector<Triangle> normals;
     vector<Triangle> textures;
 
+    float textSli = 1 / (float)slices, textSta = 1 / (float)stacks;
+
     double stackSkew = PI / (stacks), sliceSkew = (2 * PI) / slices;
+    int skew = 0;
 
     for (i = 1; i <= stacks;i++) {
         double phi = (PI / 2) - (i * stackSkew);
@@ -449,10 +452,15 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             normals.push_back(normal2);
 
             //textures
-            Point textP1((j-1) / slices, i/ stacks, 0);
-            Point textP2((j-1) / slices, (i-1) / stacks, 0);
-            Point textP3(j / slices, (i-1) / stacks, 0);
-            Point textP5(j / slices, i / stacks, 0);
+            Point textP2(((j- 1) / slices), 1.0 - ((i)/ stacks), 0);
+            Point textP1(((j)/ slices), 1.0 - ((i - 1) / stacks), 0);
+            Point textP3( ((j) / slices), 1.0 - ((i) / stacks), 0);
+            Point textP5( ((j + 1) / slices), 1.0 - ((i - 1) / stacks), 0);
+
+            //Point textP1(1.0 - ((i - 1) / stacks), (j / slices), 0);
+            //Point textP2(1.0 - (i / stacks), (j / slices), 0);
+            //Point textP3(1.0 - (i / stacks), ((j + 1) / slices), 0);
+            //Point textP5(1.0 - ((i - 1) / stacks), ((j + 1) / slices), 0);
 
             Triangle textureT1(textP1, textP2, textP3);
             Triangle textureT2(textP3, textP5, textP1);
@@ -460,6 +468,7 @@ void generateSphereFile(double radius, int slices, int stacks, string f) {
             textures.push_back(textureT1);
             textures.push_back(textureT2);
         }
+        skew+=(1/slices);
     }
     trianglesNormalsTexturesToFile(triangles,normals,textures, f);
 }
@@ -525,10 +534,15 @@ void torus(float iRadius, float eRadius, float slices, float stacks, string f) {
             normals.push_back(normalT2);
 
             //textures
-            Point textP1(i * textSlices, j * textStacks, 0);
-            Point textP2((i + 1) * textSlices, j * textStacks, 0);
-            Point textP3((i + 1) * textSlices, (j + 1) * textStacks, 0);
-            Point textP4(i * textSlices, (j + 1) * textStacks, 0);
+            //Point textP1(i * textSlices, j * textStacks, 0);
+            //Point textP2((i + 1) * textSlices, j * textStacks, 0);
+            //Point textP3((i + 1) * textSlices, (j + 1) * textStacks, 0);
+            //Point textP4(i * textSlices, (j + 1) * textStacks, 0);
+
+            Point textP1(j * textStacks, i * textSlices, 0);
+            Point textP2(j * textStacks, (i + 1) * textSlices, 0);
+            Point textP3((j + 1) * textStacks, (i + 1) * textSlices, 0);
+            Point textP4((j + 1) * textStacks, i * textSlices, 0);
 
             Triangle textureT1(textP1, textP2, textP3);
             Triangle textureT2(textP3, textP4, textP1);

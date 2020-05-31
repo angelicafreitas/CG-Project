@@ -252,16 +252,21 @@ std::tuple< std::vector<std::vector<float>>, std::vector<std::vector<float>>> fi
 
 
 		if (t1 <= 1) {
-			printf("%f\n", t8);
+			//printf("%f %f %f %f %f %f\n", t1, t2, t4, t5, t7, t8);
 			texture.insert(texture.end(), { t1, t2, t4, t5, t7, t8});
 			
 		}
 		
 		
 		
+
 	}
 
-	std::vector<std::vector<float>> aux = { vbo, normals, texture };
+	//printf("-----\n");
+	//std::reverse(texture.begin(), texture.end());
+
+
+	std::vector<std::vector<float>> aux = { vbo, normals, texture};
 
 	
 
@@ -421,6 +426,7 @@ public:
 
 					
 				}
+				
 				
 				glDrawArrays(GL_TRIANGLES, 0, (GLuint)(size / 3));
 
@@ -802,10 +808,10 @@ void loadLights() {
 	
 	//glMaterialf(GL_FRONT, GL_SHININESS, 50);
 
-	float quad_att = 0.3f;
+	float quad_att = 0.05f;
 
-	GLfloat amb[3] = { 0.5, 0.5, 0.5 };
-	GLfloat diff[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	GLfloat amb[3] = { 6, 6, 6 };
+	GLfloat diff[4] = { 1, 1, 1, 1.0 };
 
 	for (auto light : lights) {
 
@@ -826,7 +832,7 @@ void loadLights() {
 
 
 		glLightfv(GL_LIGHT0 + i, GL_POSITION, data); // posição da luz
-		//glLightfv(GL_LIGHT0+ i, GL_AMBIENT, amb); // luz ambiente
+		glLightfv(GL_LIGHT0+ i, GL_AMBIENT, amb); // luz ambiente
 		//glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff); // luz difusa
 		//glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff); // luz difusa
 		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, quad_att);
@@ -885,7 +891,7 @@ void renderScene(void) {
 
 	glPushMatrix();
 
-	//loadLights();
+	loadLights();
 
 	glPopMatrix();
 

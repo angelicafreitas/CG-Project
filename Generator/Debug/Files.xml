@@ -3,4 +3,8 @@
     <model file="teapotNormals.txt"/>
     <model file="textSphere.txt"/>
     <model file="plaaaane.txt"/>
+    <model file="sun.3d"/>
+    <model file="teapot.txt"/>
+    <model file="sol.3d"/>
+    <model file="sol.3d~"/>
 </scene>
