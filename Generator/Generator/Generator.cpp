@@ -180,9 +180,9 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF1a);
 
             //textures
-            Point textP1(k + zn, j + yn, 0);
-            Point textP2(k, j + yn, 0);
-            Point textP3(k, j, 0);
+            Point textP1((k + zn) / z, (j + yn) / y, 0);
+            Point textP2((k) / z, (j + yn) / y, 0);
+            Point textP3((k) / z, (j) / y, 0);
             Triangle textureF1a(textP3, textP2, textP1);
             textures.push_back(textureF1a);
 
@@ -199,7 +199,7 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF1b);
 
             //texture
-            Point textP5(k + zn, j, 0);
+            Point textP5((k + zn)/z, j/y, 0);
             Triangle textureF1b(textP1, textP5, textP3);
             textures.push_back(textureF1b);
 
@@ -218,9 +218,10 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF6a);
 
             //texture
-            Point textP7(1 - (k + zn), j + yn, 0);
-            Point textP8(1 - k, j + yn, 0);
-            Point textP9(1 - k, j, 0);
+            Point textP7(1 - ((k + zn) / z), (j + yn) / y, 0);
+            Point textP8(1 - (k / z), (j + yn) / y, 0);
+            Point textP9(1 - (k / z), (j) / y, 0);
+            Point textP11(1 - ((k + zn) / z), (j) / y, 0);
             Triangle textureF6a(textP7, textP8, textP9);
             textures.push_back(textureF6a);
 
@@ -236,7 +237,6 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF6b);
 
             //texture
-            Point textP11(1 - (k + zn), j, 0);
             Triangle textureF6b(textP9, textP11, textP7);
             textures.push_back(textureF6b);
         }
@@ -259,9 +259,10 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF2a);
 
             //textures
-            Point textP1(i, 1 - k, 0);
-            Point textP2(i + xn, 1 - (k + zn), 0);
-            Point textP3(i + xn, 1 - k, 0);
+            Point textP1(i / x, 1 - (k / z), 0);
+            Point textP2((i + xn) / x, 1 - ((k + zn) / z), 0);
+            Point textP3((i + xn) / x, 1 - (k / z), 0);
+            Point textP5(i / x, 1 - ((k + zn) / z), 0);
             Triangle textureF2a(textP3, textP2, textP1);
             textures.push_back(textureF2a);
 
@@ -278,7 +279,6 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF2b);
 
             //texture
-            Point textP5(i, 1 - (k + zn), 0);
             Triangle textureF2b(textP2, textP5, textP1);
             textures.push_back(textureF2b);
 
@@ -297,9 +297,10 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF4a);
 
             //texture
-            Point textP8(i, k + zn, 0);
-            Point textP9(i, k, 0);
-            Point textP7(i + xn, (k + zn), 0);
+            Point textP8(i / x, (k + zn) / z, 0);
+            Point textP9(i / x, k / z, 0);
+            Point textP7((i + xn) / x, (k + zn) / z, 0);
+            Point textP11((i + xn) / x, k / z, 0);
             Triangle textureF4a(textP9, textP8, textP7);
             textures.push_back(textureF4a);
 
@@ -315,7 +316,6 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF4b);
 
             //texture
-            Point textP11(i + xn, k, 0);
             Triangle textureF4b(textP7, textP11, textP9);
             textures.push_back(textureF4b);
 
@@ -339,14 +339,14 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF5a);
 
             //textures
-            Point textP1(i + xn, j, 0);
-            Point textP2(i + xn, j + yn, 0);
-            Point textP3(i, j + yn, 0);
+            Point textP1((i + xn) / x, j / y, 0);
+            Point textP2((i + xn) / x, (j + yn) / y, 0);
+            Point textP3(i / x, (j + yn) / y, 0);
             Triangle textureF5a(textP3, textP2, textP1);
             textures.push_back(textureF5a);
 
             //Face 5 Triangulo B
-            Point p5(i, j, z);
+            Point p5(i/x, j/y, z);
 
             //ordem original(p4,p5,p6) mas p4=p3 p6=p1
             Triangle f5b(p1, p5, p3);
@@ -375,10 +375,10 @@ void generateInvBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF3a);
 
             //texture
-            Point textP9(1 - (i + xn), j, 0);
-            Point textP11(1 - (i + xn), j + yn, 0);
-            Point textP8(1 - i, j + yn, 0);
-            Point textP7(1 - i, j, 0);
+            Point textP9(1 - ((i + xn) / x), j / y, 0);
+            Point textP11(1 - ((i + xn) / x), (j + yn) / y, 0);
+            Point textP8(1 - (i / x), (j + yn) / y, 0);
+            Point textP7(1 - (i / x), j / y, 0);
             Triangle textureF3a(textP9, textP8, textP7);
             textures.push_back(textureF3a);
 
@@ -481,6 +481,7 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             Triangle normalF6b(vectorNormalf6, vectorNormalf6, vectorNormalf6);
             normals.push_back(normalF6b);
 
+
             //texture
             Point textP11(1-((k + zn) / z), (j) / y, 0);
             Triangle textureF6b(textP7, textP11, textP9);
@@ -542,6 +543,7 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             Triangle normalF4a(vectorNormalf4, vectorNormalf4, vectorNormalf4);
             normals.push_back(normalF4a);
 
+            
             //texture
             Point textP8(i/x,(k+zn)/z,0);
             Point textP9(i / x, k / z, 0);
@@ -974,7 +976,6 @@ void multVectorMatrix(float** m, float* v, float* res) {
     }
 }
 
-
 float* bezier(float t, float* p0, float* p1, float* p2, float* p3) {
     float* points[4] = { p0,p1,p2,p3 };
     float vectorT[4] = { pow((1 - t),3), 3 * t * pow((1 - t),2), 3 * (1 - t) * pow(t,2), pow(t,3) };
@@ -1007,7 +1008,6 @@ void removeChar(std::string& str, char character)
     while ((pos = str.find(character)) != std::string::npos)
         str[pos] = ' ';
 }
-
 
 float** convertVVtoFloat(std::vector<std::vector<float>> matrix) {
     float** res = (float**)malloc(sizeof(float*) * 5);
@@ -1044,42 +1044,17 @@ float** getdVectorsUandV(float u, float v, float** allPoints, int* index) {
         }
 
     }
-    /*for (int i = 0; i < 4; i++) {
-
-        float* p0 = allPoints[index[4 * i]];
-        float* p1 = allPoints[index[4 * i + 1]];
-        float* p2 = allPoints[index[4 * i + 2]];
-        float* p3 = allPoints[index[4 * i + 3]];
-
-        matrixP[0][i][0] = p0[0];
-        matrixP[1][i][0] = p0[1];
-        matrixP[2][i][0] = p0[2];
-
-        matrixP[0][i][1] = p1[0];
-        matrixP[1][i][1] = p1[1];
-        matrixP[2][i][1] = p1[2];
-
-        matrixP[0][i][2] = p2[0];
-        matrixP[1][i][2] = p2[1];
-        matrixP[2][i][2] = p2[2];
-
-        matrixP[0][i][3] = p3[0];
-        matrixP[1][i][3] = p3[1];
-        matrixP[2][i][3] = p3[2];
-
-
-    }
-    /**/
+    
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             float* p0 = allPoints[index[4*i+j]];
             matrixP[0][i][j] = p0[0];
             matrixP[1][i][j] = p0[1];
             matrixP[2][i][j] = p0[2];
+
         }
     
     }
-
     float vectordU[4] = { 3* pow(u,2), 2 * u , 1 , 0};
     std::vector<std::vector<float>> vectorV = { {pow(v,3)}, {pow(v,2)},{v},{1 }};
     float vectorU[4] = { pow(u,3), pow(u,2) , u , 1 };
@@ -1104,7 +1079,7 @@ float** getdVectorsUandV(float u, float v, float** allPoints, int* index) {
     //vector U.M  [FOR VECTOR V]
     float* UxM = (float*)malloc(sizeof(float*) * 10);
     multVectorMatrix(mtrixM, vectorU, UxM);
-
+    
     for (int i = 0; i < 3; i++) {
 
         /*                  CALCULATE VECTOR U                  */
@@ -1183,10 +1158,10 @@ void writeResultPoints(int tecellationLevel, float** allPoints, int** index, str
                 float* auxNormalPC = (float*)malloc(sizeof(float) * 10);
                 float* auxNormalPD = (float*)malloc(sizeof(float) * 10);
 
-                cross(vectorVpA, vectorUpA, auxNormalPA);
-                cross(vectorVpB, vectorUpB, auxNormalPB);
-                cross(vectorVpC, vectorUpC, auxNormalPC);
-                cross(vectorVpD, vectorUpD, auxNormalPD);
+                cross(vectorUpA, vectorVpA, auxNormalPA);
+                cross(vectorUpB, vectorVpB, auxNormalPB);
+                cross(vectorUpC, vectorVpC, auxNormalPC);
+                cross(vectorUpD, vectorVpD, auxNormalPD);
 
                 normalize(auxNormalPA);
                 normalize(auxNormalPB);

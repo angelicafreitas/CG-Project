@@ -25,7 +25,8 @@
         </group>
         <!-- Teapot -->
         <group>
-            <translate time="2100000000">
+            <colour R="255" G="127" B="80" />
+            <translate time="210000">
                 <point X="119.92935059205072" Y="32.134972639928975" Z="0.0" />
                 <point X="113.46673498608769" Y="30.40332000731841" Z="-32.0" />
                 <point X="90.87430173727554" Y="24.34969576324515" Z="-63.327712" />
@@ -43,7 +44,7 @@
                 <point X="90.87430173727554" Y="24.34969576324515" Z="63.327712" />
                 <point X="113.46673498608769" Y="30.40332000731841" Z="32.0" />
             </translate>
-            <rotate time="6000000" axisX="1" axisY="1" axisZ="0" />
+            <rotate time="6000" axisX="1" axisY="1" axisZ="0" />
             <scale X="0.7" Y="0.7" Z="0.7" /> 
             <models>
                 <model file="teapot.txt" texture="teapot.jpg"/>
