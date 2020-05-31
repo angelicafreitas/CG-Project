@@ -156,6 +156,252 @@ void generatePlaneFile(double x, double z, string f) {
 
 }
 
+void generateInvBoxFile(float x, float y, float z, long int n, string f) {
+    float xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
+    float i, j, k;
+    vector<Triangle> triangles;
+    vector<Triangle> normals;
+    vector<Triangle> textures;
+
+    //face 1 e 6 (laterais)
+    for (j = 0; j < y; j += yn) {
+        for (k = 0; k < z; k += zn) {
+            //Face 1 Triangulo A
+            Point p1(0, j + yn, k + zn);
+            Point p2(0, j + yn, k);
+            Point p3(0, j, k);
+
+            Triangle f1a(p3, p2, p1);
+            triangles.push_back(f1a);
+
+            //normal
+            Point vectorNormalf1(1, 0, 0);
+            Triangle normalF1a(vectorNormalf1, vectorNormalf1, vectorNormalf1);
+            normals.push_back(normalF1a);
+
+            //textures
+            Point textP1(k + zn, j + yn, 0);
+            Point textP2(k, j + yn, 0);
+            Point textP3(k, j, 0);
+            Triangle textureF1a(textP3, textP2, textP1);
+            textures.push_back(textureF1a);
+
+
+            //Face 1 Triangulo B
+            Point p5(0, j, k + zn);
+
+            //ordem original(p4,p5,p6) mas p6=p1 e p4=p3
+            Triangle f1b(p1, p5, p3);
+            triangles.push_back(f1b);
+
+            //normal
+            Triangle normalF1b(vectorNormalf1, vectorNormalf1, vectorNormalf1);
+            normals.push_back(normalF1b);
+
+            //texture
+            Point textP5(k + zn, j, 0);
+            Triangle textureF1b(textP1, textP5, textP3);
+            textures.push_back(textureF1b);
+
+
+            //Face 6 Triangulo A
+            Point p7(x, j, k);
+            Point p8(x, j + yn, k);
+            Point p9(x, j + yn, k + zn);
+
+            Triangle f6a(p9, p8, p7);
+            triangles.push_back(f6a);
+
+            //normal
+            Point vectorNormalf6(-1, 0, 0);
+            Triangle normalF6a(vectorNormalf6, vectorNormalf6, vectorNormalf6);
+            normals.push_back(normalF6a);
+
+            //texture
+            Point textP7(1 - (k + zn), j + yn, 0);
+            Point textP8(1 - k, j + yn, 0);
+            Point textP9(1 - k, j, 0);
+            Triangle textureF6a(textP7, textP8, textP9);
+            textures.push_back(textureF6a);
+
+            //Face 6 Triangulo B
+            Point p11(x, j, k + zn);
+
+            //ordem original(p10,p11,p12) mas p12=p7 p10=p9
+            Triangle f6b(p7, p11, p9);
+            triangles.push_back(f6b);
+
+            //normal
+            Triangle normalF6b(vectorNormalf6, vectorNormalf6, vectorNormalf6);
+            normals.push_back(normalF6b);
+
+            //texture
+            Point textP11(1 - (k + zn), j, 0);
+            Triangle textureF6b(textP9, textP11, textP7);
+            textures.push_back(textureF6b);
+        }
+    }
+
+    //face 2 e 4 (cima e baixo)
+    for (k = 0; k < z; k += zn) {
+        for (i = 0; i < x; i += xn) {
+            //Face 2 Triangulo A
+            Point p1(i, y, k);
+            Point p2(i + xn, y, k + zn);
+            Point p3(i + xn, y, k);
+
+            Triangle f2a(p3, p2, p1);
+            triangles.push_back(f2a);
+
+            //normal
+            Point vectorNormalf2(0, -1, 0);
+            Triangle normalF2a(vectorNormalf2, vectorNormalf2, vectorNormalf2);
+            normals.push_back(normalF2a);
+
+            //textures
+            Point textP1(i, 1 - k, 0);
+            Point textP2(i + xn, 1 - (k + zn), 0);
+            Point textP3(i + xn, 1 - k, 0);
+            Triangle textureF2a(textP3, textP2, textP1);
+            textures.push_back(textureF2a);
+
+
+            //Face 2 Triangulo B
+            Point p5(i, y, k + zn);
+
+            //ordem original(p4,p5,p6) mas p4=p1 e p6=p2
+            Triangle f2b(p2, p5, p1);
+            triangles.push_back(f2b);
+
+            //normal
+            Triangle normalF2b(vectorNormalf2, vectorNormalf2, vectorNormalf2);
+            normals.push_back(normalF2b);
+
+            //texture
+            Point textP5(i, 1 - (k + zn), 0);
+            Triangle textureF2b(textP2, textP5, textP1);
+            textures.push_back(textureF2b);
+
+
+            //Face 4 Triangulo A
+            Point p7(i + xn, 0, k + zn);
+            Point p8(i, 0, k + zn);
+            Point p9(i, 0, k);
+
+            Triangle f4a(p9, p8, p7);
+            triangles.push_back(f4a);
+
+            //normal
+            Point vectorNormalf4(0, 1, 0);
+            Triangle normalF4a(vectorNormalf4, vectorNormalf4, vectorNormalf4);
+            normals.push_back(normalF4a);
+
+            //texture
+            Point textP8(i, k + zn, 0);
+            Point textP9(i, k, 0);
+            Point textP7(i + xn, (k + zn), 0);
+            Triangle textureF4a(textP9, textP8, textP7);
+            textures.push_back(textureF4a);
+
+            //Face 4 Triangulo B
+            Point p11(i + xn, 0, k);
+
+            //ordem original(p10,p11,p12) mas p10=p9 e p12=p7
+            Triangle f4b(p7, p11, p9);
+            triangles.push_back(f4b);
+
+            //normal
+            Triangle normalF4b(vectorNormalf4, vectorNormalf4, vectorNormalf4);
+            normals.push_back(normalF4b);
+
+            //texture
+            Point textP11(i + xn, k, 0);
+            Triangle textureF4b(textP7, textP11, textP9);
+            textures.push_back(textureF4b);
+
+        }
+    }
+
+    //face 5 e 3
+    for (j = 0; j < y;j += yn) {
+        for (i = 0; i < x;i += xn) {
+            //Face 5 Triangulo A
+            Point p1(i + xn, j, z);
+            Point p2(i + xn, j + yn, z);
+            Point p3(i, j + yn, z);
+
+            Triangle f5a(p3, p2, p1);
+            triangles.push_back(f5a);
+
+            //normal
+            Point vectorNormalf5(0, 0, -1);
+            Triangle normalF5a(vectorNormalf5, vectorNormalf5, vectorNormalf5);
+            normals.push_back(normalF5a);
+
+            //textures
+            Point textP1(i + xn, j, 0);
+            Point textP2(i + xn, j + yn, 0);
+            Point textP3(i, j + yn, 0);
+            Triangle textureF5a(textP3, textP2, textP1);
+            textures.push_back(textureF5a);
+
+            //Face 5 Triangulo B
+            Point p5(i, j, z);
+
+            //ordem original(p4,p5,p6) mas p4=p3 p6=p1
+            Triangle f5b(p1, p5, p3);
+            triangles.push_back(f5b);
+
+            //normal
+            Triangle normalF5b(vectorNormalf5, vectorNormalf5, vectorNormalf5);
+            normals.push_back(normalF5b);
+
+            //texture
+            Point textP5(i, j, 0);
+            Triangle textureF5b(textP1, textP5, textP3);
+            textures.push_back(textureF5b);
+
+            //Face 3 Triangulo A
+            Point p7(i, j, 0);
+            Point p8(i, j + yn, 0);
+            Point p9(i + xn, j, 0);
+
+            Triangle f3a(p9, p8, p7);
+            triangles.push_back(f3a);
+
+            //normal
+            Point vectorNormalf3(0, 0, 1);
+            Triangle normalF3a(vectorNormalf3, vectorNormalf3, vectorNormalf3);
+            normals.push_back(normalF3a);
+
+            //texture
+            Point textP9(1 - (i + xn), j, 0);
+            Point textP11(1 - (i + xn), j + yn, 0);
+            Point textP8(1 - i, j + yn, 0);
+            Point textP7(1 - i, j, 0);
+            Triangle textureF3a(textP9, textP8, textP7);
+            textures.push_back(textureF3a);
+
+            //Face 3 Triangulo B
+            Point p11(i + xn, j + yn, 0);
+
+            //ordem original(p10,p11,p12) p10=p8 p12=p9
+            Triangle f3b(p9, p11, p8);
+            triangles.push_back(f3b);
+
+            //normal
+            Triangle normalF3b(vectorNormalf3, vectorNormalf3, vectorNormalf3);
+            normals.push_back(normalF3b);
+
+            //texture
+            Triangle textureF3b(textP9, textP11, textP8);
+            textures.push_back(textureF3b);
+        }
+    }
+    trianglesNormalsTexturesToFile(triangles, normals, textures, f);
+}
+
+
 void generateBoxFile(float x, float y, float z, long int n, string f) {
     float xn = x / (n + 1), yn = y / (n + 1), zn = z / (n + 1);
     float i, j, k;
@@ -180,9 +426,9 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF1a);
             
             //textures
-            Point textP1(j + yn, k + zn, 0);
-            Point textP2(j + yn, k, 0);
-            Point textP3(j, k, 0);
+            Point textP1(k + zn,j + yn, 0);
+            Point textP2( k, j + yn, 0);
+            Point textP3(k,j, 0);
             Triangle textureF1a(textP1, textP2, textP3);
             textures.push_back(textureF1a);
 
@@ -199,7 +445,7 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF1b);
 
             //texture
-            Point textP5(j, k + zn, 0);
+            Point textP5(k + zn,j, 0);
             Triangle textureF1b(textP3, textP5, textP1);
             textures.push_back(textureF1b);
 
@@ -218,7 +464,10 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF6a);
 
             //texture
-            Triangle textureF6a(textP3, textP2, textP1);
+            Point textP7(1-(k + zn),j + yn, 0);
+            Point textP8(1-k, j + yn, 0);
+            Point textP9(1-k, j, 0);
+            Triangle textureF6a(textP9, textP8, textP7);
             textures.push_back(textureF6a);
 
             //Face 6 Triangulo B
@@ -233,7 +482,8 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF6b);
 
             //texture
-            Triangle textureF6b(textP1, textP5, textP3);
+            Point textP11(1-(k + zn), j, 0);
+            Triangle textureF6b(textP7, textP11, textP9);
             textures.push_back(textureF6b);
         }
     }
@@ -255,9 +505,9 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF2a);
 
             //textures
-            Point textP1(i, k, 0);
-            Point textP2(i + xn, k + zn, 0);
-            Point textP3(i + xn, k, 0);
+            Point textP1(i, 1-k, 0);
+            Point textP2(i + xn, 1-(k + zn), 0);
+            Point textP3(i + xn, 1-k, 0);
             Triangle textureF2a(textP1, textP2, textP3);
             textures.push_back(textureF2a);
 
@@ -274,7 +524,7 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF2b);
 
             //texture
-            Point textP5(i, k + zn, 0);
+            Point textP5(i, 1-(k + zn), 0);
             Triangle textureF2b(textP1, textP5, textP2);
             textures.push_back(textureF2b);
 
@@ -294,8 +544,9 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
 
             //texture
             Point textP8(i,k+zn,0);
-            //textP7 = textP2 e textP9 = textP1
-            Triangle textureF4a(textP2, textP8, textP1);
+            Point textP9(i, k, 0);
+            Point textP7(i + xn, (k + zn), 0);
+            Triangle textureF4a(textP7, textP8, textP9);
             textures.push_back(textureF4a);
 
             //Face 4 Triangulo B
@@ -310,8 +561,8 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF4b);
 
             //texture
-            //textP7 = textP2 e textP9 = textP1 e textP11 = textP3
-            Triangle textureF4b(textP1, textP3, textP2);
+            Point textP11(i + xn, k, 0);
+            Triangle textureF4b(textP9, textP11, textP7);
             textures.push_back(textureF4b);
             
         }
@@ -370,8 +621,11 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF3a);
 
             //texture
-            //textP7 = textP5 e textP8 = textP3 e textP9 = textP1
-            Triangle textureF3a(textP5, textP3, textP1);
+            Point textP9(1-(i + xn), j, 0);
+            Point textP11(1-(i + xn), j + yn, 0);
+            Point textP8(1-i, j + yn, 0);
+            Point textP7(1-i, j, 0);
+            Triangle textureF3a(textP7, textP8, textP9);
             textures.push_back(textureF3a);
             
             //Face 3 Triangulo B
@@ -386,8 +640,7 @@ void generateBoxFile(float x, float y, float z, long int n, string f) {
             normals.push_back(normalF3b);
 
             //texture
-            //textP11 = textP2 e textP8 = textP3 e textP9 = textP1
-            Triangle textureF3b(textP3, textP2, textP1);
+            Triangle textureF3b(textP8, textP11, textP9);
             textures.push_back(textureF3b);
         }
     }
@@ -791,8 +1044,7 @@ float** getdVectorsUandV(float u, float v, float** allPoints, int* index) {
         }
 
     }
-
-    for (int i = 0; i < 4; i++) {
+    /*for (int i = 0; i < 4; i++) {
 
         float* p0 = allPoints[index[4 * i]];
         float* p1 = allPoints[index[4 * i + 1]];
@@ -817,7 +1069,7 @@ float** getdVectorsUandV(float u, float v, float** allPoints, int* index) {
 
 
     }
-    /*
+    /**/
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             float* p0 = allPoints[index[4*i+j]];
@@ -825,7 +1077,8 @@ float** getdVectorsUandV(float u, float v, float** allPoints, int* index) {
             matrixP[1][i][j] = p0[1];
             matrixP[2][i][j] = p0[2];
         }
-    }*/
+    
+    }
 
     float vectordU[4] = { 3* pow(u,2), 2 * u , 1 , 0};
     std::vector<std::vector<float>> vectorV = { {pow(v,3)}, {pow(v,2)},{v},{1 }};
@@ -1047,6 +1300,11 @@ int main(int argc, char* argv[]) {
     else if (strcmp(argv[1], "box") == 0 && argc == 7) {
         //float x, float y, float z, float n, string f
         generateBoxFile(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6]);
+        updateXML(argv[6]);
+    }
+    else if (strcmp(argv[1], "boxInv") == 0 && argc == 7) {
+        //float x, float y, float z, float n, string f
+        generateInvBoxFile(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6]);
         updateXML(argv[6]);
     }
     else if (strcmp(argv[1], "sphere") == 0 && argc == 6) {

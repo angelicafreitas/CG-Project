@@ -49,16 +49,52 @@ GLuint vertices_gl, normals, textures;
 float previousY[3] = { 0,1,0 };
 
 
+
+
 class Light {
 public:
-	std::string type;
-	std::vector<double> coords;
+	char *type;
+	float pos[4];
+	float spotDir[3];
+	float attenuation = 1;
+	float angle;
 
-	Light(std::string t, std::vector<double> c) {
+	//POINT LIGHT
+	Light(char *t, float x, float y, float z, float att) {
 		type = t;
-		coords = c;
+		pos[0] = x;
+		pos[1] = y;
+		pos[2] = z;
+		pos[3] = 1.0;
+		attenuation = att;
 	}
 
+	//SPOTLIGHT LIGHT
+	Light(char* t, float posx, float posy, float posz, float ang, float att , float dirx, float diry, float dirz) {
+		type = t;
+		pos[0] = posx;
+		pos[1] = posy;
+		pos[2] = posz;
+		pos[3] = 1.0;
+		angle = isValid(ang)?ang:0;
+		attenuation = att;
+		spotDir[0] = dirx;
+		spotDir[1] = diry;
+		spotDir[2] = dirz;
+	}
+
+	//DIRECCIONAL LIGHT
+	Light(char* t, float posx, float posy, float posz) {
+		type = t;
+		pos[0] = posx;
+		pos[1] = posy;
+		pos[2] = posz;
+		pos[3] = 0.0;
+	}
+
+	bool isValid(float ang) {
+		return ((ang >= 0 && ang <= 90) || ang == 180) ? true : false;
+	}
 };
 
 
@@ -197,7 +233,7 @@ void renderCatmullRomCurve(std::vector< std::vector< float >> basePoints) {
 	
 	for (int i = 0; i < tecellation; i++) {
 		getGlobalCatmullRomPoint(i / float(tecellation), res, deriv,basePoints);
-		glVertex3f(res[0], res[1], res[2]);
+		//glVertex3f(res[0], res[1], res[2]);
 	}
 
 	glEnd();
@@ -282,6 +318,10 @@ public:
 	std::vector < float > normals;
 	std::vector < float > texture;
 	GLuint textureID = 0;
+	std::vector<float> rgbDif;
+	std::vector<float> rgbSpe;
+	std::vector<float> rgbEme;
+	std::vector<float> rgbAmb;
 	std::vector< std::vector < std::vector<float>>> translation; // Translations.
 	std::vector < float > rotation;
 	std::vector < int > color;
@@ -332,12 +372,18 @@ public:
 
 public:
 	//get points from file and add to hashmap
-	void addFile(std::string file, std::vector<std::vector<std::vector<float>>> trans, std::vector<float> rot, std::vector<float> sca, std::vector<float> timeTS, std::vector< int > colorTS, int deep, float rotTime, std::string tName) {
+	void addFile(std::string file, std::vector<std::vector<std::vector<float>>> trans, std::vector<float> rot, std::vector<float> sca, std::vector<float> timeTS, std::vector< int > colorTS, int deep, float rotTime, std::string tName, std::vector<float> rgbDifv, std::vector<float> rgbSpev, std::vector<float> rgbEmev, std::vector<float> rgbAmbv) {
 		Model* m = new Model();
 		m->translation = trans;
 		m->setRotation(rot[0],rot[1],rot[2]);
 		m->setScale(sca[0], sca[1], sca[2]);
 		m->time = timeTS;
+
+		m->rgbDif = rgbDifv;
+		m->rgbSpe = rgbSpev;
+		m->rgbEme = rgbEmev;
+		m->rgbDif = rgbAmbv;
+		
 
 		if (tName.size() > 0) {
 			std::string pathTex = "../../textures/";
@@ -373,6 +419,9 @@ public:
 		int i = 0;
 		GLuint imgTexture;
 
+		float eme[4] = { 1,1,1,1 };
+		float defaultt[4] = { 0,0,0,1 };
+
 		for (auto itr = data.begin(); itr != data.end(); itr++, i++) {
 			std::string key = itr->first;
 			for (auto aux : data[key]) {
@@ -386,7 +435,10 @@ public:
 				for (int i = 0; i <= aux->deepLevel; i++) {
 					if (aux->time[i] > 0) {
 						
-						renderCatmullRomCurve(aux->translation[i]);
+						//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, eme);
+						//renderCatmullRomCurve(aux->translation[i]);
+						//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, defaultt);
+
 						getGlobalCatmullRomPoint(aux->elapsedTime[i] + (1.0 / aux->time[i]), pos, deriv, aux->translation[i]);
 						glTranslatef(pos[0], pos[1], pos[2]);
 						aux->elapsedTime[i] += (1.0 / aux->time[i]);
@@ -405,6 +457,14 @@ public:
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
 				
 				int size = aux->vbo_ready.size();
+				
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, aux->rgbDif.data());
+				
+				glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, aux->rgbSpe.data());
+				
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, aux->rgbEme.data());
+				
+				//glMaterialfv(GL_FRONT, GL_AMBIENT, aux->rgbAmb.data());
 
 				glBindBuffer(GL_ARRAY_BUFFER, vertices_gl);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, aux->vbo_ready.data(), GL_STATIC_DRAW);
@@ -591,7 +651,7 @@ void readFileSM() {
 			std::vector<std::vector< std::vector< float >>> translation;
 			std::vector<float> rotation = { 0,0,0,0 };
 			std::vector<float> scale = { 1,1,1 };
-			models->addFile(name, translation, rotation, scale, {1,1,1,1}, { 255,255,255 }, 0, 1, "");
+			models->addFile(name, translation, rotation, scale, { 1,1,1,1 }, { 255,255,255 }, 0, 1, "", { 0.8, 0.8, 0.8, 1.0 }, { 0, 0, 0, 1 }, { 0, 0, 0, 1 }, { 0.2, 0.2, 0.2, 1.0 });
 		}
 	}
 	else {
@@ -604,7 +664,7 @@ void readFileSM() {
 class TransformationState{
 public:
 	std::vector<std::vector < std::vector<float> >> translation;
-	std::vector< int > color;
+	std::vector< int > color = {1,1,1};
 	std::vector < float > rotation;
 	std::vector < float > scale;
 	int deepLevel = -1;
@@ -710,12 +770,40 @@ void auxReadFile(XMLElement * elem, TransformationState ts) {
 			for (XMLElement* childModels = child->FirstChildElement(); childModels != NULL; childModels = childModels->NextSiblingElement()) {
 				std::string filename = childModels->Attribute("file");
 				std::string textureName = "";
+				std::vector<float> rgbDif = { 0.8, 0.8, 0.8, 1.0 };
+				std::vector<float> rgbEme = { 0, 0, 0, 1 };
+				std::vector<float> rgbSpe = { 0, 0, 0, 1 };
+				std::vector<float> rgbAmb = { 0.2, 0.2, 0.2, 1.0 };
+				
+				
 				if (childModels->FindAttribute("texture")) {
 					
 					textureName = childModels->Attribute("texture");
 				}
 
-				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color,ts.deepLevel, ts.rotationTime, textureName);
+				if (childModels->FindAttribute("emR") && childModels->FindAttribute("emG") && childModels->FindAttribute("emB")) {
+
+					rgbEme = { (float)atof(childModels->Attribute("emR")),  (float)atof(childModels->Attribute("emG")) , (float)atof(childModels->Attribute("emB")) , 1};
+
+				}
+
+				if (childModels->FindAttribute("difR") && childModels->FindAttribute("difG") && childModels->FindAttribute("difB")) {
+
+					rgbDif = { (float)atof(childModels->Attribute("difR")),  (float)atof(childModels->Attribute("difG")) , (float)atof(childModels->Attribute("difB")) , 1};
+
+				}
+				if (childModels->FindAttribute("speR") && childModels->FindAttribute("speG") && childModels->FindAttribute("speB")) {
+
+					rgbSpe = { (float)atof(childModels->Attribute("speR")),  (float)atof(childModels->Attribute("speG")) , (float)atof(childModels->Attribute("speB")), 1 };
+
+				}
+				if (childModels->FindAttribute("ambR") && childModels->FindAttribute("ambG") && childModels->FindAttribute("ambB")) {
+
+					rgbAmb = { (float)atof(childModels->Attribute("ambR")),  (float)atof(childModels->Attribute("ambG")) , (float)atof(childModels->Attribute("ambB")), 1.0 };
+
+				}
+
+				models->addFile(filename, ts.translation, ts.rotation, ts.scale,ts.time, ts.color,ts.deepLevel, ts.rotationTime, textureName, rgbDif, rgbSpe, rgbEme, rgbAmb);
 				
 			}
 		}
@@ -742,12 +830,25 @@ void readXMLFile() {
 
 				for (auto light = child->FirstChildElement(); light != NULL; light = light->NextSiblingElement()) {
 					if (light->FindAttribute("type")) {
+						//POINT LIGHT
+						if ((strcmp(light->Attribute("type"),"POINT") == 0) && light->FindAttribute("posX") && light->FindAttribute("posY") && light->FindAttribute("posZ") && light->FindAttribute("att")) {
+							Light pointLight ("POINT",(float)atof(light->FindAttribute("posX")->Value()), (float)atof(light->FindAttribute("posY")->Value()), (float)atof(light->FindAttribute("posZ")->Value()), (float)atof(light->FindAttribute("att")->Value()));
 
-						if (light->FindAttribute("posX") && light->FindAttribute("posY") && light->FindAttribute("posZ")) {
-							std::vector<double> cc = { atof(light->FindAttribute("posX")->Value()), atof(light->FindAttribute("posY")->Value()),atof(light->FindAttribute("posZ")->Value()) };
-							auto aux = new Light(light->FindAttribute("type")->Value(), cc);
+							lights.push_back(pointLight);
 
-							lights.push_back(*aux);
+						}
+						//SPOTLIGHT LIGHT
+						else if ((strcmp(light->Attribute("type"), "SPOT") == 0) && light->FindAttribute("posX") && light->FindAttribute("posY") && light->FindAttribute("posZ") && light->FindAttribute("ang") && light->FindAttribute("att") && light->FindAttribute("dirX") && light->FindAttribute("dirY") && light->FindAttribute("dirZ")) {
+							Light spotLight("SPOT", (float)atof(light->FindAttribute("posX")->Value()), (float)atof(light->FindAttribute("posY")->Value()), (float)atof(light->FindAttribute("posZ")->Value()), (float)atof(light->FindAttribute("ang")->Value()),(float)atof(light->FindAttribute("att")->Value()), (float)atof(light->FindAttribute("dirX")->Value()), (float)atof(light->FindAttribute("dirY")->Value()), (float)atof(light->FindAttribute("dirZ")->Value()));
+
+							lights.push_back(spotLight);
+
+						}
+						//DIRECTIONAL LIGHT
+						else if ((strcmp(light->Attribute("type"), "DIRECTIONAL") == 0) && light->FindAttribute("posX") && light->FindAttribute("posY") && light->FindAttribute("posZ")) {
+							Light dirLight("DIRECTIONAL", (float)atof(light->FindAttribute("posX")->Value()), (float)atof(light->FindAttribute("posY")->Value()), (float)atof(light->FindAttribute("posZ")->Value()));
+
+							lights.push_back(dirLight);
 
 						}
 						else {
@@ -808,9 +909,7 @@ void loadLights() {
 	
 	//glMaterialf(GL_FRONT, GL_SHININESS, 50);
 
-	float quad_att = 0.05f;
-
-	GLfloat amb[3] = { 6, 6, 6 };
+	GLfloat amb[3] = { 0.001, 0.001, 0.001 };
 	GLfloat diff[4] = { 1, 1, 1, 1.0 };
 
 	for (auto light : lights) {
@@ -819,24 +918,27 @@ void loadLights() {
 			std::cout << "Reached max number of lights!\n";
 			exit(-1);
 		}
+		glEnable(GL_LIGHT0 + i);
+		glLightfv(GL_LIGHT0 + i, GL_AMBIENT, amb); // luz ambiente
 
-		light.coords.push_back(1);
+		if(strcmp(light.type,"POINT") == 0 ){
+				
+			//printf("POS: %f %f %f", light.pos[0], light.pos[1], light.pos[2], light.pos[3]);
+			glLightfv(GL_LIGHT0 + i, GL_POSITION, light.pos); // posição da luz
+			glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, light.attenuation);
+		}
+		else if (strcmp(light.type, "DIRECTIONAL") == 0) {
+			glLightfv(GL_LIGHT0 + i, GL_POSITION, light.pos);
 
-		GLfloat* data = (GLfloat*)malloc(sizeof(float) * 4);
+		}
+		else if (strcmp(light.type, "SPOT") == 0) {
+			glLightfv(GL_LIGHT0, GL_POSITION, light.pos);
+			glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light.spotDir);
+			glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, light.angle);       // [0,90] ou 180
+		}
+		else {
 
-		data[0] = light.coords[0];
-		data[1] = light.coords[1];
-		data[2] = light.coords[2];
-		data[3] = 1;
-
-
-
-		glLightfv(GL_LIGHT0 + i, GL_POSITION, data); // posição da luz
-		glLightfv(GL_LIGHT0+ i, GL_AMBIENT, amb); // luz ambiente
-		//glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff); // luz difusa
-		//glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diff); // luz difusa
-		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, quad_att);
-
+		}
 		i++;
 
 	}
@@ -847,7 +949,7 @@ void renderScene(void) {
 
 	// clear buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	// set the camera
 	glLoadIdentity();
 
@@ -875,6 +977,8 @@ void renderScene(void) {
 	glTranslatef(translate[0],translate[1],translate[2]);
 	glRotatef(rotate[0],rotate[1],rotate[2],rotate[3]);
 
+	
+
 	// put drawing instructions here
 	//glBegin(GL_TRIANGLES);
 	//glColor3f(0.0f, 1.0f, 0.0f);
@@ -887,11 +991,11 @@ void renderScene(void) {
 	
 	
 	//glBegin(GL_TRIANGLES);
-	models->drawVBO(steps ,color, false);
+	loadLights();
+	models->drawVBO(steps, color, false);
 
 	glPushMatrix();
 
-	loadLights();
 
 	glPopMatrix();
 
@@ -1036,6 +1140,8 @@ int main(int argc, char **argv) {
 
 	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
 
 	if (argc < 4) {
 		std::cout << "\nWrong number of arguments provided!\n\n > ./Engine.exe <MODE> <PATH_TO_XML_AND_MODELS_DIR> <XML_FILE_NAME>\n\n Mode: 'x' (XML with Groups) and 's' (Simple Model(s) XML)\n PATH: XML and Model(s) directory path\n\n";
@@ -1066,6 +1172,8 @@ int main(int argc, char **argv) {
 			std::cout << "Something went wrong.\n";
 		}
 	}
+
+	
 		
 // Required callback registry 
 	glutDisplayFunc(renderScene);
@@ -1090,8 +1198,6 @@ int main(int argc, char **argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	spherical2Cartesian();
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	
 	

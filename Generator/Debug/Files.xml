@@ -7,4 +7,5 @@
     <model file="teapot.txt"/>
     <model file="sol.3d"/>
     <model file="sol.3d~"/>
+    <model file="backG.3d"/>
 </scene>
