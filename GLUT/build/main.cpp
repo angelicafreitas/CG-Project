@@ -456,7 +456,7 @@ public:
 					glRotatef(aux->angle, aux->rotation[0], aux->rotation[1], aux->rotation[2]);
 					aux->angle += 360 / aux->rotationTime;
 				} else {
-					//glRotatef(aux->angleRot, aux->rotation[0], aux->rotation[1], aux->rotation[2]);
+					glRotatef(aux->angleRot, aux->rotation[0], aux->rotation[1], aux->rotation[2]);
 				}
 				
 				glScalef(aux->scale[0], aux->scale[1], aux->scale[2]);
@@ -593,7 +593,7 @@ public:
 	int deepLevel = -1;
 	float angle = 0;
 	std::vector<float> time;
-	float rotationTime = 1;
+	float rotationTime = 0;
 
 	TransformationState() {
 		rotation = { 0,0,0,0 };
