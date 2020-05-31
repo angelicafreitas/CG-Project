@@ -8,4 +8,6 @@
     <model file="sol.3d"/>
     <model file="sol.3d~"/>
     <model file="backG.3d"/>
+    <model file="cone.3d"/>
+    <model file="box.3d"/>
 </scene>
