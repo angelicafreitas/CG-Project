@@ -793,13 +793,39 @@ float** getdVectorsUandV(float u, float v, float** allPoints, int* index) {
     }
 
     for (int i = 0; i < 4; i++) {
+
+        float* p0 = allPoints[index[4 * i]];
+        float* p1 = allPoints[index[4 * i + 1]];
+        float* p2 = allPoints[index[4 * i + 2]];
+        float* p3 = allPoints[index[4 * i + 3]];
+
+        matrixP[0][i][0] = p0[0];
+        matrixP[1][i][0] = p0[1];
+        matrixP[2][i][0] = p0[2];
+
+        matrixP[0][i][1] = p1[0];
+        matrixP[1][i][1] = p1[1];
+        matrixP[2][i][1] = p1[2];
+
+        matrixP[0][i][2] = p2[0];
+        matrixP[1][i][2] = p2[1];
+        matrixP[2][i][2] = p2[2];
+
+        matrixP[0][i][3] = p3[0];
+        matrixP[1][i][3] = p3[1];
+        matrixP[2][i][3] = p3[2];
+
+
+    }
+    /*
+    for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             float* p0 = allPoints[index[4*i+j]];
             matrixP[0][i][j] = p0[0];
             matrixP[1][i][j] = p0[1];
             matrixP[2][i][j] = p0[2];
         }
-    }
+    }*/
 
     float vectordU[4] = { 3* pow(u,2), 2 * u , 1 , 0};
     std::vector<std::vector<float>> vectorV = { {pow(v,3)}, {pow(v,2)},{v},{1 }};
